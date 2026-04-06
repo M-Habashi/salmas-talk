@@ -72,6 +72,100 @@ function updateUI() {
   document.getElementById('currentSlide').textContent = String(currentSlide + 1).padStart(2, '0');
 }
 
+function getStackingCardsSlide(slide = slides[currentSlide]) {
+  if (!slide || slide.dataset.stackingCards !== 'true') return null;
+  return slide;
+}
+
+function getStackingCards(slide = slides[currentSlide]) {
+  const stackingSlide = getStackingCardsSlide(slide);
+  if (!stackingSlide) return [];
+  return Array.from(stackingSlide.querySelectorAll('.stacking-card'))
+    .sort((left, right) => Number(left.dataset.cardIndex) - Number(right.dataset.cardIndex));
+}
+
+function getStackingCardsRegions(slide = slides[currentSlide]) {
+  const stackingSlide = getStackingCardsSlide(slide);
+  if (!stackingSlide) return null;
+
+  return {
+    container: stackingSlide.querySelector('.stacking-cards-container'),
+    stackArea: stackingSlide.querySelector('.stacking-stack-area'),
+    stage: stackingSlide.querySelector('.stacking-stage')
+  };
+}
+
+function resetStackingCards(slide) {
+  const regions = getStackingCardsRegions(slide);
+  if (!regions) return;
+
+  const cards = getStackingCards(slide);
+  regions.container.classList.remove('all-stacked');
+
+  cards.forEach((card, index) => {
+    card.classList.remove('is-active', 'is-stacked');
+    regions.stage.appendChild(card);
+
+    if (index === 0) {
+      card.classList.add('is-active');
+    }
+  });
+}
+
+function advanceStackingCards() {
+  const slide = getStackingCardsSlide();
+  if (!slide) return false;
+
+  const regions = getStackingCardsRegions(slide);
+  const cards = getStackingCards(slide);
+  const activeCard = cards.find((card) => card.classList.contains('is-active'));
+  if (!activeCard) return false;
+
+  const nextCard = cards.find((card) => Number(card.dataset.cardIndex) === Number(activeCard.dataset.cardIndex) + 1);
+
+  if (nextCard) {
+    activeCard.classList.remove('is-active');
+    activeCard.classList.add('is-stacked');
+    regions.stackArea.appendChild(activeCard);
+
+    nextCard.classList.remove('is-stacked');
+    nextCard.classList.add('is-active');
+    regions.stage.appendChild(nextCard);
+    return true;
+  }
+
+  activeCard.classList.remove('is-active');
+  activeCard.classList.add('is-stacked');
+  regions.stackArea.appendChild(activeCard);
+  regions.container.classList.add('all-stacked');
+  return true;
+}
+
+function rewindStackingCards() {
+  const slide = getStackingCardsSlide();
+  if (!slide) return false;
+
+  const regions = getStackingCardsRegions(slide);
+  const cards = getStackingCards(slide);
+  const stackedCards = cards.filter((card) => card.classList.contains('is-stacked'));
+  if (!stackedCards.length) return false;
+
+  const activeCard = cards.find((card) => card.classList.contains('is-active'));
+  const lastStackedCard = stackedCards[stackedCards.length - 1];
+
+  regions.container.classList.remove('all-stacked');
+
+  if (activeCard) {
+    activeCard.classList.remove('is-active');
+    regions.stage.appendChild(activeCard);
+  }
+
+  lastStackedCard.classList.remove('is-stacked');
+  lastStackedCard.classList.add('is-active');
+  regions.stage.appendChild(lastStackedCard);
+  return true;
+}
+
 function getClickRevealItems(slide = slides[currentSlide]) {
   if (!slide || slide.dataset.clickReveal !== 'true') return [];
   return Array.from(slide.querySelectorAll('.click-reveal-item'));
@@ -104,6 +198,7 @@ function goToSlide(index) {
   slides[currentSlide].classList.remove('active');
   currentSlide = index;
   slides[currentSlide].classList.add('active');
+  resetStackingCards(slides[currentSlide]);
   resetClickReveal(slides[currentSlide]);
   updateUI();
 }
@@ -367,6 +462,10 @@ function setupFigureDragging() {
 }
 
 function handleForwardStep() {
+  if (advanceStackingCards()) {
+    return true;
+  }
+
   if (revealNextItem()) {
     return true;
   }
@@ -376,6 +475,10 @@ function handleForwardStep() {
 }
 
 function handleBackwardStep() {
+  if (rewindStackingCards()) {
+    return true;
+  }
+
   if (hideLastRevealedItem()) {
     return true;
   }
@@ -471,9 +574,14 @@ document.addEventListener('click', (event) => {
   }
 
   const activeSlide = slides[currentSlide];
-  if (!activeSlide || activeSlide.dataset.clickReveal !== 'true') return;
+  if (!activeSlide) return;
   if (!event.target.closest('.slide.active')) return;
   if (event.target.closest('[contenteditable="true"]')) return;
+
+  if (activeSlide.dataset.stackingCards === 'true') {
+    advanceStackingCards();
+    return;
+  }
 
   if (activeSlide.dataset.clickReveal === 'true') {
     revealNextItem();
@@ -503,6 +611,7 @@ window.PYUVM_EDITOR = {
 renderPresentationFromData();
 applyEditorEnhancements();
 setupFigureDragging();
+resetStackingCards(slides[currentSlide]);
 resetClickReveal(slides[currentSlide]);
 recordHistory();
 

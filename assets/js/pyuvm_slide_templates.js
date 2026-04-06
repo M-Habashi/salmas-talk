@@ -188,6 +188,26 @@
     summarySlide(config) {
       return standardSlide({ index: config.index, tag: config.tag, title: config.title, content: [cardGrid(config.topCards.map(card), 'grid-3 anim-up d2'), wrap('div', '', 'spacer anim-up d3'), list(config.bullets, { classes: 'bullet-list anim-up d3' })].join('') });
     },
+    stackingCardsSlide(config) {
+      const cards = config.cards.map((c, i) =>
+        wrap('div', [
+          wrap('div', [
+            c.icon ? wrap('span', c.icon, 'stacking-card-icon') : '',
+            wrap('h3', c.title, 'stacking-card-title')
+          ].join(''), 'stacking-card-header'),
+          wrap('div', c.body, 'stacking-card-body')
+        ].join(''), cx('stacking-card', i === 0 && 'is-active'), `data-card-index="${i}"`)
+      ).join('');
+
+      return wrap('div', [
+        wrap('h2', config.title, 'anim-up d1 stacking-main-title'),
+        config.lead ? heading('h3', config.lead, 'anim-up d2 stacking-lead') : '',
+        wrap('div', [
+          wrap('div', '', 'stacking-stack-area'),
+          wrap('div', cards, 'stacking-stage')
+        ].join(''), 'stacking-cards-container anim-up d3')
+      ].join(''), 'slide stacking-slide', `data-stacking-cards="true" data-slide="${config.index}"`);
+    },
     resourcesSlide(config) {
       return wrap('div', [
         wrap('div', config.tag, 'slide-tag anim-up slide-tag--center'),

@@ -45,16 +45,16 @@
       title: 'Table of <span class="tone-cyan">Contents</span>',
       items: ['What is UVM?', 'Advantages of UVM in Verification', 'The Problem with Traditional UVM', 'What is PyUVM?', 'Advantages of PyUVM over Traditional UVM', 'The Structure of PyUVM', 'What Are Phases? With Example', 'What is TLM and How to Use It', 'Types of TLM with Figure and Code', 'What is Factory', 'PyUVM Testbench Architecture', 'What is cocotb?', 'How PyUVM Uses cocotb', 'Open-Source Simulation Tools', 'The Complete Open-Source Verification Stack', 'PyUVM Code Example', 'How to Extend This Example', 'Summary']
     }),
-    t.lectureBulletSlide({
+    t.stackingCardsSlide({
       index: 3,
       title: 'What is <span class="tone-blue">UVM</span>?',
       lead: 'UVM = Universal Verification Methodology',
-      bullets: [
-        'A standardized verification methodology for hardware design verification',
-        'Built on top of <strong>SystemVerilog</strong>',
-        'Used to create <strong>structured, reusable, and scalable</strong> testbenches based on object-oriented programming concepts',
-        'It also includes a set of <strong>guidelines</strong> and <strong>best practices</strong> for developing testbenches, as well as a methodology for running simulations and analyzing results.',
-        'Widely adopted by the semiconductor industry'
+      cards: [
+        { icon: '01', title: 'Standardized Methodology', body: h.paragraph('A standardized verification methodology for <strong>hardware design verification</strong>.') },
+        { icon: '02', title: 'Built on SystemVerilog', body: h.paragraph('Built on top of <strong>SystemVerilog</strong>, combining its power with a proven methodology framework.') },
+        { icon: '03', title: 'Structured Testbenches', body: h.paragraph('Used to create <strong>structured, reusable, and scalable</strong> testbenches based on object-oriented programming concepts.') },
+        { icon: '04', title: 'Guidelines & Best Practices', body: h.paragraph('Includes a set of <strong>guidelines</strong> and <strong>best practices</strong> for developing testbenches, running simulations, and analyzing results.') },
+        { icon: '05', title: 'Industry Standard', body: h.paragraph('Widely adopted by the <strong>semiconductor industry</strong> as the go-to verification methodology.') }
       ]
     }),
     t.revealCardGridSlide({
