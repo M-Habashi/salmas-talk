@@ -544,7 +544,7 @@
       index: 2,
       tag: 'Agenda',
       title: 'Table of <span class="tone-cyan">Contents</span>',
-      items: ['What is UVM?', 'UVM Testbench Architecture', 'UVM Hierarchy', 'Advantages of UVM in Verification', 'The Problem with Traditional UVM', 'What is PyUVM?', 'Advantages of PyUVM over Traditional UVM', 'UVM Testbench Architecture', 'Components VS Objects', 'Code Example', 'Phases', 'Phases Diagram', 'Phases Table', 'What Are Phases? With Example', 'What is TLM and How to Use It', 'Types of TLM with Figure and Code', 'What is Factory', 'What is cocotb?', 'How PyUVM Uses cocotb', 'Open-Source Simulation Tools', 'The Complete Open-Source Verification Stack', 'PyUVM Code Example', 'How to Extend This Example', 'Summary']
+      items: ['What is UVM?', 'UVM Testbench Architecture', 'UVM Hierarchy', 'The Problem with Traditional UVM', 'What is PyUVM?', 'Advantages of PyUVM over Traditional UVM', 'UVM Testbench Architecture', 'Components VS Objects', 'Code Example', 'Phases', 'Phases Diagram', 'Phases Table', 'What Are Phases? With Example', 'What is TLM and How to Use It', 'Types of TLM with Figure and Code', 'What is Factory', 'What is cocotb?', 'How PyUVM Uses cocotb', 'Open-Source Simulation Tools', 'The Complete Open-Source Verification Stack', 'PyUVM Code Example', 'How to Extend This Example', 'Summary']
     }),
     t.focusCardsSlide({
       index: 3,
@@ -619,21 +619,6 @@
           title: 'Subscriber',
           body: h.paragraph('Consumes broadcast analysis transactions, often for coverage collection, logging, or statistics.')
         }
-      ]
-    }),
-    t.revealCardGridSlide({
-      index: 6,
-      tag: 'Benefits',
-      title: 'Advantages of UVM in Verification',
-      cards: [
-        { icon: '01', title: 'Reusability', body: h.paragraph('The same agent can be reused across multiple projects.') },
-        { icon: '02', title: 'Scalability', body: h.paragraph('Works for small blocks up to large SoCs.') },
-        { icon: '03', title: 'Standard Structure', body: h.paragraph('Engineers can understand each other’s testbenches faster.') },
-        { icon: '04', title: 'Constrained-Random Testing', body: h.paragraph('Generates many legal stimulus scenarios automatically.') },
-        { icon: '05', title: 'Functional Coverage', body: h.paragraph('Shows which scenarios were actually tested.') },
-        { icon: '06', title: 'TLM Communication', body: h.paragraph('Components exchange transactions cleanly.') },
-        { icon: '07', title: 'Factory Mechanism', body: h.paragraph('Allows easy component replacement without changing base code.') },
-        { icon: '08', title: 'Better Maintainability', body: h.paragraph('Easier to extend than ad hoc testbenches.') }
       ]
     }),
     t.revealCardGridSlide({
