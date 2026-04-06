@@ -1,6 +1,7 @@
 let slides = [];
 let totalSlides = 0;
 let currentSlide = 0;
+let isEditMode = false;
 let selectedElement = null;
 let historyRecordingPaused = false;
 let historyTimer = null;
@@ -105,7 +106,7 @@ function goToSlide(index) {
 
 function makeSlidesEditable() {
   document.querySelectorAll(editableSelectors.join(', ')).forEach((element) => {
-    element.setAttribute('contenteditable', 'true');
+    element.setAttribute('contenteditable', isEditMode ? 'true' : 'false');
     element.setAttribute('spellcheck', 'false');
   });
 }
@@ -113,7 +114,7 @@ function makeSlidesEditable() {
 function makeBlocksMovable() {
   document.querySelectorAll([...new Set(movableSelectors)].join(', ')).forEach((element) => {
     element.classList.add('movable-figure');
-    element.setAttribute('tabindex', '0');
+    element.setAttribute('tabindex', isEditMode ? '0' : '-1');
     element.dataset.translateX = element.dataset.translateX || '0';
     element.dataset.translateY = element.dataset.translateY || '0';
 
@@ -126,6 +127,7 @@ function makeBlocksMovable() {
 function applyEditorEnhancements() {
   makeSlidesEditable();
   makeBlocksMovable();
+  document.body.classList.toggle('edit-mode', isEditMode);
   refreshSlideReferences();
   updateUI();
 }
@@ -155,8 +157,23 @@ function clearSelection() {
   updateFontControls();
 }
 
+function setEditMode(enabled) {
+  isEditMode = enabled;
+
+  if (!isEditMode) {
+    document.activeElement?.blur?.();
+    clearSelection();
+  }
+
+  makeSlidesEditable();
+  makeBlocksMovable();
+  document.body.classList.toggle('edit-mode', isEditMode);
+  updateFontControls();
+}
 
 function selectElement(element) {
+  if (!isEditMode || !element) return;
+
   if (selectedElement === element) {
     updateFontControls();
     return;
@@ -172,6 +189,7 @@ function selectElement(element) {
 }
 
 function getFontTarget() {
+  if (!isEditMode) return null;
   const activeEditableBlock = getActiveEditableBlock();
   if (activeEditableBlock) return activeEditableBlock;
   if (!selectedElement) return null;
@@ -198,6 +216,8 @@ function updateFontControls() {
 }
 
 function adjustFontSize(delta) {
+  if (!isEditMode) return false;
+
   const target = getFontTarget();
   const currentSize = getElementFontSize(target);
   if (!target || !currentSize) return false;
@@ -262,6 +282,7 @@ function undoLastChange() {
 }
 
 function removeSelectedElement() {
+  if (!isEditMode) return;
   if (!selectedElement) return;
   const elementToRemove = selectedElement;
   clearSelection();
@@ -344,6 +365,13 @@ function setupFigureDragging() {
     if (event.target.closest('.font-toolbar')) return;
 
     const block = event.target.closest('.movable-figure');
+    if (!isEditMode) {
+      if (!block) {
+        clearSelection();
+      }
+      return;
+    }
+
     if (!block) {
       clearSelection();
       return;
@@ -416,31 +444,37 @@ function handleBackwardStep() {
 document.addEventListener('keydown', async (event) => {
   const key = event.key.toLowerCase();
 
+  if ((event.ctrlKey || event.metaKey) && key === 'e') {
+    event.preventDefault();
+    setEditMode(!isEditMode);
+    return;
+  }
+
   if ((event.ctrlKey || event.metaKey) && key === 's') {
     event.preventDefault();
     await savePresentation();
     return;
   }
 
-  if ((event.ctrlKey || event.metaKey) && key === 'z' && !isEditingText()) {
+  if (isEditMode && (event.ctrlKey || event.metaKey) && key === 'z' && !isEditingText()) {
     event.preventDefault();
     undoLastChange();
     return;
   }
 
-  if (event.altKey && !event.ctrlKey && !event.metaKey && (event.key === '=' || event.key === '+')) {
+  if (isEditMode && event.altKey && !event.ctrlKey && !event.metaKey && (event.key === '=' || event.key === '+')) {
     event.preventDefault();
     adjustFontSize(2);
     return;
   }
 
-  if (event.altKey && !event.ctrlKey && !event.metaKey && event.key === '-') {
+  if (isEditMode && event.altKey && !event.ctrlKey && !event.metaKey && event.key === '-') {
     event.preventDefault();
     adjustFontSize(-2);
     return;
   }
 
-  if ((event.ctrlKey || event.metaKey) && (event.key === 'Delete' || event.key === 'Backspace')) {
+  if (isEditMode && (event.ctrlKey || event.metaKey) && (event.key === 'Delete' || event.key === 'Backspace')) {
     const activeBlock = getActiveEditableBlock();
     if (activeBlock) {
       event.preventDefault();
@@ -456,7 +490,7 @@ document.addEventListener('keydown', async (event) => {
     return;
   }
 
-  if (selectedElement && !isEditingText() && (event.key === 'Delete' || event.key === 'Backspace')) {
+  if (isEditMode && selectedElement && !isEditingText() && (event.key === 'Delete' || event.key === 'Backspace')) {
     event.preventDefault();
     removeSelectedElement();
     return;
@@ -518,6 +552,7 @@ document.addEventListener('input', (event) => {
 });
 
 document.addEventListener('focusin', (event) => {
+  if (!isEditMode) return;
   const block = event.target.closest('.movable-figure');
   if (block) {
     selectElement(block);

@@ -95,28 +95,33 @@
 
   .movable-figure {
     position: relative;
-    cursor: grab;
-    user-select: none;
+    cursor: default;
+    user-select: auto;
     touch-action: none;
     transition: box-shadow 0.2s ease;
   }
 
-  .movable-figure:focus {
+  body.edit-mode .movable-figure {
+    cursor: grab;
+    user-select: none;
+  }
+
+  body.edit-mode .movable-figure:focus {
     outline: 2px dashed rgba(99, 140, 255, 0.55);
     outline-offset: 4px;
   }
 
-  .movable-figure:hover {
+  body.edit-mode .movable-figure:hover {
     box-shadow: 0 0 0 1px rgba(99, 140, 255, 0.25);
   }
 
-  .movable-figure.dragging {
+  body.edit-mode .movable-figure.dragging {
     cursor: grabbing;
     z-index: 20;
     box-shadow: 0 16px 36px rgba(0, 0, 0, 0.35);
   }
 
-  .movable-figure.selected-block {
+  body.edit-mode .movable-figure.selected-block {
     outline: 2px solid rgba(99, 140, 255, 0.8);
     outline-offset: 4px;
   }
