@@ -106,6 +106,10 @@ function getStackingCardsRegions(slide = slides[currentSlide]) {
   };
 }
 
+function usesPlainCollapsedStackingAnimation(slide = slides[currentSlide]) {
+  return Boolean(getStackingCardsSlide(slide)?.classList.contains('stacking-slide--plain-collapsed'));
+}
+
 function getOpenStackingCardsPreview(slide = slides[currentSlide]) {
   return getStackingCards(slide).find((card) => card.classList.contains('is-preview')) || null;
 }
@@ -132,6 +136,40 @@ function playStackingCardsAnimation(element, keyframes, options) {
   const animation = element.animate(keyframes, options);
   stackingCardAnimations = [animation];
   return animation;
+}
+
+function createStackingCardGhost(card, rect, kind = 'full') {
+  if (!card || !rect) return null;
+
+  let ghost;
+  if (kind === 'box') {
+    ghost = document.createElement('div');
+    ghost.className = 'stacking-card-ghost stacking-card-ghost--box';
+  } else if (kind === 'text') {
+    ghost = document.createElement('div');
+    ghost.className = 'stacking-card-ghost stacking-card-ghost--text';
+    ghost.innerHTML = card.querySelector('.stacking-card-body')?.innerHTML || '';
+  } else {
+    ghost = card.cloneNode(true);
+    ghost.classList.remove('is-stacked', 'is-preview');
+    ghost.classList.add('is-active');
+  }
+
+  ghost.style.position = 'fixed';
+  ghost.style.left = `${rect.left}px`;
+  ghost.style.top = `${rect.top}px`;
+  ghost.style.width = `${rect.width}px`;
+  ghost.style.height = `${rect.height}px`;
+  ghost.style.margin = '0';
+  ghost.style.pointerEvents = 'none';
+  ghost.style.zIndex = '10001';
+  ghost.style.transformOrigin = 'top left';
+  document.body.appendChild(ghost);
+  return ghost;
+}
+
+function removeStackingCardGhost(ghost) {
+  ghost?.remove();
 }
 
 function animateStackingCardsLayoutChange(element, mutate, options = {}) {
@@ -315,6 +353,100 @@ function advanceStackingCards() {
     nextActiveIndex
   };
 
+  if (usesPlainCollapsedStackingAnimation(slide)) {
+    const tokenForPlain = token;
+
+    (async () => {
+      const activeRect = activeCard.getBoundingClientRect();
+      const boxGhost = createStackingCardGhost(activeCard, activeRect, 'box');
+      const textGhost = createStackingCardGhost(activeCard, activeRect, 'text');
+
+      activeCard.classList.remove('is-active');
+      activeCard.classList.add('is-stacked');
+      regions.stackArea.appendChild(activeCard);
+      activeCard.style.opacity = '0';
+      activeCard.classList.add('is-animating-in');
+
+      if (!nextCard) {
+        regions.container.classList.add('all-stacked');
+      }
+
+      const targetRect = activeCard.getBoundingClientRect();
+      const deltaX = targetRect.left - activeRect.left;
+      const deltaY = targetRect.top - activeRect.top;
+      const scaleX = targetRect.width / activeRect.width;
+      const scaleY = targetRect.height / activeRect.height;
+
+      const boxAnimation = playStackingCardsAnimation(
+        boxGhost,
+        [
+          { opacity: 1, transform: 'translate(0, 0) scale(1, 1)', offset: 0 },
+          { opacity: 0, transform: `translate(${deltaX}px, ${deltaY}px) scale(${scaleX}, ${scaleY})`, offset: 1 }
+        ],
+        {
+          duration: 820,
+          easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
+          fill: 'forwards'
+        }
+      );
+
+      const textAnimation = playStackingCardsAnimation(
+        textGhost,
+        [
+          { opacity: 1, transform: 'translate(0, 0) scale(1, 1)', offset: 0 },
+          { opacity: 1, transform: `translate(${deltaX}px, ${deltaY}px) scale(${scaleX}, ${scaleY})`, offset: 0.84 },
+          { opacity: 0, transform: `translate(${deltaX}px, ${deltaY}px) scale(${scaleX}, ${scaleY})`, offset: 1 }
+        ],
+        {
+          duration: 820,
+          easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
+          fill: 'forwards'
+        }
+      );
+
+      await waitForStackingCardsAnimation(boxAnimation);
+      if (tokenForPlain !== stackingCardsAnimationToken) {
+        removeStackingCardGhost(boxGhost);
+        removeStackingCardGhost(textGhost);
+        return;
+      }
+      boxAnimation?.cancel();
+      textAnimation?.cancel();
+      removeStackingCardGhost(boxGhost);
+      removeStackingCardGhost(textGhost);
+      activeCard.classList.remove('is-animating-in');
+      activeCard.style.opacity = '';
+
+      if (!nextCard) {
+        finishStackingCardsAnimation(tokenForPlain);
+        return;
+      }
+
+      nextCard.classList.remove('is-stacked');
+      nextCard.classList.add('is-active');
+      regions.stage.appendChild(nextCard);
+
+      const enterAnimation = playStackingCardsAnimation(
+        nextCard,
+        [
+          { opacity: 0, transform: 'translateY(10px) scale(0.99)', offset: 0 },
+          { opacity: 1, transform: 'translateY(0) scale(1)', offset: 1 }
+        ],
+        {
+          duration: 620,
+          easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
+          fill: 'backwards'
+        }
+      );
+      await waitForStackingCardsAnimation(enterAnimation);
+      if (tokenForPlain !== stackingCardsAnimationToken) return;
+      enterAnimation?.cancel();
+      finishStackingCardsAnimation(tokenForPlain);
+    })();
+
+    return true;
+  }
+
   (async () => {
     const shrinkAnimation = animateStackingCardsLayoutChange(activeCard, () => {
       activeCard.classList.remove('is-active');
@@ -328,6 +460,7 @@ function advanceStackingCards() {
       duration: 860,
       easing: 'cubic-bezier(0.22, 1, 0.36, 1)'
     });
+
     await waitForStackingCardsAnimation(shrinkAnimation);
     if (token !== stackingCardsAnimationToken) return;
     shrinkAnimation?.cancel();
@@ -383,6 +516,56 @@ function rewindStackingCards() {
     direction: 'backward',
     activeIndex: Number(lastStackedCard.dataset.cardIndex)
   };
+
+  if (usesPlainCollapsedStackingAnimation(slide)) {
+    const tokenForPlain = token;
+
+    (async () => {
+      if (activeCard) {
+        const exitAnimation = playStackingCardsAnimation(
+          activeCard,
+          [
+            { opacity: 1, transform: 'translateY(0) scale(1)', offset: 0 },
+            { opacity: 0, transform: 'translateY(6px) scale(0.99)', offset: 1 }
+          ],
+        {
+          duration: 420,
+          easing: 'cubic-bezier(0.4, 0, 0.2, 1)',
+          fill: 'forwards'
+        }
+        );
+        await waitForStackingCardsAnimation(exitAnimation);
+        if (tokenForPlain !== stackingCardsAnimationToken) return;
+        exitAnimation?.cancel();
+
+        activeCard.classList.remove('is-active');
+        regions.stage.appendChild(activeCard);
+      }
+
+      lastStackedCard.classList.remove('is-stacked');
+      lastStackedCard.classList.add('is-active');
+      regions.stage.appendChild(lastStackedCard);
+
+      const enterAnimation = playStackingCardsAnimation(
+        lastStackedCard,
+        [
+          { opacity: 0, transform: 'translateY(10px) scale(0.99)', offset: 0 },
+          { opacity: 1, transform: 'translateY(0) scale(1)', offset: 1 }
+        ],
+        {
+          duration: 620,
+          easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
+          fill: 'backwards'
+        }
+      );
+      await waitForStackingCardsAnimation(enterAnimation);
+      if (tokenForPlain !== stackingCardsAnimationToken) return;
+      enterAnimation?.cancel();
+      finishStackingCardsAnimation(tokenForPlain);
+    })();
+
+    return true;
+  }
 
   (async () => {
     if (activeCard) {

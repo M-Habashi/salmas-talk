@@ -685,6 +685,96 @@
   margin-top: 0.45rem;
 }
 
+.stacking-slide--plain-collapsed .stacking-card.is-stacked.is-animating-in .stacking-card-body {
+  animation: plainCollapsedTextFadeIn 0.62s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes plainCollapsedTextFadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  55% {
+    opacity: 0.18;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.stacking-slide--plain-collapsed .stacking-stage:has(.stacking-card:is(.is-active, .is-preview))::before {
+  background: rgba(6, 10, 20, 0.12);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.stacking-slide--plain-collapsed .stacking-card:is(.is-active, .is-preview) {
+  width: min(980px, calc(100vw - 3rem));
+  max-height: min(82vh, 820px);
+  padding: 2.8rem 3.4rem;
+  border-color: rgba(188, 196, 214, 0.22);
+  background:
+    linear-gradient(180deg, rgba(56, 62, 74, 0.96) 0%, rgba(39, 45, 56, 0.96) 100%),
+    rgba(39, 45, 56, 0.96);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.04),
+    0 28px 72px -24px rgba(0, 0, 0, 0.72);
+}
+
+.stacking-slide--plain-collapsed .stacking-card:is(.is-active, .is-preview):hover {
+  border-color: rgba(205, 212, 228, 0.3);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.05),
+    0 32px 82px -24px rgba(0, 0, 0, 0.76);
+}
+
+.stacking-slide--plain-collapsed .stacking-card:is(.is-active, .is-preview) .stacking-card-body p,
+.stacking-slide--plain-collapsed .stacking-card:is(.is-active, .is-preview) .stacking-card-body li {
+  font-size: 1.9rem;
+  line-height: 1.5;
+  color: #eef2ff;
+}
+
+.stacking-slide--plain-collapsed .stacking-card:is(.is-active, .is-preview) .stacking-card-body p strong,
+.stacking-slide--plain-collapsed .stacking-card:is(.is-active, .is-preview) .stacking-card-body li strong {
+  color: #ffffff;
+}
+
+.stacking-card-ghost--box {
+  border-radius: 16px;
+  border: 1px solid rgba(188, 196, 214, 0.22);
+  background:
+    linear-gradient(180deg, rgba(56, 62, 74, 0.96) 0%, rgba(39, 45, 56, 0.96) 100%),
+    rgba(39, 45, 56, 0.96);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.04),
+    0 28px 72px -24px rgba(0, 0, 0, 0.72);
+}
+
+.stacking-card-ghost--text {
+  display: flex;
+  align-items: flex-start;
+  padding: 2.8rem 3.4rem;
+  color: #eef2ff;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  overflow: hidden;
+}
+
+.stacking-card-ghost--text p,
+.stacking-card-ghost--text li {
+  font-size: 1.9rem;
+  line-height: 1.5;
+  color: #eef2ff;
+}
+
+.stacking-card-ghost--text p strong,
+.stacking-card-ghost--text li strong {
+  color: #ffffff;
+}
+
 .stacking-slide--plain-collapsed .stacking-cards-container.all-stacked:not(:has(.stacking-card.is-preview)) {
   flex: 0 0 auto;
 }
@@ -714,25 +804,6 @@
 }
 
 /* ── Click hint on active card ── */
-
-.stacking-card.is-active::after {
-  content: 'click to continue';
-  position: absolute;
-  bottom: 0.8rem;
-  right: 1.2rem;
-  font-family: var(--font-mono);
-  font-size: 0.58rem;
-  color: var(--text-dim);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  opacity: 0;
-  animation: hintPulse 2.5s ease-in-out 1.2s infinite;
-}
-
-@keyframes hintPulse {
-  0%, 100% { opacity: 0; }
-  40%, 60% { opacity: 0.6; }
-}
 
 /* ── Responsive ── */
 
@@ -1128,6 +1199,150 @@
 .uvm-architecture-reveal.revealed .anim-block,
 .uvm-architecture-reveal.revealed .anim-line {
   animation-play-state: running;
+}
+
+.pyuvm-points-slide .content-section {
+  max-width: 1200px;
+}
+
+.pyuvm-points-list {
+  margin-top: 1.5rem;
+  list-style: none;
+  padding: 0;
+}
+
+.pyuvm-points-list li {
+  font-size: 1.45rem;
+  line-height: 1.5;
+  color: var(--text-primary);
+}
+
+.pyuvm-point {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.pyuvm-point.click-reveal-item {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(36px);
+}
+
+.pyuvm-point.click-reveal-item.revealed {
+  visibility: visible;
+  animation: revealFromRight 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.pyuvm-point-text {
+  flex: 1;
+  font-size: 1.45rem;
+  line-height: 1.5;
+}
+
+.checkbox-wrapper-12 {
+  position: relative;
+  flex: 0 0 24px;
+  width: 24px;
+  height: 24px;
+  margin-top: 0.18rem;
+}
+
+.checkbox-wrapper-12 * {
+  box-sizing: border-box;
+}
+
+.checkbox-wrapper-12 .cbx {
+  position: relative;
+  width: 24px;
+  height: 24px;
+  display: block;
+}
+
+.checkbox-wrapper-12 .cbx-circle {
+  position: absolute;
+  inset: 0;
+  border: 2px solid rgba(99, 140, 255, 0.8);
+  border-radius: 50%;
+  background: transparent;
+}
+
+.checkbox-wrapper-12 .cbx-burst {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+}
+
+.checkbox-wrapper-12 .cbx svg {
+  position: absolute;
+  top: 5px;
+  left: 4px;
+  width: 15px;
+  height: 12px;
+  z-index: 1;
+}
+
+.checkbox-wrapper-12 .cbx svg path {
+  stroke: #fff;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 19;
+  stroke-dashoffset: 19;
+}
+
+.pyuvm-point.revealed .checkbox-wrapper-12 .cbx-circle {
+  animation: pyuvm-check-circle 0.6s ease forwards;
+}
+
+.pyuvm-point.revealed .checkbox-wrapper-12 .cbx-burst {
+  animation: pyuvm-check-splash 0.6s ease forwards;
+}
+
+.pyuvm-point.revealed .checkbox-wrapper-12 .cbx svg path {
+  animation: pyuvm-check-path 0.3s ease 0.2s forwards;
+}
+
+@keyframes pyuvm-check-path {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes pyuvm-check-circle {
+  0% {
+    background: transparent;
+    border-color: rgba(99, 140, 255, 0.8);
+  }
+
+  40%,
+  100% {
+    background: var(--accent-blue);
+    border-color: var(--accent-blue);
+  }
+}
+
+@keyframes pyuvm-check-splash {
+  40% {
+    box-shadow:
+      0 -18px 0 -8px var(--accent-blue),
+      16px -8px 0 -8px var(--accent-blue),
+      16px 8px 0 -8px var(--accent-blue),
+      0 18px 0 -8px var(--accent-blue),
+      -16px 8px 0 -8px var(--accent-blue),
+      -16px -8px 0 -8px var(--accent-blue);
+  }
+
+  100% {
+    box-shadow:
+      0 -36px 0 -10px transparent,
+      32px -16px 0 -10px transparent,
+      32px 16px 0 -10px transparent,
+      0 36px 0 -10px transparent,
+      -32px 16px 0 -10px transparent,
+      -32px -16px 0 -10px transparent;
+  }
 }
 
 .overview-mode .progress-bar,
