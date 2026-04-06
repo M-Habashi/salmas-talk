@@ -45,7 +45,7 @@
       title: 'Table of <span class="tone-cyan">Contents</span>',
       items: ['What is UVM?', 'Advantages of UVM in Verification', 'The Problem with Traditional UVM', 'What is PyUVM?', 'Advantages of PyUVM over Traditional UVM', 'The Structure of PyUVM', 'What Are Phases? With Example', 'What is TLM and How to Use It', 'Types of TLM with Figure and Code', 'What is Factory', 'PyUVM Testbench Architecture', 'What is cocotb?', 'How PyUVM Uses cocotb', 'Open-Source Simulation Tools', 'The Complete Open-Source Verification Stack', 'PyUVM Code Example', 'How to Extend This Example', 'Summary']
     }),
-    t.stackingCardsSlide({
+    t.focusCardsSlide({
       index: 3,
       title: 'What is <span class="tone-blue">UVM</span>?',
       lead: 'UVM = Universal Verification Methodology',

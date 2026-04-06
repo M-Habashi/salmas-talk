@@ -188,7 +188,7 @@
     summarySlide(config) {
       return standardSlide({ index: config.index, tag: config.tag, title: config.title, content: [cardGrid(config.topCards.map(card), 'grid-3 anim-up d2'), wrap('div', '', 'spacer anim-up d3'), list(config.bullets, { classes: 'bullet-list anim-up d3' })].join('') });
     },
-    stackingCardsSlide(config) {
+    focusCardsSlide(config) {
       const cards = config.cards.map((c, i) =>
         wrap('div', [
           wrap('div', [

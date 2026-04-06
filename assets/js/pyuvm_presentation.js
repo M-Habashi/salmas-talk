@@ -225,7 +225,7 @@ function advanceStackingCards() {
         regions.container.classList.add('all-stacked');
       }
     }, {
-      duration: 360,
+      duration: 860,
       easing: 'cubic-bezier(0.22, 1, 0.36, 1)'
     });
     await waitForStackingCardsAnimation(shrinkAnimation);
@@ -244,7 +244,7 @@ function advanceStackingCards() {
           { transform: 'translateX(0) scale(1)', opacity: 1, offset: 1 }
         ],
         {
-          duration: 320,
+          duration: 820,
           easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
           fill: 'backwards'
         }
@@ -290,7 +290,7 @@ function rewindStackingCards() {
           { transform: 'translateX(96px)', opacity: 0, offset: 1 }
         ],
         {
-          duration: 220,
+          duration: 720,
           easing: 'cubic-bezier(0.4, 0, 0.2, 1)',
           fill: 'forwards'
         }
@@ -308,7 +308,7 @@ function rewindStackingCards() {
       lastStackedCard.classList.add('is-active');
       regions.stage.appendChild(lastStackedCard);
     }, {
-      duration: 340,
+      duration: 840,
       easing: 'cubic-bezier(0.22, 1, 0.36, 1)'
     });
     await waitForStackingCardsAnimation(expandAnimation);
