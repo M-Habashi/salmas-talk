@@ -122,11 +122,12 @@
   const slideTemplates = {
     titleHeroSlide(config) {
       return wrap('div', [
-        wrap('div', `<span class="dot"></span>${config.badge}`, 'title-badge anim-up'),
         wrap('h1', config.title, 'anim-up d1'),
-        paragraph(config.author, 'subtitle anim-up d2'),
-        paragraph(config.subtitle, 'subtitle hero-subtitle anim-up d3'),
-        wrap('div', config.chips.map((chip) => wrap('span', chip, 'chip')).join(''), 'title-decoration anim-up d4')
+        config.author ? paragraph(config.author, 'subtitle anim-up d2') : '',
+        config.subtitle ? paragraph(config.subtitle, 'subtitle hero-subtitle anim-up d3') : '',
+        Array.isArray(config.chips) && config.chips.length
+          ? wrap('div', config.chips.map((chip) => wrap('span', chip, 'chip')).join(''), 'title-decoration anim-up d4')
+          : ''
       ].join(''), 'slide title-slide active', `data-slide="${config.index}"`);
     },
     agendaSlide(config) {

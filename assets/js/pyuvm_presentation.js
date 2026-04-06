@@ -7,10 +7,6 @@ let historyRecordingPaused = false;
 let historyTimer = null;
 let fileHandle = null;
 let suppressClickReveal = false;
-let fontToolbar = null;
-let fontSizeReadout = null;
-let fontDecreaseButton = null;
-let fontIncreaseButton = null;
 
 const historyStack = [];
 const maxHistoryEntries = 100;
@@ -39,7 +35,6 @@ const editableSelectors = [
 
 const movableSelectors = [
   ...editableSelectors,
-  '.title-badge',
   '.card',
   '.tool-card',
   '.compare-item',
@@ -162,7 +157,6 @@ function clearSelection() {
     selectedElement.classList.remove('selected-block');
     selectedElement = null;
   }
-  updateFontControls();
 }
 
 function setEditMode(enabled) {
@@ -176,14 +170,12 @@ function setEditMode(enabled) {
   makeSlidesEditable();
   makeBlocksMovable();
   document.body.classList.toggle('edit-mode', isEditMode);
-  updateFontControls();
 }
 
 function selectElement(element) {
   if (!isEditMode || !element) return;
 
   if (selectedElement === element) {
-    updateFontControls();
     return;
   }
 
@@ -193,50 +185,6 @@ function selectElement(element) {
 
   selectedElement = element;
   selectedElement.classList.add('selected-block');
-  updateFontControls();
-}
-
-function getFontTarget() {
-  if (!isEditMode) return null;
-  const activeEditableBlock = getActiveEditableBlock();
-  if (activeEditableBlock) return activeEditableBlock;
-  if (!selectedElement) return null;
-  if (selectedElement.isContentEditable) return selectedElement;
-  return selectedElement.querySelector('[contenteditable="true"]');
-}
-
-function getElementFontSize(element) {
-  if (!element) return null;
-  const size = Number.parseFloat(window.getComputedStyle(element).fontSize);
-  return Number.isFinite(size) ? size : null;
-}
-
-function updateFontControls() {
-  if (!fontSizeReadout || !fontDecreaseButton || !fontIncreaseButton) return;
-
-  const target = getFontTarget();
-  const size = getElementFontSize(target);
-  const isEnabled = Boolean(target && size);
-
-  fontDecreaseButton.disabled = !isEnabled;
-  fontIncreaseButton.disabled = !isEnabled;
-  fontSizeReadout.textContent = isEnabled ? `${Math.round(size)}px` : '--';
-}
-
-function adjustFontSize(delta) {
-  if (!isEditMode) return false;
-
-  const target = getFontTarget();
-  const currentSize = getElementFontSize(target);
-  if (!target || !currentSize) return false;
-
-  const nextSize = Math.max(8, Math.min(120, Math.round((currentSize + delta) * 10) / 10));
-  if (nextSize === currentSize) return false;
-
-  target.style.fontSize = `${nextSize}px`;
-  recordHistory();
-  updateFontControls();
-  return true;
 }
 
 function buildSnapshot() {
@@ -344,33 +292,11 @@ async function savePresentation() {
   URL.revokeObjectURL(url);
 }
 
-function setupFontToolbar() {
-  fontToolbar = document.getElementById('fontToolbar');
-  fontSizeReadout = document.getElementById('fontSizeReadout');
-  fontDecreaseButton = document.getElementById('fontDecrease');
-  fontIncreaseButton = document.getElementById('fontIncrease');
-
-  if (!fontToolbar || !fontSizeReadout || !fontDecreaseButton || !fontIncreaseButton) {
-    return;
-  }
-
-  fontDecreaseButton.addEventListener('click', () => {
-    adjustFontSize(-2);
-  });
-
-  fontIncreaseButton.addEventListener('click', () => {
-    adjustFontSize(2);
-  });
-
-  updateFontControls();
-}
-
 function setupFigureDragging() {
   let dragState = null;
 
   document.addEventListener('pointerdown', (event) => {
     if (event.button !== 0) return;
-    if (event.target.closest('.font-toolbar')) return;
 
     const block = event.target.closest('.movable-figure');
     if (!isEditMode) {
@@ -470,18 +396,6 @@ document.addEventListener('keydown', async (event) => {
     return;
   }
 
-  if (isEditMode && event.altKey && !event.ctrlKey && !event.metaKey && (event.key === '=' || event.key === '+')) {
-    event.preventDefault();
-    adjustFontSize(2);
-    return;
-  }
-
-  if (isEditMode && event.altKey && !event.ctrlKey && !event.metaKey && event.key === '-') {
-    event.preventDefault();
-    adjustFontSize(-2);
-    return;
-  }
-
   if (isEditMode && (event.ctrlKey || event.metaKey) && (event.key === 'Delete' || event.key === 'Backspace')) {
     const activeBlock = getActiveEditableBlock();
     if (activeBlock) {
@@ -556,7 +470,6 @@ document.addEventListener('input', (event) => {
   if (event.target.isContentEditable) {
     scheduleHistoryRecord();
   }
-  updateFontControls();
 });
 
 document.addEventListener('focusin', (event) => {
@@ -565,16 +478,10 @@ document.addEventListener('focusin', (event) => {
   if (block) {
     selectElement(block);
   }
-  updateFontControls();
-});
-
-document.addEventListener('selectionchange', () => {
-  updateFontControls();
 });
 
 renderPresentationFromData();
 applyEditorEnhancements();
-setupFontToolbar();
 setupFigureDragging();
 resetClickReveal(slides[currentSlide]);
 recordHistory();

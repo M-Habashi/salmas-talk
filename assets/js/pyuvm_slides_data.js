@@ -33,10 +33,10 @@
   const slides = [
     t.titleHeroSlide({
       index: 1,
-      badge: 'OPEN-SOURCE VERIFICATION',
+      badge: '',
       title: '<span class="accent">Py</span>UVM<br><span class="serif">UVM Methodology</span><br>in <span class="accent-cyan">Python</span>',
       author: 'By: Salma Sultan',
-      subtitle: 'UVM, PyUVM, cocotb, and the open-source verification stack',
+      subtitle: '',
       chips: ['pyuvm', 'cocotb', 'Icarus Verilog', 'Verilator', 'GHDL', 'GTKWave']
     }),
     t.agendaSlide({
