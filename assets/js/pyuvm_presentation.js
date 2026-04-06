@@ -7,6 +7,9 @@ let historyRecordingPaused = false;
 let historyTimer = null;
 let fileHandle = null;
 let suppressClickReveal = false;
+let stackingCardsAnimating = false;
+let stackingCardAnimations = [];
+let stackingCardsAnimationToken = 0;
 
 const historyStack = [];
 const maxHistoryEntries = 100;
@@ -95,10 +98,94 @@ function getStackingCardsRegions(slide = slides[currentSlide]) {
   };
 }
 
+function stopStackingCardsAnimations() {
+  stackingCardsAnimationToken += 1;
+  stackingCardAnimations.forEach((animation) => animation.cancel());
+  stackingCardAnimations = [];
+  stackingCardsAnimating = false;
+}
+
+function canAnimateStackingCards() {
+  return !window.matchMedia?.('(prefers-reduced-motion: reduce)').matches &&
+    typeof document.createElement('div').animate === 'function';
+}
+
+function playStackingCardsAnimation(element, keyframes, options) {
+  if (!canAnimateStackingCards() || !element?.animate) return null;
+  const animation = element.animate(keyframes, options);
+  stackingCardAnimations = [animation];
+  return animation;
+}
+
+function animateStackingCardsLayoutChange(element, mutate, options = {}) {
+  const before = element?.getBoundingClientRect();
+  mutate();
+
+  if (!canAnimateStackingCards() || !element?.animate || !before) {
+    return null;
+  }
+
+  const after = element.getBoundingClientRect();
+  if (!after.width || !after.height) {
+    return null;
+  }
+
+  const deltaX = before.left - after.left;
+  const deltaY = before.top - after.top;
+  const scaleX = before.width / after.width;
+  const scaleY = before.height / after.height;
+
+  if (
+    Math.abs(deltaX) < 1 &&
+    Math.abs(deltaY) < 1 &&
+    Math.abs(scaleX - 1) < 0.01 &&
+    Math.abs(scaleY - 1) < 0.01
+  ) {
+    return null;
+  }
+
+  const animation = element.animate(
+    [
+      {
+        transform: `translate(${deltaX}px, ${deltaY}px) scale(${scaleX}, ${scaleY})`,
+        transformOrigin: 'top left'
+      },
+      {
+        transform: 'translate(0, 0) scale(1, 1)',
+        transformOrigin: 'top left'
+      }
+    ],
+    {
+      duration: options.duration ?? 320,
+      easing: options.easing ?? 'cubic-bezier(0.22, 1, 0.36, 1)',
+      fill: 'both'
+    }
+  );
+
+  stackingCardAnimations = [animation];
+  return animation;
+}
+
+async function waitForStackingCardsAnimation(animation) {
+  if (!animation) return;
+  try {
+    await animation.finished;
+  } catch {
+    return;
+  }
+}
+
+function finishStackingCardsAnimation(token) {
+  if (token !== stackingCardsAnimationToken) return;
+  stackingCardAnimations = [];
+  stackingCardsAnimating = false;
+}
+
 function resetStackingCards(slide) {
   const regions = getStackingCardsRegions(slide);
   if (!regions) return;
 
+  stopStackingCardsAnimations();
   const cards = getStackingCards(slide);
   regions.container.classList.remove('all-stacked');
 
@@ -115,6 +202,7 @@ function resetStackingCards(slide) {
 function advanceStackingCards() {
   const slide = getStackingCardsSlide();
   if (!slide) return false;
+  if (stackingCardsAnimating) return true;
 
   const regions = getStackingCardsRegions(slide);
   const cards = getStackingCards(slide);
@@ -123,27 +211,61 @@ function advanceStackingCards() {
 
   const nextCard = cards.find((card) => Number(card.dataset.cardIndex) === Number(activeCard.dataset.cardIndex) + 1);
 
-  if (nextCard) {
-    activeCard.classList.remove('is-active');
-    activeCard.classList.add('is-stacked');
-    regions.stackArea.appendChild(activeCard);
+  const token = stackingCardsAnimationToken + 1;
+  stackingCardsAnimationToken = token;
+  stackingCardsAnimating = true;
 
-    nextCard.classList.remove('is-stacked');
-    nextCard.classList.add('is-active');
-    regions.stage.appendChild(nextCard);
-    return true;
-  }
+  (async () => {
+    const shrinkAnimation = animateStackingCardsLayoutChange(activeCard, () => {
+      activeCard.classList.remove('is-active');
+      activeCard.classList.add('is-stacked');
+      regions.stackArea.appendChild(activeCard);
 
-  activeCard.classList.remove('is-active');
-  activeCard.classList.add('is-stacked');
-  regions.stackArea.appendChild(activeCard);
-  regions.container.classList.add('all-stacked');
+      if (!nextCard) {
+        regions.container.classList.add('all-stacked');
+      }
+    }, {
+      duration: 360,
+      easing: 'cubic-bezier(0.22, 1, 0.36, 1)'
+    });
+    await waitForStackingCardsAnimation(shrinkAnimation);
+    if (token !== stackingCardsAnimationToken) return;
+    shrinkAnimation?.cancel();
+
+    if (nextCard) {
+      nextCard.classList.remove('is-stacked');
+      nextCard.classList.add('is-active');
+      regions.stage.appendChild(nextCard);
+
+      const enterAnimation = playStackingCardsAnimation(
+        nextCard,
+        [
+          { transform: 'translateX(96px)', opacity: 0, offset: 0 },
+          { transform: 'translateX(0) scale(1)', opacity: 1, offset: 1 }
+        ],
+        {
+          duration: 320,
+          easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
+          fill: 'backwards'
+        }
+      );
+      await waitForStackingCardsAnimation(enterAnimation);
+      if (token !== stackingCardsAnimationToken) return;
+      enterAnimation?.cancel();
+      finishStackingCardsAnimation(token);
+      return;
+    }
+
+    finishStackingCardsAnimation(token);
+  })();
+
   return true;
 }
 
 function rewindStackingCards() {
   const slide = getStackingCardsSlide();
   if (!slide) return false;
+  if (stackingCardsAnimating) return true;
 
   const regions = getStackingCardsRegions(slide);
   const cards = getStackingCards(slide);
@@ -155,14 +277,46 @@ function rewindStackingCards() {
 
   regions.container.classList.remove('all-stacked');
 
-  if (activeCard) {
-    activeCard.classList.remove('is-active');
-    regions.stage.appendChild(activeCard);
-  }
+  const token = stackingCardsAnimationToken + 1;
+  stackingCardsAnimationToken = token;
+  stackingCardsAnimating = true;
 
-  lastStackedCard.classList.remove('is-stacked');
-  lastStackedCard.classList.add('is-active');
-  regions.stage.appendChild(lastStackedCard);
+  (async () => {
+    if (activeCard) {
+      const exitAnimation = playStackingCardsAnimation(
+        activeCard,
+        [
+          { transform: 'translateX(0)', opacity: 1, offset: 0 },
+          { transform: 'translateX(96px)', opacity: 0, offset: 1 }
+        ],
+        {
+          duration: 220,
+          easing: 'cubic-bezier(0.4, 0, 0.2, 1)',
+          fill: 'forwards'
+        }
+      );
+      await waitForStackingCardsAnimation(exitAnimation);
+      if (token !== stackingCardsAnimationToken) return;
+      exitAnimation?.cancel();
+
+      activeCard.classList.remove('is-active');
+      regions.stage.appendChild(activeCard);
+    }
+
+    const expandAnimation = animateStackingCardsLayoutChange(lastStackedCard, () => {
+      lastStackedCard.classList.remove('is-stacked');
+      lastStackedCard.classList.add('is-active');
+      regions.stage.appendChild(lastStackedCard);
+    }, {
+      duration: 340,
+      easing: 'cubic-bezier(0.22, 1, 0.36, 1)'
+    });
+    await waitForStackingCardsAnimation(expandAnimation);
+    if (token !== stackingCardsAnimationToken) return;
+    expandAnimation?.cancel();
+    finishStackingCardsAnimation(token);
+  })();
+
   return true;
 }
 
