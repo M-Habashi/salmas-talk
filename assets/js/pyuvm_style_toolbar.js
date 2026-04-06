@@ -63,6 +63,11 @@
     Array.from(swatchContainer.querySelectorAll('.style-swatch')).forEach((button) => {
       button.classList.toggle('is-active', button.dataset.color === color);
     });
+    const token = COLOR_TOKENS.find((entry) => entry.name === color);
+    const chip = colorToggleButton?.querySelector('.style-color-chip');
+    if (chip) {
+      chip.style.background = token ? token.value : 'var(--accent-blue)';
+    }
   }
 
   function setActiveAlignment(value) {
@@ -132,8 +137,6 @@
     toolbar.classList.add('is-hidden');
     swatchContainer.classList.add('is-hidden');
     colorToggleButton.classList.remove('is-active');
-    alignmentContainer.classList.add('is-hidden');
-    alignToggleButton.classList.remove('is-active');
     currentElement = null;
     savedRange = null;
   }
@@ -211,15 +214,18 @@
     currentElement.style.textAlign = value;
     currentElement.dataset.textAlign = value;
     setActiveAlignment(value);
-    alignmentContainer.classList.add('is-hidden');
-    alignToggleButton.classList.remove('is-active');
     notifyHistory();
   }
 
   function buildSwatches() {
-    swatchContainer.innerHTML = COLOR_TOKENS.map((token) =>
-      `<button type="button" class="style-swatch" data-color="${token.name}" aria-label="${token.name}" style="background:${token.value}"></button>`
-    ).join('');
+    swatchContainer.innerHTML = `
+      <div class="style-swatches-title">Color</div>
+      <div class="style-swatches-row">
+        ${COLOR_TOKENS.map((token) =>
+          `<button type="button" class="style-swatch" data-color="${token.name}" aria-label="${token.name}" style="background:${token.value}"></button>`
+        ).join('')}
+      </div>
+    `;
 
     swatchContainer.addEventListener('click', (event) => {
       const button = event.target.closest('.style-swatch');
@@ -247,16 +253,10 @@
     const willShow = swatchContainer.classList.contains('is-hidden');
     swatchContainer.classList.toggle('is-hidden', !willShow);
     colorToggleButton.classList.toggle('is-active', willShow);
-    alignmentContainer.classList.add('is-hidden');
-    alignToggleButton.classList.remove('is-active');
   }
 
   function toggleAlignments() {
-    const willShow = alignmentContainer.classList.contains('is-hidden');
-    alignmentContainer.classList.toggle('is-hidden', !willShow);
-    alignToggleButton.classList.toggle('is-active', willShow);
-    swatchContainer.classList.add('is-hidden');
-    colorToggleButton.classList.remove('is-active');
+    if (!currentElement) return;
   }
 
   function init() {
@@ -301,8 +301,6 @@
     document.addEventListener('click', () => {
       swatchContainer.classList.add('is-hidden');
       colorToggleButton.classList.remove('is-active');
-      alignmentContainer.classList.add('is-hidden');
-      alignToggleButton.classList.remove('is-active');
     });
     window.addEventListener('resize', () => {
       if (currentElement && !toolbar.classList.contains('is-hidden')) positionToolbar(currentElement);

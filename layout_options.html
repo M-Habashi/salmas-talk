@@ -12,23 +12,59 @@
   <div class="slide-counter"><span class="current" id="currentSlide">01</span><span> / </span><span id="totalSlides">00</span></div>
   <div class="nav-hint"><kbd>&larr;</kbd><kbd>&rarr;</kbd><span>navigate</span></div>
   <div class="style-toolbar is-hidden" id="styleToolbar">
-    <select class="style-select" id="stylePreset" aria-label="Font style">
+    <select class="style-select style-select--preset" id="stylePreset" aria-label="Font style">
       <option value="body">Body</option>
       <option value="display">Display</option>
       <option value="serif">Serif</option>
       <option value="mono">Mono</option>
     </select>
+    <div class="style-divider" aria-hidden="true"></div>
     <input class="style-select style-select--size" id="styleSize" aria-label="Font size" type="number" min="8" max="200" step="1" value="16">
+    <div class="style-divider" aria-hidden="true"></div>
     <button type="button" class="style-btn" id="styleBold" aria-label="Bold">B</button>
     <button type="button" class="style-btn style-btn--italic" id="styleItalic" aria-label="Italic">I</button>
     <button type="button" class="style-btn style-btn--underline" id="styleUnderline" aria-label="Underline">U</button>
-    <button type="button" class="style-btn style-btn--color" id="styleColorToggle" aria-label="Colors"><span class="style-color-chip"></span></button>
-    <div class="style-swatches is-hidden" id="styleSwatches"></div>
-    <button type="button" class="style-btn style-btn--align" id="styleAlignToggle" aria-label="Alignment">≡</button>
-    <div class="style-alignments is-hidden" id="styleAlignments">
-      <button type="button" class="style-align-btn" data-align="left" aria-label="Align left">≡</button>
-      <button type="button" class="style-align-btn" data-align="center" aria-label="Align center">≣</button>
-      <button type="button" class="style-align-btn" data-align="right" aria-label="Align right">☰</button>
+    <div class="style-divider" aria-hidden="true"></div>
+    <div class="style-bundled-group">
+      <div class="style-color-picker">
+        <button type="button" class="style-btn style-btn--color" id="styleColorToggle" aria-label="Colors">
+          <span class="style-color-chip"></span>
+          <svg class="style-chevron" viewBox="0 0 24 24" aria-hidden="true">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </button>
+        <div class="style-swatches is-hidden" id="styleSwatches"></div>
+      </div>
+      <div class="style-alignments" id="styleAlignments">
+        <button type="button" class="style-align-btn" data-align="left" aria-label="Align left">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="12" x2="15" y2="12"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+        <button type="button" class="style-align-btn" data-align="center" aria-label="Align center">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="6" y1="12" x2="18" y2="12"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+        <button type="button" class="style-align-btn" data-align="right" aria-label="Align right">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="9" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      <button type="button" class="style-btn style-btn--align" id="styleAlignToggle" aria-label="Toggle alignment options">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="6" y1="12" x2="18" y2="12"></line>
+          <line x1="9" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
     </div>
   </div>
   <script src="assets/js/pyuvm_slide_templates.js"></script>
