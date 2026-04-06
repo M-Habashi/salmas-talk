@@ -206,7 +206,7 @@
           wrap('div', '', 'stacking-stack-area'),
           wrap('div', cards, 'stacking-stage')
         ].join(''), 'stacking-cards-container anim-up d3')
-      ].join(''), 'slide stacking-slide', `data-stacking-cards="true" data-slide="${config.index}"`);
+      ].join(''), cx('slide', 'stacking-slide', config.slideClass), `data-stacking-cards="true" data-slide="${config.index}"`);
     },
     resourcesSlide(config) {
       return wrap('div', [

@@ -1,0 +1,83 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e13]:
+      - generic [ref=e14]:
+        - generic [ref=e15]: "01"
+        - heading "Standardized Methodology" [level=3] [ref=e16]
+      - paragraph [ref=e18]:
+        - text: A standardized verification methodology for
+        - strong [ref=e19]: hardware design verification
+        - text: .
+    - generic [ref=e54]:
+      - generic [ref=e55]:
+        - generic [ref=e56]: "02"
+        - heading "Built on SystemVerilog" [level=3] [ref=e57]
+      - paragraph [ref=e59]:
+        - text: Built on top of
+        - strong [ref=e60]: SystemVerilog
+        - text: ", combining its power with a proven methodology framework."
+    - generic [ref=e61]:
+      - generic [ref=e62]:
+        - generic [ref=e63]: "03"
+        - heading "Structured Testbenches" [level=3] [ref=e64]
+      - paragraph [ref=e66]:
+        - text: Used to create
+        - strong [ref=e67]: structured, reusable, and scalable
+        - text: testbenches based on object-oriented programming concepts.
+    - generic [ref=e68]:
+      - generic [ref=e69]:
+        - generic [ref=e70]: "04"
+        - heading "Guidelines & Best Practices" [level=3] [ref=e71]
+      - paragraph [ref=e73]:
+        - text: Includes a set of
+        - strong [ref=e74]: guidelines
+        - text: and
+        - strong [ref=e75]: best practices
+        - text: for developing testbenches, running simulations, and analyzing results.
+    - generic [ref=e76]:
+      - generic [ref=e77]:
+        - generic [ref=e78]: "05"
+        - heading "Industry Standard" [level=3] [ref=e79]
+      - paragraph [ref=e81]:
+        - text: Widely adopted by the
+        - strong [ref=e82]: semiconductor industry
+        - text: as the go-to verification methodology.
+    - generic [ref=e83]:
+      - generic [ref=e84]: Architecture
+      - heading "UVM Testbench Architecture" [level=2] [ref=e85]
+      - img "UVM Testbench Architecture diagram" [ref=e87]:
+        - generic [ref=e93]: Test bench
+        - generic [ref=e96]: Test
+        - generic [ref=e99]: Verification Environment
+        - generic [ref=e100]:
+          - generic [ref=e102]: Agent 1
+          - generic [ref=e104]: CFG
+          - generic [ref=e106]: Agent 2
+          - generic [ref=e108]: CFG
+        - generic [ref=e109]:
+          - generic [ref=e111]: Sequence
+          - generic [ref=e113]: Sequence
+          - generic [ref=e115]: Sequencer
+          - generic [ref=e117]: Sequencer
+        - generic [ref=e118]:
+          - generic [ref=e120]: Driver
+          - generic [ref=e122]: Monitor
+          - generic [ref=e124]: Monitor
+          - generic [ref=e126]: Diver
+        - generic [ref=e127]:
+          - generic [ref=e129]: Scoreboard
+          - generic [ref=e131]: FunctionalCoverage
+          - generic [ref=e133]: CFG
+        - generic [ref=e134]:
+          - generic [ref=e136]: VirtualInterface
+          - generic [ref=e138]: VirtualInterface
+          - generic [ref=e140]: VirtualInterface
+          - generic [ref=e142]: VirtualInterface
+          - generic [ref=e144]: Interface
+          - generic [ref=e146]: Interface
+        - generic [ref=e149]: DUT
+  - generic [ref=e21]: 04 / 21
+  - generic [ref=e22]:
+    - generic [ref=e23]: ←
+    - generic [ref=e24]: →
+    - generic [ref=e25]: navigate
