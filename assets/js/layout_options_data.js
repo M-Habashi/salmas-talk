@@ -22,14 +22,25 @@
       subtitle: 'Use this for title pages, section openers, and branded introductions.',
       chips: ['badge', 'author', 'subtitle', 'chips']
     }),
-    t.agendaSlide({
+    t.revealChecklistSlide({
       index: 2,
+      title: 'revealChecklistSlide',
+      items: [
+        'Use this when points should appear one by one.',
+        'Marker and text reveal together.',
+        'Good for definitions, principles, or benefits.',
+        'Supports the animated check marker style.',
+        'Fits the same presentation system as the main deck.'
+      ]
+    }),
+    t.agendaSlide({
+      index: 3,
       tag: 'Template',
       title: 'agendaSlide',
       items: ['Ordered list layout', 'Good for table of contents', 'Supports long lists', 'Keeps typography consistent', 'Best for navigation slides']
     }),
     t.focusCardsSlide({
-      index: 3,
+      index: 4,
       title: 'focusCardsSlide',
       lead: 'One focused card at a time',
       cards: [
@@ -39,14 +50,14 @@
       ]
     }),
     t.infoSplitSlide({
-      index: 4,
+      index: 5,
       tag: 'Template',
       title: 'infoSplitSlide',
       bullets: ['Left column uses standard bullet rhythm.', 'Right column can hold any stacked content blocks.', 'Good for concept + example or explanation + callout.'],
       aside: [h.heading('h3', 'Right Side Stack', 'anim-up d3'), h.card({ body: [h.wrap('h4', 'Primary callout', 'tone-blue'), h.paragraph('Place one or more cards, code samples, or explanatory blocks here.')] })]
     }),
     t.revealCardGridSlide({
-      index: 5,
+      index: 6,
       tag: 'Template',
       title: 'revealCardGridSlide',
       cards: [
@@ -57,7 +68,7 @@
       ]
     }),
     t.comparisonRowsSlide({
-      index: 6,
+      index: 7,
       tag: 'Template',
       title: 'comparisonRowsSlide',
       rows: [
@@ -71,7 +82,7 @@
       ]
     }),
     t.hierarchySlide({
-      index: 7,
+      index: 8,
       tag: 'Template',
       title: 'hierarchySlide',
       leftTitle: 'Left Structure',
@@ -81,7 +92,7 @@
       footerCard: h.card({ body: [h.wrap('h4', 'Footer Card', 'tone-cyan'), h.paragraph('Optional supporting note or mapping.')] })
     }),
     t.phaseExampleSlide({
-      index: 8,
+      index: 9,
       tag: 'Template',
       title: 'phaseExampleSlide',
       phases: ['one', 'two', 'three', 'four', 'five'],
@@ -90,7 +101,7 @@
       code: ['step_one()', 'step_two()', 'step_three()']
     }),
     t.tlmOverviewSlide({
-      index: 9,
+      index: 10,
       tag: 'Template',
       title: 'tlmOverviewSlide',
       bullets: ['Left column handles the explanation.', 'Middle spacer is built in.', 'Right column pairs code with a supporting card.'],
@@ -100,7 +111,7 @@
       footerCard: h.card({ body: [h.wrap('h4', 'Mental model', 'tone-green'), h.paragraph('Short conceptual summary at the end.')] })
     }),
     t.tlmTypesSlide({
-      index: 10,
+      index: 11,
       tag: 'Template',
       title: 'tlmTypesSlide',
       intro: 'Use this for any 3-up pattern comparison with a chip, explanation, figure, and code snippet.',
@@ -111,7 +122,7 @@
       ]
     }),
     t.architectureSlide({
-      index: 11,
+      index: 12,
       tag: 'Template',
       title: 'architectureSlide',
       diagram: demoArchitecture,
@@ -119,7 +130,7 @@
       footerCard: h.card({ body: [h.wrap('h4', 'Diagram Note', 'tone-green'), h.paragraph('Explain one key takeaway from the structure.')] })
     }),
     t.conceptSplitSlide({
-      index: 12,
+      index: 13,
       tag: 'Template',
       title: 'conceptSplitSlide',
       bullets: ['Good for concept on the left and code on the right.', 'Supports a left-side callout card.', 'Optional note under the code block.'],
@@ -129,7 +140,7 @@
       note: 'Optional note text under the code block.'
     }),
     t.stackWorkflowSlide({
-      index: 13,
+      index: 14,
       tag: 'Template',
       title: 'stackWorkflowSlide',
       layers: [{ title: 'Layer 1', label: 'Top level' }, { title: 'Layer 2', label: 'Second level' }, { title: 'Layer 3', label: 'Third level' }],
@@ -138,7 +149,7 @@
       code: ['stepA()', 'stepB()', 'stepC()']
     }),
     t.toolGridSlide({
-      index: 14,
+      index: 15,
       tag: 'Template',
       title: 'toolGridSlide',
       tools: [
@@ -152,7 +163,7 @@
       ]
     }),
     t.codePairSlide({
-      index: 15,
+      index: 16,
       tag: 'Template',
       title: 'codePairSlide',
       leftTitle: 'Left Code',
@@ -165,7 +176,7 @@
       ]
     }),
     t.roadmapSlide({
-      index: 16,
+      index: 17,
       tag: 'Template',
       title: 'roadmapSlide',
       bullets: ['Left side holds next steps or roadmap bullets.', 'Right side stacks one or more cards.', 'Good for action plans and recommendations.'],
@@ -177,7 +188,7 @@
       ]
     }),
     t.summarySlide({
-      index: 17,
+      index: 18,
       tag: 'Template',
       title: 'summarySlide',
       topCards: [
@@ -188,7 +199,7 @@
       bullets: ['Bottom summary bullets reinforce the key messages.', 'Use this as a closing or recap slide.', 'Maintains the same visual rhythm as the main deck.']
     }),
     t.resourcesSlide({
-      index: 18,
+      index: 19,
       tag: 'Template',
       title: 'resourcesSlide',
       subtitle: 'Resource and closing layout',

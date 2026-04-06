@@ -148,6 +148,26 @@
     revealCardGridSlide(config) {
       return standardSlide({ index: config.index, tag: config.tag, title: config.title, clickReveal: true, content: cardGrid(config.cards.map((cardConfig) => card({ ...cardConfig, reveal: true })), 'anim-up d2') });
     },
+    revealChecklistSlide(config) {
+      return standardSlide({
+        index: config.index,
+        title: config.title,
+        clickReveal: true,
+        slideClass: cx('pyuvm-points-slide', config.slideClass),
+        content: wrap('div', wrap('ul', config.items.map((point) => wrap('li', [
+          '<span class="checkbox-wrapper-12" aria-hidden="true">',
+          '  <span class="cbx">',
+          '    <span class="cbx-circle"></span>',
+          '    <span class="cbx-burst"></span>',
+          '    <svg viewBox="0 0 15 12" fill="none">',
+          '      <path d="M1 7L5.2 11L14 1"></path>',
+          '    </svg>',
+          '  </span>',
+          '</span>',
+          `<span class="pyuvm-point-text">${point}</span>`
+        ].join(''), 'pyuvm-point click-reveal-item')).join(''), 'pyuvm-points-list anim-up d2'), 'content-section')
+      });
+    },
     comparisonRowsSlide(config) {
       return standardSlide({
         index: config.index, tag: config.tag, title: config.title,

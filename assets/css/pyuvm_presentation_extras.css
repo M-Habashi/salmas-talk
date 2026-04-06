@@ -645,6 +645,52 @@
   width: min(840px, calc(100vw - 3rem));
 }
 
+.stacking-slide--two-column-large .stacking-card.is-stacked {
+  padding: 0.9rem 1.35rem;
+}
+
+.stacking-slide--two-column-large .stacking-card.is-stacked .stacking-card-header {
+  margin-bottom: 0.55rem;
+}
+
+.stacking-slide--two-column-large .stacking-card.is-stacked .stacking-card-icon {
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  font-size: 0.76rem;
+}
+
+.stacking-slide--two-column-large .stacking-card.is-stacked .stacking-card-title {
+  font-size: 1.08rem;
+}
+
+.stacking-slide--two-column-large .stacking-card.is-stacked .stacking-card-body p,
+.stacking-slide--two-column-large .stacking-card.is-stacked .stacking-card-body li {
+  font-size: 1rem;
+  line-height: 1.42;
+}
+
+.stacking-slide--two-column-large .stacking-cards-container.all-stacked .stacking-card.is-stacked {
+  padding: 0.82rem 1.25rem;
+}
+
+.stacking-slide--two-column-large .stacking-cards-container.all-stacked .stacking-card.is-stacked .stacking-card-icon {
+  width: 28px;
+  height: 28px;
+  min-width: 28px;
+  font-size: 0.68rem;
+}
+
+.stacking-slide--two-column-large .stacking-cards-container.all-stacked .stacking-card.is-stacked .stacking-card-title {
+  font-size: 1rem;
+}
+
+.stacking-slide--two-column-large .stacking-cards-container.all-stacked .stacking-card.is-stacked .stacking-card-body p,
+.stacking-slide--two-column-large .stacking-cards-container.all-stacked .stacking-card.is-stacked .stacking-card-body li {
+  font-size: 0.96rem;
+  line-height: 1.4;
+}
+
 .stacking-slide--plain-collapsed .stacking-card.is-stacked {
   padding: 0;
   border: 0;

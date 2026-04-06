@@ -163,6 +163,7 @@
       index: 3,
       title: 'What is <span class="tone-blue">UVM</span>?',
       lead: 'UVM = Universal Verification Methodology',
+      slideClass: 'stacking-slide--two-column stacking-slide--two-column-large',
       cards: [
         { icon: '01', title: 'Standardized Methodology', body: h.paragraph('A standardized verification methodology for <strong>hardware design verification</strong>.') },
         { icon: '02', title: 'Built on SystemVerilog', body: h.paragraph('Built on top of <strong>SystemVerilog</strong>, combining its power with a proven methodology framework.') },
@@ -262,30 +263,18 @@
         { icon: '07', title: 'Harder Open-Source Flow', body: h.paragraph('Running a pure open-source verification flow is harder than with Python-based verification.') }
       ]
     }),
-    h.standardSlide({
+    t.revealChecklistSlide({
       index: 8,
       title: 'What is PyUVM?',
-      clickReveal: true,
       slideClass: 'pyuvm-points-slide',
-      content: h.wrap('div', h.wrap('ul', [
+      items: [
         'Python implementation of the UVM 1800.2 standard.',
         'Fully open-source under the Apache 2.0 license.',
         'Leverages Python’s object-oriented features to implement the UVM class hierarchy.',
         'Works on top of cocotb for RTL signal interaction.',
         'Removes much of the SystemVerilog complexity.',
         'Especially useful for education, research, prototyping, and open-source verification flows.'
-      ].map((point) => h.wrap('li', [
-        '<span class="checkbox-wrapper-12" aria-hidden="true">',
-        '  <span class="cbx">',
-        '    <span class="cbx-circle"></span>',
-        '    <span class="cbx-burst"></span>',
-        '    <svg viewBox="0 0 15 12" fill="none">',
-        '      <path d="M1 7L5.2 11L14 1"></path>',
-        '    </svg>',
-        '  </span>',
-        '</span>',
-        `<span class="pyuvm-point-text">${point}</span>`
-      ].join(''), 'pyuvm-point click-reveal-item')).join(''), 'pyuvm-points-list anim-up d2'), 'content-section')
+      ]
     }),
     t.comparisonRowsSlide({
       index: 9, tag: 'Comparison', title: 'Advantages of <span class="tone-blue">PyUVM</span> over Traditional UVM',
