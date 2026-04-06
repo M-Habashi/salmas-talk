@@ -617,6 +617,12 @@ function resetClickReveal(slide) {
   });
 }
 
+function finalizeClickReveal(slide) {
+  getClickRevealItems(slide).forEach((item) => {
+    item.classList.add('revealed');
+  });
+}
+
 function revealNextItem() {
   const nextItem = getClickRevealItems().find((item) => !item.classList.contains('revealed'));
   if (!nextItem) return false;
@@ -632,14 +638,33 @@ function hideLastRevealedItem() {
   return true;
 }
 
-function goToSlide(index) {
+function finalizeSlideState(slide) {
+  if (!slide) return;
+  stopStackingCardsAnimations();
+  setStackingCardsStableState(slide, null);
+  finalizeClickReveal(slide);
+}
+
+function goToSlide(index, options = {}) {
   if (index < 0 || index >= totalSlides) return;
+  const previousSlide = slides[currentSlide];
+  const previousIndex = currentSlide;
+  const targetState = options.state ?? (index < previousIndex ? 'final' : 'reset');
+
+  stopStackingCardsAnimations();
   clearSelection();
-  slides[currentSlide].classList.remove('active');
+  previousSlide?.classList.remove('active');
   currentSlide = index;
-  slides[currentSlide].classList.add('active');
-  resetStackingCards(slides[currentSlide]);
-  resetClickReveal(slides[currentSlide]);
+  const targetSlide = slides[currentSlide];
+  targetSlide.classList.add('active');
+
+  if (targetState === 'final') {
+    finalizeSlideState(targetSlide);
+  } else {
+    resetStackingCards(targetSlide);
+    resetClickReveal(targetSlide);
+  }
+
   updateUI();
 }
 
@@ -1098,23 +1123,7 @@ function handleForwardStep() {
 }
 
 function handleBackwardStep() {
-  if (closeStackingCardsPreview()) {
-    return true;
-  }
-
-  if (finishOngoingStackingCardsTransition()) {
-    return handleBackwardStep();
-  }
-
-  if (rewindStackingCards()) {
-    return true;
-  }
-
-  if (hideLastRevealedItem()) {
-    return true;
-  }
-
-  goToSlide(currentSlide - 1);
+  goToSlide(currentSlide - 1, { state: 'final' });
   return true;
 }
 
