@@ -165,6 +165,59 @@
     '</div>'
   ].join('');
 
+  const codeExampleSlideContent = [
+    '<div class="code-editor-shell click-reveal-item">',
+    '  <div class="code-editor-titlebar">',
+    '    <div class="code-editor-dots"><span class="dot dot--red"></span><span class="dot dot--amber"></span><span class="dot dot--green"></span></div>',
+    '    <div class="code-editor-tab"><span class="code-editor-tab-icon"></span><span>alu_pyuvm_example.py</span></div>',
+    '    <div class="code-editor-actions"><span></span><span></span><span></span></div>',
+    '  </div>',
+    '  <div class="code-editor-workbench">',
+    '    <aside class="code-editor-sidebar"><span></span><span></span><span></span><span></span></aside>',
+    '    <div class="code-editor-main">',
+    '      <div class="code-editor-breadcrumb">tb <span>/</span> pyuvm <span>/</span> alu_pyuvm_example.py</div>',
+    '      <div class="code-editor-scroll">',
+    '        <div class="code-editor-lines">',
+    '          <div class="code-line"><span class="ln">1</span><span class="lc" style="--chars: 122;"><span class="tok-kw">from</span> <span class="tok-mod">pyuvm</span> <span class="tok-kw">import</span> <span class="tok-name">uvm_agent</span>, <span class="tok-name">uvm_driver</span>, <span class="tok-name">uvm_env</span>, <span class="tok-name">uvm_monitor</span>, <span class="tok-name">uvm_scoreboard</span>, <span class="tok-name">uvm_sequencer</span>, <span class="tok-name">uvm_test</span>, <span class="tok-name">test</span></span></div>',
+    '          <div class="code-line"><span class="ln">2</span><span class="lc" style="--chars: 1;"></span></div>',
+    '          <div class="code-line"><span class="ln">3</span><span class="lc" style="--chars: 66;"><span class="tok-cm"># Reusable verification components build the testbench structure.</span></span></div>',
+    '          <div class="code-line"><span class="ln">4</span><span class="lc" style="--chars: 40;"><span class="tok-kw">class</span> <span class="tok-class">ALUSequencer</span>(<span class="tok-name">uvm_sequencer</span>):</span></div>',
+    '          <div class="code-line"><span class="ln">5</span><span class="lc" style="--chars: 7;">    <span class="tok-dim">...</span></span></div>',
+    '          <div class="code-line"><span class="ln">6</span><span class="lc" style="--chars: 1;"></span></div>',
+    '          <div class="code-line"><span class="ln">7</span><span class="lc" style="--chars: 34;"><span class="tok-kw">class</span> <span class="tok-class">ALUDriver</span>(<span class="tok-name">uvm_driver</span>):</span></div>',
+    '          <div class="code-line"><span class="ln">8</span><span class="lc" style="--chars: 7;">    <span class="tok-dim">...</span></span></div>',
+    '          <div class="code-line"><span class="ln">9</span><span class="lc" style="--chars: 1;"></span></div>',
+    '          <div class="code-line"><span class="ln">10</span><span class="lc" style="--chars: 37;"><span class="tok-kw">class</span> <span class="tok-class">ALUMonitor</span>(<span class="tok-name">uvm_monitor</span>):</span></div>',
+    '          <div class="code-line"><span class="ln">11</span><span class="lc" style="--chars: 7;">    <span class="tok-dim">...</span></span></div>',
+    '          <div class="code-line"><span class="ln">12</span><span class="lc" style="--chars: 1;"></span></div>',
+    '          <div class="code-line"><span class="ln">13</span><span class="lc" style="--chars: 43;"><span class="tok-kw">class</span> <span class="tok-class">ALUScoreboard</span>(<span class="tok-name">uvm_scoreboard</span>):</span></div>',
+    '          <div class="code-line"><span class="ln">14</span><span class="lc" style="--chars: 7;">    <span class="tok-dim">...</span></span></div>',
+    '          <div class="code-line"><span class="ln">15</span><span class="lc" style="--chars: 1;"></span></div>',
+    '          <div class="code-line"><span class="ln">16</span><span class="lc" style="--chars: 31;"><span class="tok-kw">class</span> <span class="tok-class">ALUAgent</span>(<span class="tok-name">uvm_agent</span>):</span></div>',
+    '          <div class="code-line"><span class="ln">17</span><span class="lc" style="--chars: 7;">    <span class="tok-dim">...</span></span></div>',
+    '          <div class="code-line"><span class="ln">18</span><span class="lc" style="--chars: 1;"></span></div>',
+    '          <div class="code-line"><span class="ln">19</span><span class="lc" style="--chars: 27;"><span class="tok-kw">class</span> <span class="tok-class">ALUEnv</span>(<span class="tok-name">uvm_env</span>):</span></div>',
+    '          <div class="code-line"><span class="ln">20</span><span class="lc" style="--chars: 7;">    <span class="tok-dim">...</span></span></div>',
+    '          <div class="code-line"><span class="ln">21</span><span class="lc" style="--chars: 1;"></span></div>',
+    '          <div class="code-line"><span class="ln">22</span><span class="lc" style="--chars: 64;"><span class="tok-cm"># Tests reuse the same environment and vary only the scenario.</span></span></div>',
+    '          <div class="code-line"><span class="ln">23</span><span class="lc" style="--chars: 8;"><span class="tok-dec">@test</span>()</span></div>',
+    '          <div class="code-line"><span class="ln">24</span><span class="lc" style="--chars: 29;"><span class="tok-kw">class</span> <span class="tok-class">AddTest</span>(<span class="tok-name">uvm_test</span>):</span></div>',
+    '          <div class="code-line"><span class="ln">25</span><span class="lc" style="--chars: 7;">    <span class="tok-dim">...</span></span></div>',
+    '          <div class="code-line"><span class="ln">26</span><span class="lc" style="--chars: 1;"></span></div>',
+    '          <div class="code-line"><span class="ln">27</span><span class="lc" style="--chars: 8;"><span class="tok-dec">@test</span>()</span></div>',
+    '          <div class="code-line"><span class="ln">28</span><span class="lc" style="--chars: 29;"><span class="tok-kw">class</span> <span class="tok-class">SubTest</span>(<span class="tok-name">uvm_test</span>):</span></div>',
+    '          <div class="code-line"><span class="ln">29</span><span class="lc" style="--chars: 7;">    <span class="tok-dim">...</span></span></div>',
+    '          <div class="code-line"><span class="ln">30</span><span class="lc" style="--chars: 1;"></span></div>',
+    '          <div class="code-line"><span class="ln">31</span><span class="lc" style="--chars: 8;"><span class="tok-dec">@test</span>()</span></div>',
+    '          <div class="code-line"><span class="ln">32</span><span class="lc" style="--chars: 29;"><span class="tok-kw">class</span> <span class="tok-class">AndTest</span>(<span class="tok-name">uvm_test</span>):</span></div>',
+    '          <div class="code-line"><span class="ln">33</span><span class="lc" style="--chars: 7;">    <span class="tok-dim">...</span></span></div>',
+    '        </div>',
+    '      </div>',
+    '    </div>',
+    '  </div>',
+    '</div>'
+  ].join('');
+
   const slides = [
     t.titleHeroSlide({
       index: 1,
@@ -178,7 +231,7 @@
       index: 2,
       tag: 'Agenda',
       title: 'Table of <span class="tone-cyan">Contents</span>',
-      items: ['What is UVM?', 'UVM Testbench Architecture', 'UVM Hierarchy', 'Advantages of UVM in Verification', 'The Problem with Traditional UVM', 'What is PyUVM?', 'Advantages of PyUVM over Traditional UVM', 'UVM Testbench Architecture', 'Components VS Objects', 'PyUVM Compared Side by Side', 'The Structure of PyUVM', 'What Are Phases? With Example', 'What is TLM and How to Use It', 'Types of TLM with Figure and Code', 'What is Factory', 'What is cocotb?', 'How PyUVM Uses cocotb', 'Open-Source Simulation Tools', 'The Complete Open-Source Verification Stack', 'PyUVM Code Example', 'How to Extend This Example', 'Summary']
+      items: ['What is UVM?', 'UVM Testbench Architecture', 'UVM Hierarchy', 'Advantages of UVM in Verification', 'The Problem with Traditional UVM', 'What is PyUVM?', 'Advantages of PyUVM over Traditional UVM', 'UVM Testbench Architecture', 'Components VS Objects', 'Code Example', 'The Structure of PyUVM', 'What Are Phases? With Example', 'What is TLM and How to Use It', 'Types of TLM with Figure and Code', 'What is Factory', 'What is cocotb?', 'How PyUVM Uses cocotb', 'Open-Source Simulation Tools', 'The Complete Open-Source Verification Stack', 'PyUVM Code Example', 'How to Extend This Example', 'Summary']
     }),
     t.focusCardsSlide({
       index: 3,
@@ -327,10 +380,13 @@
       slideClass: 'components-objects-slide',
       content: componentsVsObjectsContent
     }),
-    t.comparisonRowsSlide({
-      index: 12, tag: 'Comparison', title: '<span class="tone-blue">PyUVM</span> Compared Side by Side',
-      rows: [[{ label: 'SV', text: 'More boilerplate and heavier syntax.' }, { label: 'PY', text: 'Cleaner Python code with less ceremony.', positive: true }], [{ label: 'SV', text: 'Commonly tied to licensed tools and vendor flows.' }, { label: 'PY', text: 'Fits open-source simulators and standard Python tooling.', positive: true }], [{ label: 'SV', text: 'Harder for software engineers and students to learn quickly.' }, { label: 'PY', text: 'Python lowers the learning curve for many teams.', positive: true }], [{ label: 'SV', text: 'Integrating data science or automation libraries is less natural.' }, { label: 'PY', text: 'Easy access to pytest, pandas, NumPy, CI, and scripting.', positive: true }]],
-      cards: [h.card({ cardTone: 'blue', body: [h.wrap('h4', 'Faster to write', 'tone-blue'), h.paragraph('Sequences and tests look like normal Python classes and coroutines.')] }), h.card({ cardTone: 'cyan', body: [h.wrap('h4', 'Faster to teach', 'tone-cyan'), h.paragraph('Students can focus on methodology before getting stuck in language details.')] }), h.card({ cardTone: 'green', body: [h.wrap('h4', 'Faster to automate', 'tone-green'), h.paragraph('Python testbenches fit naturally into scripts, CI pipelines, and package management.')] })]
+    h.standardSlide({
+      index: 12,
+      tag: 'Example',
+      title: 'Code Example',
+      clickReveal: true,
+      slideClass: 'code-example-slide',
+      content: codeExampleSlideContent
     }),
     t.hierarchySlide({
       index: 13, tag: 'Hierarchy', title: 'The Structure of <span class="tone-blue">PyUVM</span>',
