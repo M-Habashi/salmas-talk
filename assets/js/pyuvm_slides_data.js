@@ -266,38 +266,26 @@
       index: 8,
       title: 'What is <span class="tone-blue">Py</span><span class="tone-cyan">UVM</span>?',
       lead: 'Python-first UVM methodology built for open and practical verification flows',
+      slideClass: 'stacking-slide--plain-collapsed',
       cards: [
         {
-          icon: '01',
-          title: 'Python Implementation',
-          body: h.paragraph('A Python implementation of the UVM 1800.2 standard.')
+          body: h.paragraph('Python implementation of the UVM 1800.2 standard.')
         },
         {
-          icon: '02',
-          title: 'Open Source',
           body: h.paragraph('Fully open-source under the Apache 2.0 license.')
         },
         {
-          icon: '03',
-          title: 'Python OOP Leverage',
-          body: h.paragraph('Uses Python’s object-oriented features to implement the UVM class hierarchy.')
+          body: h.paragraph('Leverages Python’s object-oriented features to implement the UVM class hierarchy.')
         },
         {
-          icon: '04',
-          title: 'Built on cocotb',
           body: h.paragraph('Works on top of cocotb for RTL signal interaction.')
         },
         {
-          icon: '05',
-          title: 'Lower Complexity',
           body: h.paragraph('Removes much of the SystemVerilog complexity.')
         },
         {
-          icon: '06',
-          title: 'Best Use Cases',
           body: [
-            h.paragraph('Especially useful for:'),
-            h.list(['education', 'research', 'prototyping', 'open-source verification flows'], { classes: 'bullet-list mt-sm' })
+            h.paragraph('Especially useful for education, research, prototyping, and open-source verification flows.')
           ].join('')
         }
       ]

@@ -645,6 +645,74 @@
   width: min(840px, calc(100vw - 3rem));
 }
 
+.stacking-slide--plain-collapsed .stacking-card.is-stacked {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  width: auto;
+}
+
+.stacking-slide--plain-collapsed .stacking-card.is-stacked .stacking-card-header {
+  display: none;
+}
+
+.stacking-slide--plain-collapsed .stacking-card.is-stacked .stacking-card-body {
+  max-height: none;
+}
+
+.stacking-slide--plain-collapsed .stacking-card.is-stacked .stacking-card-body p,
+.stacking-slide--plain-collapsed .stacking-card.is-stacked .stacking-card-body li {
+  font-size: 1.28rem;
+  line-height: 1.38;
+  color: var(--text-primary);
+}
+
+.stacking-slide--plain-collapsed .stacking-card.is-stacked .stacking-card-body p {
+  position: relative;
+  padding-left: 1.25rem;
+}
+
+.stacking-slide--plain-collapsed .stacking-card.is-stacked .stacking-card-body p::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: var(--text-primary);
+}
+
+.stacking-slide--plain-collapsed .stacking-card.is-stacked .stacking-card-body .bullet-list {
+  margin-top: 0.45rem;
+}
+
+.stacking-slide--plain-collapsed .stacking-cards-container.all-stacked:not(:has(.stacking-card.is-preview)) {
+  flex: 0 0 auto;
+}
+
+.stacking-slide--plain-collapsed .stacking-cards-container.all-stacked:not(:has(.stacking-card.is-preview)) .stacking-stage {
+  display: none;
+}
+
+.stacking-cards-container.all-stacked .stacking-slide--plain-collapsed .stacking-card.is-stacked,
+.stacking-slide--plain-collapsed .stacking-cards-container.all-stacked .stacking-card.is-stacked {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.stacking-cards-container.all-stacked .stacking-slide--plain-collapsed .stacking-card.is-stacked .stacking-card-header,
+.stacking-slide--plain-collapsed .stacking-cards-container.all-stacked .stacking-card.is-stacked .stacking-card-header {
+  display: none;
+}
+
+.stacking-cards-container.all-stacked .stacking-slide--plain-collapsed .stacking-card.is-stacked .stacking-card-body p,
+.stacking-slide--plain-collapsed .stacking-cards-container.all-stacked .stacking-card.is-stacked .stacking-card-body p {
+  font-size: 1.28rem;
+  line-height: 1.38;
+}
+
 /* ── Click hint on active card ── */
 
 .stacking-card.is-active::after {

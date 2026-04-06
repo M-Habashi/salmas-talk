@@ -190,10 +190,12 @@
     focusCardsSlide(config) {
       const cards = config.cards.map((c, i) =>
         wrap('div', [
-          wrap('div', [
-            c.icon ? wrap('span', c.icon, 'stacking-card-icon') : '',
-            wrap('h3', c.title, 'stacking-card-title')
-          ].join(''), 'stacking-card-header'),
+          (c.icon || c.title)
+            ? wrap('div', [
+              c.icon ? wrap('span', c.icon, 'stacking-card-icon') : '',
+              c.title ? wrap('h3', c.title, 'stacking-card-title') : ''
+            ].join(''), 'stacking-card-header')
+            : '',
           wrap('div', c.body, 'stacking-card-body')
         ].join(''), cx('stacking-card', i === 0 && 'is-active'), `data-card-index="${i}"`)
       ).join('');
