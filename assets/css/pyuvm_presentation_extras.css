@@ -464,6 +464,127 @@
   transform-origin: top left;
 }
 
+.phases-checklist-slide .pyuvm-point .checkbox-wrapper-12 .cbx-circle {
+  border-color: rgba(244, 114, 182, 0.9);
+}
+
+.phases-checklist-slide .pyuvm-point.revealed .checkbox-wrapper-12 .cbx-circle {
+  animation-name: pyuvm-check-circle-rose;
+}
+
+.phases-checklist-slide .pyuvm-point.revealed .checkbox-wrapper-12 .cbx-burst {
+  animation-name: pyuvm-check-splash-rose;
+}
+
+.phases-timeline {
+  position: relative;
+  max-width: 680px;
+  width: 100%;
+  margin-top: 0.9rem;
+  margin-left: 3.1rem;
+  padding-left: 0;
+}
+
+.phases-timeline::before {
+  content: '';
+  position: absolute;
+  top: 12px;
+  bottom: 12px;
+  left: 11px;
+  width: 2px;
+  background: rgba(255, 255, 255, 0.12);
+  z-index: 1;
+}
+
+.phases-timeline-progress {
+  position: absolute;
+  top: 12px;
+  left: 11px;
+  width: 2px;
+  height: 0;
+  background: var(--accent-rose);
+  z-index: 2;
+}
+
+.phases-timeline-item {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 1.25rem;
+  padding-left: 2.6rem;
+}
+
+.phases-timeline-item:last-child {
+  margin-bottom: 0;
+}
+
+.phases-timeline-marker {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--accent-rose);
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: 0.82rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
+  opacity: 0;
+  transform: scale(0);
+}
+
+.phases-timeline-content {
+  padding-top: 0;
+  opacity: 0;
+  transform: translateX(-14px);
+}
+
+.phases-timeline-content h3 {
+  margin: 0 0 0.15rem 0;
+  color: var(--text-primary);
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.phases-timeline-content p {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+.phases-timeline.revealed .phases-timeline-progress {
+  animation: phases-timeline-grow 2.2s ease forwards;
+}
+
+.phases-timeline.revealed .phases-timeline-item:nth-child(2) .phases-timeline-marker,
+.phases-timeline.revealed .phases-timeline-item:nth-child(2) .phases-timeline-content {
+  animation-delay: 0.2s;
+}
+
+.phases-timeline.revealed .phases-timeline-item:nth-child(3) .phases-timeline-marker,
+.phases-timeline.revealed .phases-timeline-item:nth-child(3) .phases-timeline-content {
+  animation-delay: 0.95s;
+}
+
+.phases-timeline.revealed .phases-timeline-item:nth-child(4) .phases-timeline-marker,
+.phases-timeline.revealed .phases-timeline-item:nth-child(4) .phases-timeline-content {
+  animation-delay: 1.7s;
+}
+
+.phases-timeline.revealed .phases-timeline-marker {
+  animation: phases-timeline-bounce-in 0.8s ease-out forwards;
+}
+
+.phases-timeline.revealed .phases-timeline-content {
+  animation: phases-timeline-content-in 0.5s ease-out forwards;
+}
+
 .components-objects-panel--components .checkbox-wrapper-12 .cbx-circle {
   border-color: rgba(99, 140, 255, 0.88);
 }
@@ -1480,125 +1601,132 @@
   height: auto;
   display: block;
   filter: drop-shadow(0 0 20px rgba(0, 0, 0, 0.5));
+  transform: scale(1.1);
+  transform-origin: center center;
 }
 
 .uvm-architecture-reveal .txt-title {
   fill: #fff;
-  font-weight: 700;
-  font-size: 22px;
+  font-weight: 500;
+  font-size: 26px;
   text-anchor: middle;
   letter-spacing: 1px;
 }
 
 .uvm-architecture-reveal .txt-title--grey {
-  fill: #ccc;
+  fill: #fff;
 }
 
 .uvm-architecture-reveal .txt-title--blue {
-  fill: #00bfff;
+  fill: #fff;
 }
 
 .uvm-architecture-reveal .txt-title--purple {
-  fill: #e080ff;
+  fill: #fff;
 }
 
 .uvm-architecture-reveal .txt-title--cyan {
-  fill: #00ffff;
+  fill: #fff;
 }
 
 .uvm-architecture-reveal .txt-box {
-  fill: #111;
-  font-weight: 800;
-  font-size: 18px;
+  fill: #fff;
+  font-weight: 500;
+  font-size: 21px;
   text-anchor: middle;
 }
 
 .uvm-architecture-reveal .txt-box--dark {
-  fill: #000;
+  fill: #fff;
 }
 
 .uvm-architecture-reveal .txt-box--dut {
-  fill: #000;
-  font-size: 24px;
+  fill: #fff;
+  font-size: 28px;
 }
 
 .uvm-architecture-reveal .txt-small {
-  fill: #000;
-  font-weight: 900;
-  font-size: 14px;
+  fill: #fff;
+  font-weight: 500;
+  font-size: 17px;
   text-anchor: middle;
 }
 
 .uvm-architecture-reveal .neon-border-grey {
   stroke: #aaa;
   stroke-width: 3;
-  fill: rgba(30, 30, 35, 0.6);
+  fill: rgba(16, 18, 26, 0.82);
 }
 
 .uvm-architecture-reveal .neon-border-blue {
   stroke: #00bfff;
   stroke-width: 3;
-  fill: rgba(0, 40, 80, 0.4);
+  fill: rgba(8, 24, 48, 0.78);
 }
 
 .uvm-architecture-reveal .neon-border-purple {
   stroke: #b044ff;
   stroke-width: 3;
-  fill: rgba(40, 0, 60, 0.4);
+  fill: rgba(28, 10, 40, 0.8);
 }
 
 .uvm-architecture-reveal .neon-border-cyan {
   stroke: #00ffff;
   stroke-width: 2;
-  fill: rgba(0, 80, 100, 0.2);
+  fill: rgba(6, 38, 46, 0.72);
 }
 
 .uvm-architecture-reveal .box-yellow {
-  fill: #d4e157;
-  stroke: #f4ff81;
+  fill: #5f5a18;
+  stroke: #c0ca33;
   stroke-width: 2;
 }
 
 .uvm-architecture-reveal .box-orange {
-  fill: #ffb74d;
-  stroke: #ffd180;
+  fill: #6a3d14;
+  stroke: #ffb74d;
   stroke-width: 2;
 }
 
 .uvm-architecture-reveal .box-peach {
-  fill: #ffccbc;
+  fill: #5b3128;
   stroke: #ffab91;
   stroke-width: 2;
 }
 
 .uvm-architecture-reveal .box-blue {
-  fill: #64b5f6;
-  stroke: #90caf9;
+  fill: #1f4666;
+  stroke: #64b5f6;
   stroke-width: 2;
 }
 
 .uvm-architecture-reveal .box-green {
-  fill: #aed581;
-  stroke: #ccff90;
+  fill: #365228;
+  stroke: #9ccc65;
   stroke-width: 2;
 }
 
 .uvm-architecture-reveal .box-grey {
-  fill: #9e9e9e;
-  stroke: #e0e0e0;
+  fill: #3c4048;
+  stroke: #b0bec5;
   stroke-width: 2;
 }
 
 .uvm-architecture-reveal .box-red {
-  fill: #ef9a9a;
-  stroke: #ff8a80;
+  fill: #6b2b31;
+  stroke: #ef9a9a;
   stroke-width: 2;
 }
 
 .uvm-architecture-reveal .box-white {
-  fill: #fff;
-  stroke: #000;
+  fill: #2b313a;
+  stroke: #cfd8dc;
   stroke-width: 1;
+}
+
+.uvm-architecture-reveal marker#uvm-arch-arrow-end path {
+  fill: #fff !important;
+  stroke: none !important;
 }
 
 .uvm-architecture-reveal .line-solid {
@@ -1616,16 +1744,11 @@
 }
 
 .uvm-architecture-reveal .crop-mark {
-  stroke: #fff;
-  stroke-width: 3;
-  fill: none;
-  stroke-dasharray: 8 8;
+  display: none;
 }
 
 .uvm-architecture-reveal .crop-edge {
-  stroke: #fff;
-  stroke-width: 6;
-  fill: none;
+  display: none;
 }
 
 @keyframes uvm-architecture-fade-up {
@@ -1652,13 +1775,13 @@
 
 .uvm-architecture-reveal .anim-block {
   opacity: 0;
-  animation: uvm-architecture-fade-up 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  animation: uvm-architecture-fade-up 2.05s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
   animation-play-state: paused;
 }
 
 .uvm-architecture-reveal .anim-line {
   opacity: 0;
-  animation: uvm-architecture-fade-in 0.8s ease-in forwards;
+  animation: uvm-architecture-fade-in 1.5s ease-in forwards;
   animation-play-state: paused;
 }
 
@@ -1843,6 +1966,66 @@
       0 36px 0 -10px transparent,
       -32px 16px 0 -10px transparent,
       -32px -16px 0 -10px transparent;
+  }
+}
+
+@keyframes pyuvm-check-circle-rose {
+  0% {
+    background: transparent;
+    border-color: rgba(244, 114, 182, 0.9);
+  }
+
+  40%,
+  100% {
+    background: var(--accent-rose);
+    border-color: var(--accent-rose);
+  }
+}
+
+@keyframes pyuvm-check-splash-rose {
+  40% {
+    box-shadow:
+      0 -18px 0 -8px var(--accent-rose),
+      16px -8px 0 -8px var(--accent-rose),
+      16px 8px 0 -8px var(--accent-rose),
+      0 18px 0 -8px var(--accent-rose),
+      -16px 8px 0 -8px var(--accent-rose),
+      -16px -8px 0 -8px var(--accent-rose);
+  }
+
+  100% {
+    box-shadow:
+      0 -36px 0 -10px transparent,
+      32px -16px 0 -10px transparent,
+      32px 16px 0 -10px transparent,
+      0 36px 0 -10px transparent,
+      -32px 16px 0 -10px transparent,
+      -32px -16px 0 -10px transparent;
+  }
+}
+
+@keyframes phases-timeline-grow {
+  from { height: 0; }
+  to { height: calc(100% - 24px); }
+}
+
+@keyframes phases-timeline-bounce-in {
+  0% { opacity: 0; transform: scale(0); }
+  40% { opacity: 1; transform: scale(1.3); }
+  60% { transform: scale(0.85); }
+  80% { transform: scale(1.05); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes phases-timeline-content-in {
+  from {
+    opacity: 0;
+    transform: translateX(-14px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
   }
 }
 

@@ -154,7 +154,8 @@
         title: config.title,
         clickReveal: true,
         slideClass: cx('pyuvm-points-slide', config.slideClass),
-        content: wrap('div', wrap('ul', config.items.map((point) => wrap('li', [
+        content: wrap('div', [
+          wrap('ul', config.items.map((point) => wrap('li', [
           '<span class="checkbox-wrapper-12" aria-hidden="true">',
           '  <span class="cbx">',
           '    <span class="cbx-circle"></span>',
@@ -165,7 +166,9 @@
           '  </span>',
           '</span>',
           `<span class="pyuvm-point-text">${point}</span>`
-        ].join(''), 'pyuvm-point click-reveal-item')).join(''), 'pyuvm-points-list anim-up d2'), 'content-section')
+        ].join(''), 'pyuvm-point click-reveal-item')).join(''), 'pyuvm-points-list anim-up d2'),
+          config.extraContent || ''
+        ].join(''), 'content-section')
       });
     },
     comparisonRowsSlide(config) {
