@@ -49,6 +49,14 @@ const movableSelectors = [
   'img'
 ];
 
+function renderPresentationFromData() {
+  const presentation = document.querySelector('.presentation');
+  if (!presentation || presentation.querySelector('.slide')) return;
+  if (!window.PYUVM_PRESENTATION || typeof window.PYUVM_PRESENTATION.render !== 'function') return;
+
+  presentation.innerHTML = window.PYUVM_PRESENTATION.render();
+}
+
 function refreshSlideReferences() {
   slides = Array.from(document.querySelectorAll('.slide'));
   totalSlides = slides.length;
@@ -564,7 +572,7 @@ document.addEventListener('selectionchange', () => {
   updateFontControls();
 });
 
-
+renderPresentationFromData();
 applyEditorEnhancements();
 setupFontToolbar();
 setupFigureDragging();
