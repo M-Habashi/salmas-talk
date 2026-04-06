@@ -5,14 +5,6 @@
     serif: { fontFamily: 'var(--font-serif)', fontStyle: 'italic', fontWeight: '400' },
     mono: { fontFamily: 'var(--font-mono)', fontStyle: 'normal', fontWeight: '500' }
   };
-  const FONT_SIZES = {
-    14: '14px',
-    16: '16px',
-    18: '18px',
-    20: '20px',
-    24: '24px'
-  };
-
   const COLOR_TOKENS = [
     { name: 'primary', value: 'var(--text-primary)' },
     { name: 'secondary', value: 'var(--text-secondary)' },
@@ -47,6 +39,17 @@
       color: style.color,
       textDecorationLine: style.textDecorationLine
     };
+  }
+
+  function getStyleTarget() {
+    const range = getSelectionRange();
+    if (range) {
+      const node = range.startContainer.nodeType === Node.ELEMENT_NODE
+        ? range.startContainer
+        : range.startContainer.parentElement;
+      if (node && currentElement && currentElement.contains(node)) return node;
+    }
+    return currentElement;
   }
 
   function positionToolbar(element) {
@@ -90,6 +93,11 @@
     return true;
   }
 
+  function hasTextSelection() {
+    const range = getSelectionRange();
+    return Boolean(range && !range.collapsed && String(range).trim());
+  }
+
   function exec(command, value) {
     if (!currentElement) return;
     currentElement.focus();
@@ -106,16 +114,13 @@
   }
 
   function syncControls(element) {
-    const style = readStyle(element);
+    const styleTarget = getStyleTarget() || element;
+    const style = readStyle(styleTarget);
     presetSelect.value = element.dataset.fontPreset ||
       (style.fontFamily.includes('JetBrains Mono') ? 'mono' :
       style.fontFamily.includes('Instrument Serif') ? 'serif' :
       Number(style.fontWeight) >= 700 ? 'display' : 'body');
-    sizeSelect.value = element.dataset.fontSizePreset ||
-      (parseFloat(style.fontSize) >= 22 ? '24' :
-      parseFloat(style.fontSize) >= 19 ? '20' :
-      parseFloat(style.fontSize) >= 17 ? '18' :
-      parseFloat(style.fontSize) <= 15 ? '14' : '16');
+    sizeSelect.value = String(Math.round(parseFloat(style.fontSize) || 16));
     boldButton.classList.toggle('is-active', Number(style.fontWeight) >= 700);
     italicButton.classList.toggle('is-active', style.fontStyle === 'italic');
     underlineButton.classList.toggle('is-active', style.textDecorationLine.includes('underline'));
@@ -137,35 +142,64 @@
     window.PYUVM_EDITOR?.scheduleHistoryRecord?.();
   }
 
+  function applyBlockStyles(styles) {
+    if (!currentElement) return;
+    Object.assign(currentElement.style, styles);
+    notifyHistory();
+  }
+
   function applyPreset(value) {
     if (!currentElement || !FONT_PRESETS[value]) return;
-    exec('fontName', resolveTokenValue(FONT_PRESETS[value].fontFamily));
+    if (hasTextSelection()) {
+      exec('fontName', resolveTokenValue(FONT_PRESETS[value].fontFamily));
+    } else {
+      applyBlockStyles(FONT_PRESETS[value]);
+    }
     currentElement.dataset.fontPreset = value;
     syncControls(currentElement);
   }
 
   function applySize(value) {
-    if (!currentElement || !FONT_SIZES[value]) return;
-    exec('fontSize', '7');
-    currentElement.querySelectorAll('font[size="7"]').forEach((node) => {
-      node.removeAttribute('size');
-      node.style.fontSize = FONT_SIZES[value];
-    });
-    currentElement.dataset.fontSizePreset = value;
+    const px = Number(value);
+    if (!currentElement || !Number.isFinite(px) || px < 1) return;
+    if (hasTextSelection()) {
+      exec('fontSize', '7');
+      currentElement.querySelectorAll('font[size="7"]').forEach((node) => {
+        node.removeAttribute('size');
+        node.style.fontSize = `${px}px`;
+      });
+    } else {
+      applyBlockStyles({ fontSize: `${px}px` });
+    }
     syncControls(currentElement);
   }
 
   function toggleInlineStyle(command, button) {
     if (!currentElement) return;
-    exec(command);
-    captureSelection();
+    if (hasTextSelection()) {
+      exec(command);
+      captureSelection();
+    } else {
+      const computed = readStyle(currentElement);
+      if (command === 'bold') {
+        applyBlockStyles({ fontWeight: Number(computed.fontWeight) >= 700 ? '400' : '700' });
+      } else if (command === 'italic') {
+        applyBlockStyles({ fontStyle: computed.fontStyle === 'italic' ? 'normal' : 'italic' });
+      } else if (command === 'underline') {
+        applyBlockStyles({ textDecoration: computed.textDecorationLine.includes('underline') ? 'none' : 'underline' });
+      }
+    }
     syncControls(currentElement);
     button.classList.toggle('is-active', !button.classList.contains('is-active'));
   }
 
   function applyColor(color) {
     if (!currentElement) return;
-    exec('foreColor', resolveTokenValue(color));
+    if (hasTextSelection()) {
+      exec('foreColor', resolveTokenValue(color));
+    } else {
+      applyBlockStyles({ color: resolveTokenValue(color) });
+    }
     currentElement.dataset.colorToken = COLOR_TOKENS.find((entry) => entry.value === color)?.name || currentElement.dataset.colorToken || '';
     setActiveSwatch(currentElement.dataset.colorToken);
     swatchContainer.classList.add('is-hidden');
@@ -248,6 +282,7 @@
     toolbar.addEventListener('click', (event) => event.stopPropagation());
     presetSelect.addEventListener('change', (event) => applyPreset(event.target.value));
     sizeSelect.addEventListener('change', (event) => applySize(event.target.value));
+    sizeSelect.addEventListener('blur', (event) => applySize(event.target.value));
     boldButton.addEventListener('click', () => toggleInlineStyle('bold', boldButton));
     italicButton.addEventListener('click', () => toggleInlineStyle('italic', italicButton));
     underlineButton.addEventListener('click', () => toggleInlineStyle('underline', underlineButton));
