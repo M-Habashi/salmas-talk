@@ -106,6 +106,14 @@ function getStackingCardsRegions(slide = slides[currentSlide]) {
   };
 }
 
+function getOpenStackingCardsPreview(slide = slides[currentSlide]) {
+  return getStackingCards(slide).find((card) => card.classList.contains('is-preview')) || null;
+}
+
+function isStackingCardsFullyStacked(slide = slides[currentSlide]) {
+  return Boolean(getStackingCardsRegions(slide)?.container.classList.contains('all-stacked'));
+}
+
 function stopStackingCardsAnimations() {
   stackingCardsAnimationToken += 1;
   stackingCardAnimations.forEach((animation) => animation.cancel());
@@ -200,7 +208,7 @@ function setStackingCardsStableState(slide, activeIndex) {
   regions.container.classList.toggle('all-stacked', !hasActiveCard);
 
   cards.forEach((card, index) => {
-    card.classList.remove('is-active', 'is-stacked');
+    card.classList.remove('is-active', 'is-stacked', 'is-preview');
     card.style.transform = '';
     card.style.opacity = '';
     card.style.visibility = '';
@@ -219,6 +227,51 @@ function setStackingCardsStableState(slide, activeIndex) {
 
     regions.stage.appendChild(card);
   });
+}
+
+function openStackingCardsPreview(card) {
+  const slide = getStackingCardsSlide();
+  if (!slide || !card || !isStackingCardsFullyStacked(slide)) return false;
+
+  const previewIndex = Number(card.dataset.cardIndex);
+  const existingPreview = getOpenStackingCardsPreview(slide);
+  if (existingPreview && Number(existingPreview.dataset.cardIndex) === previewIndex) {
+    return closeStackingCardsPreview(slide);
+  }
+
+  stopStackingCardsAnimations();
+  setStackingCardsStableState(slide, null);
+
+  const previewCard = getStackingCards(slide).find((item) => Number(item.dataset.cardIndex) === previewIndex);
+  const regions = getStackingCardsRegions(slide);
+  if (!previewCard || !regions) return false;
+
+  animateStackingCardsLayoutChange(previewCard, () => {
+    previewCard.classList.remove('is-stacked');
+    previewCard.classList.add('is-preview');
+    regions.stage.appendChild(previewCard);
+  }, {
+    duration: 420,
+    easing: 'cubic-bezier(0.22, 1, 0.36, 1)'
+  });
+
+  return true;
+}
+
+function closeStackingCardsPreview(slide = slides[currentSlide]) {
+  const stackingSlide = getStackingCardsSlide(slide);
+  const previewCard = getOpenStackingCardsPreview(stackingSlide);
+  if (!stackingSlide || !previewCard) return false;
+
+  stopStackingCardsAnimations();
+  animateStackingCardsLayoutChange(previewCard, () => {
+    setStackingCardsStableState(stackingSlide, null);
+  }, {
+    duration: 360,
+    easing: 'cubic-bezier(0.22, 1, 0.36, 1)'
+  });
+
+  return true;
 }
 
 function finishOngoingStackingCardsTransition() {
@@ -841,6 +894,10 @@ function setupFigureDragging() {
 }
 
 function handleForwardStep() {
+  if (closeStackingCardsPreview()) {
+    return handleForwardStep();
+  }
+
   if (finishOngoingStackingCardsTransition()) {
     return handleForwardStep();
   }
@@ -858,6 +915,10 @@ function handleForwardStep() {
 }
 
 function handleBackwardStep() {
+  if (closeStackingCardsPreview()) {
+    return true;
+  }
+
   if (finishOngoingStackingCardsTransition()) {
     return handleBackwardStep();
   }
@@ -996,6 +1057,22 @@ document.addEventListener('click', (event) => {
   if (event.target.closest('[contenteditable="true"]')) return;
 
   if (activeSlide.dataset.stackingCards === 'true') {
+    const clickedCard = event.target.closest('.stacking-card');
+    if (clickedCard && clickedCard.classList.contains('is-preview')) {
+      closeStackingCardsPreview(activeSlide);
+      return;
+    }
+
+    if (clickedCard && clickedCard.classList.contains('is-stacked') && isStackingCardsFullyStacked(activeSlide)) {
+      openStackingCardsPreview(clickedCard);
+      return;
+    }
+
+    if (!clickedCard && getOpenStackingCardsPreview(activeSlide)) {
+      closeStackingCardsPreview(activeSlide);
+      return;
+    }
+
     advanceStackingCards();
     return;
   }

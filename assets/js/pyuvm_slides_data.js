@@ -148,7 +148,7 @@
     t.titleHeroSlide({
       index: 1,
       badge: '',
-      title: '<span class="accent">Py</span>UVM<br><span class="serif">UVM Methodology</span><br>in <span class="accent-cyan">Python</span>',
+      title: '<span class="accent">Py</span>UVM<br>UVM Methodology<br>in <span class="accent-cyan">Python</span>',
       author: 'By: Salma Sultan',
       subtitle: '',
       chips: ['pyuvm', 'cocotb', 'Icarus Verilog', 'Verilator', 'GHDL', 'GTKWave']
@@ -236,23 +236,74 @@
     t.revealCardGridSlide({
       index: 6,
       tag: 'Benefits',
-      title: 'Advantages of UVM <span class="serif tone-cyan">in Verification</span>',
-      cards: [{ icon: '01', title: 'Reuse', body: h.paragraph('Drivers, monitors, agents, and sequences can be reused across blocks and projects.') }, { icon: '02', title: 'Scalability', body: h.paragraph('A common hierarchy makes it easier to grow from one interface to many interfaces and full-chip environments.') }, { icon: '03', title: 'Separation of Concerns', body: h.paragraph('Sequences generate stimulus, drivers drive pins, monitors observe behavior, and scoreboards check results.') }, { icon: '04', title: 'Constrained Random', body: h.paragraph('Randomized transactions help find corner cases that directed tests often miss.') }, { icon: '05', title: 'Coverage-Driven Flow', body: h.paragraph('Functional coverage and scoreboards help answer whether the design was tested well enough.') }, { icon: '06', title: 'Team Standardization', body: h.paragraph('Because the architecture is standardized, new engineers can read an unfamiliar testbench faster.') }]
+      title: 'Advantages of UVM in Verification',
+      cards: [
+        { icon: '01', title: 'Reusability', body: h.paragraph('The same agent can be reused across multiple projects.') },
+        { icon: '02', title: 'Scalability', body: h.paragraph('Works for small blocks up to large SoCs.') },
+        { icon: '03', title: 'Standard Structure', body: h.paragraph('Engineers can understand each other’s testbenches faster.') },
+        { icon: '04', title: 'Constrained-Random Testing', body: h.paragraph('Generates many legal stimulus scenarios automatically.') },
+        { icon: '05', title: 'Functional Coverage', body: h.paragraph('Shows which scenarios were actually tested.') },
+        { icon: '06', title: 'TLM Communication', body: h.paragraph('Components exchange transactions cleanly.') },
+        { icon: '07', title: 'Factory Mechanism', body: h.paragraph('Allows easy component replacement without changing base code.') },
+        { icon: '08', title: 'Better Maintainability', body: h.paragraph('Easier to extend than ad hoc testbenches.') }
+      ]
     }),
-    t.infoSplitSlide({
+    t.revealCardGridSlide({
       index: 7,
       tag: 'Motivation',
       title: 'The Problem with <span class="tone-rose">Traditional UVM</span>',
-      bullets: ['<strong>Commercial simulator cost</strong> is often the first barrier for students, startups, and open-source projects.', '<strong>SystemVerilog syntax</strong> is powerful, but it is also verbose and harder to learn for many software-oriented engineers.', '<strong>Macros and boilerplate</strong> can make beginner UVM code feel heavier than the verification idea itself.', '<strong>Open-source workflows</strong> are less natural in a traditional UVM setup.', '<strong>Python ecosystems and CI tooling</strong> are easier to plug into than many classic simulator-centered flows.'],
-      aside: [h.heading('h3', 'Cost and Access', 'anim-up d3'), h.compareItem({ label: 'X', text: 'Traditional UVM often depends on licensed simulators.' }), h.compareItem({ label: 'X', text: 'Learning SystemVerilog + UVM together can slow onboarding.' }), h.compareItem({ label: 'OK', text: 'PyUVM + cocotb + Icarus/Verilator/GHDL can be used in a zero-license flow.', positive: true }), h.wrap('div', '', 'spacer'), h.card({ body: [h.wrap('h4', 'Why that matters', 'tone-green'), h.paragraph('Open-source verification lowers the barrier for teaching, prototyping, CI automation, and community-driven hardware development.')] })]
+      cards: [
+        { icon: '01', title: 'Expensive Commercial Tools', body: h.paragraph('Synopsys VCS, Cadence Xcelium, and Siemens Questa all require costly licenses.') },
+        { icon: '02', title: 'SystemVerilog OOP Knowledge', body: h.paragraph('Requires strong familiarity with object-oriented SystemVerilog concepts.') },
+        { icon: '03', title: 'High Learning Curve', body: h.paragraph('Students and new verification engineers often need significant ramp-up time.') },
+        { icon: '04', title: 'Debugging Difficulty', body: h.paragraph('Debugging complex UVM environments can be difficult and time-consuming.') },
+        { icon: '05', title: 'Less Software-Friendly', body: h.paragraph('The flow is less friendly for software-oriented engineers.') },
+        { icon: '06', title: 'Python Integration Friction', body: h.paragraph('Integrating Python models, data processing, or ML logic is less natural.') },
+        { icon: '07', title: 'Harder Open-Source Flow', body: h.paragraph('Running a pure open-source verification flow is harder than with Python-based verification.') }
+      ]
     }),
-    t.infoSplitSlide({
-      index: 8, tag: 'Core Technology', title: 'What is <span class="tone-blue">Py</span><span class="tone-cyan">UVM</span>?',
-      bullets: ['<strong>PyUVM</strong> is a Python implementation of the UVM methodology.', 'It keeps the familiar ideas of <strong>components, phasing, sequences, TLM, config_db, and factory</strong>.', 'It uses <strong>cocotb</strong> to talk to the simulator and the DUT.', 'It lets verification engineers write UVM-style environments in Python instead of SystemVerilog.', 'That means easier scripting, faster iteration, simpler packaging, and access to the broader Python ecosystem.'],
-      aside: [h.heading('h3', 'In This Repository', 'anim-up d3'), h.card({ body: [h.paragraph('This project verifies a small ALU with:'), h.list(['<strong>rtl/alu.sv</strong> as the DUT', '<strong>tb/alu_bfm.py</strong> as the cocotb bus functional model', '<strong>tb/alu_env.py</strong> for agent, driver, monitor, scoreboard, and environment', '<strong>tb/alu_test.py</strong> for UVM-style tests', '<strong>tb/sequences/alu_sequences.py</strong> for the transaction and sequences'], { classes: 'bullet-list mt-sm' })] }), h.wrap('div', '', 'spacer'), h.card({ body: [h.wrap('h4', 'One-line description', 'tone-cyan'), h.paragraph('PyUVM gives us the structure of UVM and the productivity of Python.')] })]
+    t.focusCardsSlide({
+      index: 8,
+      title: 'What is <span class="tone-blue">Py</span><span class="tone-cyan">UVM</span>?',
+      lead: 'Python-first UVM methodology built for open and practical verification flows',
+      cards: [
+        {
+          icon: '01',
+          title: 'Python Implementation',
+          body: h.paragraph('A Python implementation of the UVM 1800.2 standard.')
+        },
+        {
+          icon: '02',
+          title: 'Open Source',
+          body: h.paragraph('Fully open-source under the Apache 2.0 license.')
+        },
+        {
+          icon: '03',
+          title: 'Python OOP Leverage',
+          body: h.paragraph('Uses Python’s object-oriented features to implement the UVM class hierarchy.')
+        },
+        {
+          icon: '04',
+          title: 'Built on cocotb',
+          body: h.paragraph('Works on top of cocotb for RTL signal interaction.')
+        },
+        {
+          icon: '05',
+          title: 'Lower Complexity',
+          body: h.paragraph('Removes much of the SystemVerilog complexity.')
+        },
+        {
+          icon: '06',
+          title: 'Best Use Cases',
+          body: [
+            h.paragraph('Especially useful for:'),
+            h.list(['education', 'research', 'prototyping', 'open-source verification flows'], { classes: 'bullet-list mt-sm' })
+          ].join('')
+        }
+      ]
     }),
     t.comparisonRowsSlide({
-      index: 9, tag: 'Comparison', title: 'Advantages of <span class="tone-blue">PyUVM</span> <span class="serif">over Traditional UVM</span>',
+      index: 9, tag: 'Comparison', title: 'Advantages of <span class="tone-blue">PyUVM</span> over Traditional UVM',
       rows: [[{ label: 'SV', text: 'More boilerplate and heavier syntax.' }, { label: 'PY', text: 'Cleaner Python code with less ceremony.', positive: true }], [{ label: 'SV', text: 'Commonly tied to licensed tools and vendor flows.' }, { label: 'PY', text: 'Fits open-source simulators and standard Python tooling.', positive: true }], [{ label: 'SV', text: 'Harder for software engineers and students to learn quickly.' }, { label: 'PY', text: 'Python lowers the learning curve for many teams.', positive: true }], [{ label: 'SV', text: 'Integrating data science or automation libraries is less natural.' }, { label: 'PY', text: 'Easy access to pytest, pandas, NumPy, CI, and scripting.', positive: true }]],
       cards: [h.card({ cardTone: 'blue', body: [h.wrap('h4', 'Faster to write', 'tone-blue'), h.paragraph('Sequences and tests look like normal Python classes and coroutines.')] }), h.card({ cardTone: 'cyan', body: [h.wrap('h4', 'Faster to teach', 'tone-cyan'), h.paragraph('Students can focus on methodology before getting stuck in language details.')] }), h.card({ cardTone: 'green', body: [h.wrap('h4', 'Faster to automate', 'tone-green'), h.paragraph('Python testbenches fit naturally into scripts, CI pipelines, and package management.')] })]
     }),
@@ -306,12 +357,12 @@
       code: ['bfm = ConfigDB().get(self, "", "BFM")', 'item = await self.seq_item_port.get_next_item()', 'await bfm.send_op(item.a, item.b, item.op)', 'self.seq_item_port.item_done()']
     }),
     t.toolGridSlide({
-      index: 17, tag: 'Tools', title: 'Open-Source RTL <span class="serif tone-violet">Simulation Tools</span>',
+      index: 17, tag: 'Tools', title: 'Open-Source RTL <span class="tone-violet">Simulation Tools</span>',
       tools: [{ title: 'Icarus Verilog', tone: 'tone-blue', subtitle: 'Great for small Verilog/SystemVerilog teaching projects', items: ['Easy to install and widely used in examples', 'Works well with cocotb', 'Used by default in this repository\'s runner flow'] }, { title: 'Verilator', tone: 'tone-cyan', subtitle: 'Fast compiled simulation for many Verilog designs', items: ['Often preferred when simulation speed matters', 'Strong fit for CI pipelines and large regressions', 'Works with cocotb for supported flows'] }, { title: 'GHDL', tone: 'tone-violet', subtitle: 'Open-source simulator for VHDL users', items: ['Useful when the DUT or environment is VHDL-centric', 'Lets the same Python methodology reach VHDL designs', 'Pairs well with cocotb in mixed toolchains'] }],
       bottomCards: [h.card({ body: [h.wrap('h4', 'Waveform viewer', 'tone-green'), h.paragraph('<strong>GTKWave</strong> is not a simulator, but it completes the debug loop by viewing VCD/FST waveform traces.')] }), h.card({ body: [h.wrap('h4', 'Practical advice', 'tone-amber'), h.paragraph('Pick the simulator based on HDL language support, speed needs, and the maturity of your specific DUT flow.')] })]
     }),
     t.stackWorkflowSlide({
-      index: 18, tag: 'Full Stack', title: 'The Complete <span class="tone-green">Open-Source</span> <span class="serif">Verification Stack</span>',
+      index: 18, tag: 'Full Stack', title: 'The Complete <span class="tone-green">Open-Source</span> Verification Stack',
       layers: [{ title: 'PyUVM', label: 'verification architecture, tests, sequences, scoreboards' }, { title: 'cocotb', label: 'Python simulator bridge and coroutine scheduling' }, { title: 'Open-source simulator', label: 'Icarus Verilog, Verilator, or GHDL' }, { title: 'RTL', label: 'Verilog or VHDL design under test' }, { title: 'GTKWave + CI', label: 'debug waveforms and automate regressions' }],
       rightTitle: 'Typical workflow',
       bullets: ['Write or import the RTL.', 'Create PyUVM components and sequences in Python.', 'Use cocotb to drive and sample the DUT.', 'Run on an open-source simulator.', 'Inspect failures in logs and waveforms.', 'Automate regressions with scripts or CI.'],
@@ -319,7 +370,7 @@
       codeOptions: { lang: 'bash' }
     }),
     t.codePairSlide({
-      index: 19, tag: 'Example', title: 'PyUVM <span class="serif tone-green">Code Example</span>',
+      index: 19, tag: 'Example', title: 'PyUVM <span class="tone-green">Code Example</span>',
       leftTitle: 'Sequence item and sequence',
       leftCode: ['class AluSeqItem(uvm_sequence_item):', '    OPS = {"add": 0, "sub": 1, "mul": 2, "div": 3}', '', '    def __init__(self, name="alu_seq_item", a=0, b=0, op=0):', '        super().__init__(name)', '        self.a = a', '        self.b = b', '        self.op = op', '        self.result = 0', '        self.div_by_zero = 0', '', 'class AddSequence(BaseAluSequence):', '    OP_NAME = "add"'],
       rightTitle: 'Environment and test',
@@ -340,7 +391,7 @@
     t.resourcesSlide({
       index: 22,
       tag: 'Q&amp;A',
-      title: 'Thank <span class="serif tone-cyan">You</span>',
+      title: 'Thank <span class="tone-cyan">You</span>',
       subtitle: 'Questions and Discussion',
       resourcesTitle: 'Resources',
       resources: [{ label: 'Repo', value: 'PyUVM_Example' }, { label: 'PyUVM', value: 'pyuvm.github.io/pyuvm' }, { label: 'cocotb', value: 'docs.cocotb.org' }, { label: 'Run', value: 'python run.py' }, { label: 'Single test', value: 'python run.py --test AluAddTest' }]

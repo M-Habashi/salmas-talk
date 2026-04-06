@@ -385,7 +385,7 @@
   align-items: flex-start;
 }
 
-.stacking-stage:has(.stacking-card.is-active) {
+.stacking-stage:has(.stacking-card:is(.is-active, .is-preview)) {
   position: fixed;
   inset: 0;
   z-index: 9999;
@@ -396,7 +396,7 @@
   pointer-events: none;
 }
 
-.stacking-stage:has(.stacking-card.is-active)::before {
+.stacking-stage:has(.stacking-card:is(.is-active, .is-preview))::before {
   content: '';
   position: absolute;
   inset: 0;
@@ -430,7 +430,7 @@
   user-select: none;
 }
 
-.stacking-card.is-active {
+.stacking-card:is(.is-active, .is-preview) {
   position: relative;
   width: min(720px, calc(100vw - 3rem));
   max-width: 100%;
@@ -461,7 +461,7 @@
   pointer-events: auto;
 }
 
-.stacking-card.is-active:hover {
+.stacking-card:is(.is-active, .is-preview):hover {
   border-color: rgba(175, 218, 255, 0.38);
   box-shadow:
     0 0 0 1px rgba(160, 220, 255, 0.14),
@@ -638,6 +638,10 @@
 }
 
 .stacking-slide--two-column .stacking-card.is-active {
+  width: min(840px, calc(100vw - 3rem));
+}
+
+.stacking-slide--two-column .stacking-card.is-preview {
   width: min(840px, calc(100vw - 3rem));
 }
 

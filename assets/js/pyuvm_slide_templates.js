@@ -107,7 +107,6 @@
   function standardSlide(config) {
     const titleTag = config.titleTag || 'h2';
     return wrap('div', [
-      wrap('div', config.tag, 'slide-tag anim-up'),
       wrap(titleTag, config.title, 'anim-up d1'),
       config.intro || '',
       config.content
@@ -210,7 +209,6 @@
     },
     resourcesSlide(config) {
       return wrap('div', [
-        wrap('div', config.tag, 'slide-tag anim-up slide-tag--center'),
         wrap('h1', config.title, 'anim-up d1 thanks-title'),
         paragraph(config.subtitle, 'subtitle subtitle--center anim-up d2'),
         wrap('div', [heading('h3', config.resourcesTitle, 'resources-heading'), resources(config.resources)].join(''), 'anim-up d3 resource-panel')
