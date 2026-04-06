@@ -53,7 +53,7 @@ body {
   opacity: 0;
   visibility: hidden;
   transform: translateY(20px);
-  transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1), transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), visibility 0s 0.5s;
+  transition: opacity 0.85s cubic-bezier(0.22, 1, 0.36, 1), transform 0.85s cubic-bezier(0.22, 1, 0.36, 1), visibility 0s 0.85s;
   overflow-y: auto;
   overflow-x: hidden;
 }
@@ -62,7 +62,7 @@ body {
   opacity: 1;
   visibility: visible;
   transform: translateY(0);
-  transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1), transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), visibility 0s 0s;
+  transition: opacity 0.85s cubic-bezier(0.22, 1, 0.36, 1), transform 0.85s cubic-bezier(0.22, 1, 0.36, 1), visibility 0s 0s;
 }
 
 .slide::before {
@@ -122,7 +122,7 @@ body.edit-mode .movable-figure.selected-block {
 
 .click-reveal-item.revealed {
   visibility: visible;
-  animation: revealFromRight 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: revealFromRight 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 @keyframes revealFromRight {

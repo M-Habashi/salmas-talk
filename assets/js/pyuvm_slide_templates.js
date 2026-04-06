@@ -133,6 +133,13 @@
     agendaSlide(config) {
       return standardSlide({ index: config.index, tag: config.tag, title: config.title, content: list(config.items, { ordered: true, classes: 'toc-list anim-up d2' }) });
     },
+    lectureBulletSlide(config) {
+      return wrap('div', [
+        wrap('h2', config.title, 'anim-up d1 lecture-title'),
+        config.lead ? heading('h3', config.lead, 'anim-up d2 lecture-lead') : '',
+        list(config.bullets, { classes: 'lecture-bullets anim-up d3' })
+      ].join(''), 'slide lecture-slide', `data-slide="${config.index}"`);
+    },
     infoSplitSlide(config) {
       return standardSlide({
         index: config.index, tag: config.tag, title: config.title,

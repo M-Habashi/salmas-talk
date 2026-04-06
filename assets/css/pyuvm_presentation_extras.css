@@ -207,22 +207,22 @@
   font-size: 0.52rem;
 }
 
-.slide.active .anim-up { animation: animUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) both; }
-.slide.active .anim-up.d1 { animation-delay: 0.1s; }
-.slide.active .anim-up.d2 { animation-delay: 0.2s; }
-.slide.active .anim-up.d3 { animation-delay: 0.3s; }
-.slide.active .anim-up.d4 { animation-delay: 0.4s; }
-.slide.active .anim-up.d5 { animation-delay: 0.5s; }
-.slide.active .anim-up.d6 { animation-delay: 0.6s; }
-.slide.active .anim-up.d7 { animation-delay: 0.7s; }
-.slide.active .anim-up.d8 { animation-delay: 0.8s; }
+.slide.active .anim-up { animation: animUp 1s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.slide.active .anim-up.d1 { animation-delay: 0.16s; }
+.slide.active .anim-up.d2 { animation-delay: 0.32s; }
+.slide.active .anim-up.d3 { animation-delay: 0.48s; }
+.slide.active .anim-up.d4 { animation-delay: 0.64s; }
+.slide.active .anim-up.d5 { animation-delay: 0.8s; }
+.slide.active .anim-up.d6 { animation-delay: 0.96s; }
+.slide.active .anim-up.d7 { animation-delay: 1.12s; }
+.slide.active .anim-up.d8 { animation-delay: 1.28s; }
 
 @keyframes animUp {
   from { opacity: 0; transform: translateY(15px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-.slide.active .anim-fade { animation: animFade 0.7s ease both; }
+.slide.active .anim-fade { animation: animFade 1.05s ease both; }
 .slide.active .anim-fade.d1 { animation-delay: 0.15s; }
 .slide.active .anim-fade.d2 { animation-delay: 0.3s; }
 .slide.active .anim-fade.d3 { animation-delay: 0.45s; }
@@ -266,6 +266,65 @@
   line-height: 1.55;
   margin-bottom: 0.75rem;
   break-inside: avoid;
+}
+
+.lecture-slide {
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 4.2rem 5.8rem;
+}
+
+.lecture-slide::before {
+  background: radial-gradient(ellipse 80% 60% at 20% 80%, rgba(99, 140, 255, 0.04) 0%, transparent 70%), radial-gradient(ellipse 60% 50% at 80% 20%, rgba(64, 232, 208, 0.03) 0%, transparent 70%);
+}
+
+.lecture-slide h2,
+.lecture-slide h3,
+.lecture-slide p,
+.lecture-slide li,
+.lecture-slide strong {
+  color: inherit;
+}
+
+.lecture-title {
+  margin-top: 0.45rem;
+  margin-bottom: 3rem;
+  font-size: 3rem;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  color: var(--text-primary);
+}
+
+.lecture-lead {
+  margin-bottom: 1.45rem;
+  font-size: 1.55rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.lecture-bullets {
+  max-width: 1080px;
+  gap: 0.75rem;
+}
+
+.lecture-bullets li {
+  font-size: 1.18rem;
+  line-height: 1.52;
+  color: var(--text-secondary);
+  padding-left: 2.15rem;
+}
+
+.lecture-bullets li::before {
+  width: 9px;
+  height: 9px;
+  top: 0.56em;
+  background: var(--accent-cyan);
+  opacity: 0.9;
+}
+
+.lecture-bullets li strong {
+  color: var(--text-primary);
+  font-weight: 700;
 }
 
 @media (max-width: 700px) {

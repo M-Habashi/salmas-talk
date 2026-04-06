@@ -11,9 +11,22 @@
   <div class="progress-bar" id="progressBar"></div>
   <div class="slide-counter"><span class="current" id="currentSlide">01</span><span> / </span><span id="totalSlides">00</span></div>
   <div class="nav-hint"><kbd>&larr;</kbd><kbd>&rarr;</kbd><span>navigate</span></div>
+  <div class="style-toolbar is-hidden" id="styleToolbar">
+    <select class="style-select" id="stylePreset" aria-label="Font style">
+      <option value="body">Body</option>
+      <option value="display">Display</option>
+      <option value="serif">Serif</option>
+      <option value="mono">Mono</option>
+    </select>
+    <button type="button" class="style-btn" id="styleBold" aria-label="Bold">B</button>
+    <button type="button" class="style-btn style-btn--italic" id="styleItalic" aria-label="Italic">I</button>
+    <button type="button" class="style-btn style-btn--underline" id="styleUnderline" aria-label="Underline">U</button>
+    <div class="style-swatches" id="styleSwatches"></div>
+  </div>
   <script src="assets/js/pyuvm_slide_templates.js"></script>
   <script src="assets/js/layout_options_data.js"></script>
   <script src="assets/js/pyuvm_presentation_data.js"></script>
+  <script src="assets/js/pyuvm_style_toolbar.js"></script>
   <script src="assets/js/pyuvm_presentation.js"></script>
 </body>
 </html>

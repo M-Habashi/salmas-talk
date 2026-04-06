@@ -45,12 +45,17 @@
       title: 'Table of <span class="tone-cyan">Contents</span>',
       items: ['What is UVM?', 'Advantages of UVM in Verification', 'The Problem with Traditional UVM', 'What is PyUVM?', 'Advantages of PyUVM over Traditional UVM', 'The Structure of PyUVM', 'What Are Phases? With Example', 'What is TLM and How to Use It', 'Types of TLM with Figure and Code', 'What is Factory', 'PyUVM Testbench Architecture', 'What is cocotb?', 'How PyUVM Uses cocotb', 'Open-Source Simulation Tools', 'The Complete Open-Source Verification Stack', 'PyUVM Code Example', 'How to Extend This Example', 'Summary']
     }),
-    t.infoSplitSlide({
+    t.lectureBulletSlide({
       index: 3,
-      tag: 'Foundations',
       title: 'What is <span class="tone-blue">UVM</span>?',
-      bullets: ['<strong>UVM</strong> stands for Universal Verification Methodology.', 'It is the standard class-based methodology used to verify RTL designs.', 'Traditional UVM is built on top of <strong>SystemVerilog</strong>.', 'It promotes reusable components such as <strong>sequence items, sequences, drivers, monitors, agents, environments, and scoreboards</strong>.', 'The main idea is to verify at the <strong>transaction level</strong> instead of writing every test at the signal level.', 'That structure helps teams scale from a tiny ALU to a large SoC verification environment.'],
-      aside: [h.heading('h3', 'Simple Example', 'anim-up d3'), h.card({ body: [h.wrap('h4', 'ALU transaction instead of raw pin toggling', 'tone-blue'), h.paragraph('Instead of writing separate signal assignments everywhere, UVM lets us describe a transaction like:'), h.paragraph('{ a: 7, b: 2, op: add }', 'mono-callout'), h.paragraph('The driver translates that transaction into DUT pin activity. The monitor turns DUT activity back into a transaction for checking.', 'mt-sm')] })]
+      lead: 'UVM = Universal Verification Methodology',
+      bullets: [
+        'A standardized verification methodology for hardware design verification',
+        'Built on top of <strong>SystemVerilog</strong>',
+        'Used to create <strong>structured, reusable, and scalable</strong> testbenches based on object-oriented programming concepts',
+        'It also includes a set of <strong>guidelines</strong> and <strong>best practices</strong> for developing testbenches, as well as a methodology for running simulations and analyzing results.',
+        'Widely adopted by the semiconductor industry'
+      ]
     }),
     t.revealCardGridSlide({
       index: 4,

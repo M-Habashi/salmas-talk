@@ -100,6 +100,7 @@ function hideLastRevealedItem() {
 
 function goToSlide(index) {
   if (index < 0 || index >= totalSlides) return;
+  clearSelection();
   slides[currentSlide].classList.remove('active');
   currentSlide = index;
   slides[currentSlide].classList.add('active');
@@ -139,6 +140,9 @@ function setBlockPosition(element, x, y) {
   element.dataset.translateX = String(x);
   element.dataset.translateY = String(y);
   element.style.transform = `translate(${x}px, ${y}px)`;
+  if (selectedElement === element) {
+    document.dispatchEvent(new CustomEvent('pyuvm-selection-change', { detail: { element: selectedElement, isEditMode } }));
+  }
 }
 
 function isEditingText() {
@@ -157,6 +161,7 @@ function clearSelection() {
     selectedElement.classList.remove('selected-block');
     selectedElement = null;
   }
+  document.dispatchEvent(new CustomEvent('pyuvm-selection-change', { detail: { element: null, isEditMode } }));
 }
 
 function setEditMode(enabled) {
@@ -170,6 +175,7 @@ function setEditMode(enabled) {
   makeSlidesEditable();
   makeBlocksMovable();
   document.body.classList.toggle('edit-mode', isEditMode);
+  document.dispatchEvent(new CustomEvent('pyuvm-edit-mode-change', { detail: { isEditMode } }));
 }
 
 function selectElement(element) {
@@ -185,6 +191,7 @@ function selectElement(element) {
 
   selectedElement = element;
   selectedElement.classList.add('selected-block');
+  document.dispatchEvent(new CustomEvent('pyuvm-selection-change', { detail: { element: selectedElement, isEditMode } }));
 }
 
 function buildSnapshot() {
@@ -252,6 +259,7 @@ function serializeDocument() {
   clone.querySelectorAll('.selected-block, .dragging').forEach((element) => {
     element.classList.remove('selected-block', 'dragging');
   });
+  clone.querySelector('#styleToolbar')?.classList.add('is-hidden');
 
   return '<!DOCTYPE html>\n' + clone.outerHTML;
 }
@@ -450,7 +458,7 @@ document.addEventListener('touchend', (event) => {
 
 document.addEventListener('click', (event) => {
   if (isEditingText()) return;
-  if (event.target.closest('.nav-hint, .slide-counter')) return;
+  if (event.target.closest('.nav-hint, .slide-counter, .style-toolbar')) return;
   if (suppressClickReveal) {
     suppressClickReveal = false;
     return;
@@ -479,6 +487,12 @@ document.addEventListener('focusin', (event) => {
     selectElement(block);
   }
 });
+
+window.PYUVM_EDITOR = {
+  getSelectedElement: () => selectedElement,
+  isEditMode: () => isEditMode,
+  scheduleHistoryRecord
+};
 
 renderPresentationFromData();
 applyEditorEnhancements();
