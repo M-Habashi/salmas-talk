@@ -305,6 +305,7 @@ function setupFigureDragging() {
 
   document.addEventListener('pointerdown', (event) => {
     if (event.button !== 0) return;
+    if (event.target.closest('.style-toolbar')) return;
 
     const block = event.target.closest('.movable-figure');
     if (!isEditMode) {
@@ -457,6 +458,11 @@ document.addEventListener('touchend', (event) => {
 });
 
 document.addEventListener('click', (event) => {
+  const block = event.target.closest('.movable-figure');
+  if (isEditMode && block && !event.target.closest('.style-toolbar')) {
+    selectElement(block);
+  }
+
   if (isEditingText()) return;
   if (event.target.closest('.nav-hint, .slide-counter, .style-toolbar')) return;
   if (suppressClickReveal) {

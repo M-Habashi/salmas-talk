@@ -18,10 +18,24 @@
       <option value="serif">Serif</option>
       <option value="mono">Mono</option>
     </select>
+    <select class="style-select style-select--size" id="styleSize" aria-label="Font size">
+      <option value="14">14</option>
+      <option value="16">16</option>
+      <option value="18">18</option>
+      <option value="20">20</option>
+      <option value="24">24</option>
+    </select>
     <button type="button" class="style-btn" id="styleBold" aria-label="Bold">B</button>
     <button type="button" class="style-btn style-btn--italic" id="styleItalic" aria-label="Italic">I</button>
     <button type="button" class="style-btn style-btn--underline" id="styleUnderline" aria-label="Underline">U</button>
-    <div class="style-swatches" id="styleSwatches"></div>
+    <button type="button" class="style-btn style-btn--color" id="styleColorToggle" aria-label="Colors"><span class="style-color-chip"></span></button>
+    <div class="style-swatches is-hidden" id="styleSwatches"></div>
+    <button type="button" class="style-btn style-btn--align" id="styleAlignToggle" aria-label="Alignment">≡</button>
+    <div class="style-alignments is-hidden" id="styleAlignments">
+      <button type="button" class="style-align-btn" data-align="left" aria-label="Align left">≡</button>
+      <button type="button" class="style-align-btn" data-align="center" aria-label="Align center">≣</button>
+      <button type="button" class="style-align-btn" data-align="right" aria-label="Align right">☰</button>
+    </div>
   </div>
   <script src="assets/js/pyuvm_slide_templates.js"></script>
   <script src="assets/js/layout_options_data.js"></script>

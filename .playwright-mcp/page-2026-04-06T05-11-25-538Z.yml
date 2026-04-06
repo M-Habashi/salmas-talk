@@ -1,0 +1,44 @@
+- generic [ref=e1]:
+  - generic [ref=e3]:
+    - heading "PyUVM UVM Methodology in Python" [level=1] [ref=e4]:
+      - text: PyUVM
+      - text: UVM Methodology
+      - text: in Python
+    - paragraph [ref=e5]: "By: Salma Sultan"
+    - generic [ref=e6]:
+      - generic [ref=e7]: pyuvm
+      - generic [ref=e8]: cocotb
+      - generic [ref=e9]: Icarus Verilog
+      - generic [ref=e10]: Verilator
+      - generic [ref=e11]: GHDL
+      - generic [ref=e12]: GTKWave
+  - generic [ref=e14]: 01 / 21
+  - generic [ref=e15]:
+    - generic [ref=e16]: ←
+    - generic [ref=e17]: →
+    - generic [ref=e18]: navigate
+  - generic [ref=e19]:
+    - combobox "Font style" [ref=e20]:
+      - option "Body"
+      - option "Display" [selected]
+      - option "Serif"
+      - option "Mono"
+    - combobox "Font size" [ref=e21]:
+      - option "Small"
+      - option "Medium" [selected]
+      - option "Large"
+      - option "XL"
+    - button "Bold" [ref=e22] [cursor=pointer]: B
+    - button "Italic" [ref=e23] [cursor=pointer]: I
+    - button "Underline" [ref=e24] [cursor=pointer]: U
+    - button "Colors" [active] [ref=e25] [cursor=pointer]
+    - generic [ref=e28]:
+      - button "primary" [ref=e29] [cursor=pointer]
+      - button "secondary" [ref=e30] [cursor=pointer]
+      - button "blue" [ref=e31] [cursor=pointer]
+      - button "cyan" [ref=e32] [cursor=pointer]
+      - button "violet" [ref=e33] [cursor=pointer]
+      - button "amber" [ref=e34] [cursor=pointer]
+      - button "rose" [ref=e35] [cursor=pointer]
+      - button "green" [ref=e36] [cursor=pointer]
+    - button "Alignment" [ref=e27] [cursor=pointer]: ≡

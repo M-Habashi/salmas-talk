@@ -1,0 +1,39 @@
+- generic [ref=e1]:
+  - generic [ref=e3]:
+    - heading "PyUVM UVM Methodology in Python" [level=1] [ref=e4]:
+      - text: PyUVM
+      - text: UVM Methodology
+      - text: in Python
+    - paragraph [ref=e5]: "By: Salma Sultan"
+    - generic [ref=e6]:
+      - generic [ref=e7]: pyuvm
+      - generic [ref=e8]: cocotb
+      - generic [ref=e9]: Icarus Verilog
+      - generic [ref=e10]: Verilator
+      - generic [ref=e11]: GHDL
+      - generic [ref=e12]: GTKWave
+  - generic [ref=e14]: 01 / 21
+  - generic [ref=e15]:
+    - generic [ref=e16]: ←
+    - generic [ref=e17]: →
+    - generic [ref=e18]: navigate
+  - generic [ref=e19]:
+    - combobox "Font style" [ref=e20]:
+      - option "Body"
+      - option "Display" [selected]
+      - option "Serif"
+      - option "Mono"
+    - combobox "Font size" [ref=e21]:
+      - option "Small"
+      - option "Medium" [selected]
+      - option "Large"
+      - option "XL"
+    - button "Bold" [ref=e22] [cursor=pointer]: B
+    - button "Italic" [ref=e23] [cursor=pointer]: I
+    - button "Underline" [ref=e24] [cursor=pointer]: U
+    - button "Colors" [ref=e25] [cursor=pointer]
+    - button "Alignment" [active] [ref=e27] [cursor=pointer]: ≡
+    - generic [ref=e37]:
+      - button "Align left" [ref=e38] [cursor=pointer]: ≡
+      - button "Align center" [ref=e39] [cursor=pointer]: ≣
+      - button "Align right" [ref=e40] [cursor=pointer]: ☰
