@@ -249,7 +249,7 @@
     '<div class="phases-diagram-reveal click-reveal-item click-reveal-item--collapse">',
     '  <svg viewBox="0 0 1260 580" xmlns="http://www.w3.org/2000/svg" aria-label="UVM phases diagram" role="img">',
     '    <defs>',
-    '      <marker id="phases-diagram-arrow-end" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="6" markerHeight="6" orient="auto-start-reverse" overflow="visible">',
+    '      <marker id="phases-diagram-arrow-end" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="4.5" markerHeight="4.5" orient="auto-start-reverse" overflow="visible">',
     '        <path d="M 0 2 L 12 6 L 0 10 L 3 6 z" fill="#ffffff" />',
     '      </marker>',
     '    </defs>',

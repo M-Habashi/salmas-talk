@@ -1796,6 +1796,7 @@
 
 .phases-diagram-slide h2 {
   margin-bottom: 0.8rem;
+  font-size: 2rem;
 }
 
 .phases-diagram-reveal {
@@ -1934,7 +1935,7 @@
 
 .phases-diagram-reveal .anim-block {
   opacity: 0;
-  animation: phases-diagram-fade-up 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  animation: phases-diagram-fade-up 1.35s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
   animation-play-state: paused;
 }
 
