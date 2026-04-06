@@ -10,6 +10,7 @@ let suppressClickReveal = false;
 let stackingCardsAnimating = false;
 let stackingCardAnimations = [];
 let stackingCardsAnimationToken = 0;
+let stackingCardsTransitionState = null;
 let isOverviewMode = false;
 let overviewRoot = null;
 let overviewGrid = null;
@@ -110,6 +111,7 @@ function stopStackingCardsAnimations() {
   stackingCardAnimations.forEach((animation) => animation.cancel());
   stackingCardAnimations = [];
   stackingCardsAnimating = false;
+  stackingCardsTransitionState = null;
 }
 
 function canAnimateStackingCards() {
@@ -186,6 +188,50 @@ function finishStackingCardsAnimation(token) {
   if (token !== stackingCardsAnimationToken) return;
   stackingCardAnimations = [];
   stackingCardsAnimating = false;
+  stackingCardsTransitionState = null;
+}
+
+function setStackingCardsStableState(slide, activeIndex) {
+  const regions = getStackingCardsRegions(slide);
+  if (!regions) return;
+
+  const cards = getStackingCards(slide);
+  const hasActiveCard = typeof activeIndex === 'number' && activeIndex >= 0;
+  regions.container.classList.toggle('all-stacked', !hasActiveCard);
+
+  cards.forEach((card, index) => {
+    card.classList.remove('is-active', 'is-stacked');
+    card.style.transform = '';
+    card.style.opacity = '';
+    card.style.visibility = '';
+
+    if (hasActiveCard && index === activeIndex) {
+      card.classList.add('is-active');
+      regions.stage.appendChild(card);
+      return;
+    }
+
+    if (!hasActiveCard || index < activeIndex) {
+      card.classList.add('is-stacked');
+      regions.stackArea.appendChild(card);
+      return;
+    }
+
+    regions.stage.appendChild(card);
+  });
+}
+
+function finishOngoingStackingCardsTransition() {
+  if (!stackingCardsAnimating || !stackingCardsTransitionState) return false;
+
+  const slide = getStackingCardsSlide();
+  const activeIndex = stackingCardsTransitionState.direction === 'forward'
+    ? stackingCardsTransitionState.nextActiveIndex
+    : stackingCardsTransitionState.activeIndex;
+
+  stopStackingCardsAnimations();
+  setStackingCardsStableState(slide, activeIndex);
+  return true;
 }
 
 function resetStackingCards(slide) {
@@ -193,23 +239,12 @@ function resetStackingCards(slide) {
   if (!regions) return;
 
   stopStackingCardsAnimations();
-  const cards = getStackingCards(slide);
-  regions.container.classList.remove('all-stacked');
-
-  cards.forEach((card, index) => {
-    card.classList.remove('is-active', 'is-stacked');
-    regions.stage.appendChild(card);
-
-    if (index === 0) {
-      card.classList.add('is-active');
-    }
-  });
+  setStackingCardsStableState(slide, 0);
 }
 
 function advanceStackingCards() {
   const slide = getStackingCardsSlide();
   if (!slide) return false;
-  if (stackingCardsAnimating) return true;
 
   const regions = getStackingCardsRegions(slide);
   const cards = getStackingCards(slide);
@@ -217,10 +252,15 @@ function advanceStackingCards() {
   if (!activeCard) return false;
 
   const nextCard = cards.find((card) => Number(card.dataset.cardIndex) === Number(activeCard.dataset.cardIndex) + 1);
+  const nextActiveIndex = nextCard ? Number(nextCard.dataset.cardIndex) : null;
 
   const token = stackingCardsAnimationToken + 1;
   stackingCardsAnimationToken = token;
   stackingCardsAnimating = true;
+  stackingCardsTransitionState = {
+    direction: 'forward',
+    nextActiveIndex
+  };
 
   (async () => {
     const shrinkAnimation = animateStackingCardsLayoutChange(activeCard, () => {
@@ -272,7 +312,6 @@ function advanceStackingCards() {
 function rewindStackingCards() {
   const slide = getStackingCardsSlide();
   if (!slide) return false;
-  if (stackingCardsAnimating) return true;
 
   const regions = getStackingCardsRegions(slide);
   const cards = getStackingCards(slide);
@@ -287,6 +326,10 @@ function rewindStackingCards() {
   const token = stackingCardsAnimationToken + 1;
   stackingCardsAnimationToken = token;
   stackingCardsAnimating = true;
+  stackingCardsTransitionState = {
+    direction: 'backward',
+    activeIndex: Number(lastStackedCard.dataset.cardIndex)
+  };
 
   (async () => {
     if (activeCard) {
@@ -798,6 +841,10 @@ function setupFigureDragging() {
 }
 
 function handleForwardStep() {
+  if (finishOngoingStackingCardsTransition()) {
+    return handleForwardStep();
+  }
+
   if (advanceStackingCards()) {
     return true;
   }
@@ -811,6 +858,10 @@ function handleForwardStep() {
 }
 
 function handleBackwardStep() {
+  if (finishOngoingStackingCardsTransition()) {
+    return handleBackwardStep();
+  }
+
   if (rewindStackingCards()) {
     return true;
   }

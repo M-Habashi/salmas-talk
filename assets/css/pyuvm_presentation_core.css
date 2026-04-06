@@ -16,6 +16,9 @@
   --accent-amber: #f59e0b;
   --accent-rose: #f472b6;
   --accent-green: #34d399;
+  --scrollbar-track: rgba(6, 8, 15, 0.96);
+  --scrollbar-thumb: #19d7c8;
+  --scrollbar-thumb-hover: #38eadc;
   --glow-blue: rgba(99, 140, 255, 0.15);
   --glow-cyan: rgba(64, 232, 208, 0.12);
   --code-bg: #0a0e1a;
@@ -25,6 +28,35 @@
 }
 
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+}
+
+*::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+  border-radius: 999px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border: 3px solid var(--scrollbar-track);
+  border-radius: 999px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover);
+}
+
+*::-webkit-scrollbar-corner {
+  background: var(--scrollbar-track);
+}
 
 html { font-size: 18px; }
 
