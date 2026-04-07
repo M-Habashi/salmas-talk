@@ -33,6 +33,10 @@ const SLIDE_STATE = Object.freeze({
 
 const historyStack = [];
 const maxHistoryEntries = 100;
+const PRESENTATION_BASE_WIDTH = 1920;
+const PRESENTATION_BASE_HEIGHT = 1080;
+
+let presentationScale = 1;
 
 const editableSelectors = [
   '.slide-tag',
@@ -100,6 +104,38 @@ function updateUI() {
   }
 }
 
+function updatePresentationScale() {
+  const stage = document.getElementById('presentationStage');
+  const availableWidth = stage?.clientWidth || window.innerWidth;
+  const availableHeight = stage?.clientHeight || window.innerHeight;
+  const viewportAspectRatio = availableWidth / Math.max(availableHeight, 1);
+  const baseAspectRatio = PRESENTATION_BASE_WIDTH / PRESENTATION_BASE_HEIGHT;
+  const compactLandscape = availableWidth > availableHeight && availableHeight <= 600;
+  const baseWidth = viewportAspectRatio > baseAspectRatio
+    ? Math.round(PRESENTATION_BASE_HEIGHT * viewportAspectRatio)
+    : PRESENTATION_BASE_WIDTH;
+  const scale = Math.min(availableWidth / baseWidth, availableHeight / PRESENTATION_BASE_HEIGHT);
+  const rootStyle = document.documentElement.style;
+
+  presentationScale = Number.isFinite(scale) && scale > 0 ? scale : 1;
+  rootStyle.setProperty('--viewport-font-size', compactLandscape ? '17px' : '18px');
+  rootStyle.setProperty('--presentation-base-width', `${baseWidth}px`);
+  rootStyle.setProperty('--presentation-base-height', `${PRESENTATION_BASE_HEIGHT}px`);
+  rootStyle.setProperty('--presentation-scale', presentationScale.toFixed(6));
+  document.body.classList.toggle('compact-landscape', compactLandscape);
+}
+
+function getPresentationScale() {
+  return presentationScale || 1;
+}
+
+function getPresentationCanvasSize() {
+  return {
+    width: PRESENTATION_BASE_WIDTH,
+    height: PRESENTATION_BASE_HEIGHT
+  };
+}
+
 function updateSlideCounterMetrics() {
   const counter = document.querySelector('.slide-counter');
   if (!counter) return;
@@ -108,7 +144,7 @@ function updateSlideCounterMetrics() {
   const rootStyle = document.documentElement.style;
   const bottom = computed.bottom;
   const right = computed.right;
-  const height = `${counter.getBoundingClientRect().height}px`;
+  const height = `${counter.offsetHeight}px`;
 
   rootStyle.setProperty('--slide-counter-bottom-actual', bottom);
   rootStyle.setProperty('--slide-counter-right-actual', right);
@@ -937,13 +973,14 @@ function createSlideThumbnail(slide, index) {
   finalizeThumbnailSlideState(clone);
 
   viewport.appendChild(clone);
-  clone.style.width = `${window.innerWidth}px`;
-  clone.style.height = `${window.innerHeight}px`;
+  const canvasSize = getPresentationCanvasSize();
+  clone.style.width = `${canvasSize.width}px`;
+  clone.style.height = `${canvasSize.height}px`;
 
   requestAnimationFrame(() => {
     const scale = Math.min(
-      viewport.clientWidth / window.innerWidth,
-      viewport.clientHeight / window.innerHeight
+      viewport.clientWidth / canvasSize.width,
+      viewport.clientHeight / canvasSize.height
     );
     clone.style.transform = `scale(${scale})`;
   });
@@ -1312,8 +1349,9 @@ function setupFigureDragging() {
     handleLaserPointerMove(event);
     if (!dragState) return;
 
-    const deltaX = event.clientX - dragState.startX;
-    const deltaY = event.clientY - dragState.startY;
+    const scale = getPresentationScale();
+    const deltaX = (event.clientX - dragState.startX) / scale;
+    const deltaY = (event.clientY - dragState.startY) / scale;
 
     if (!dragState.hasMoved && Math.abs(deltaX) + Math.abs(deltaY) > 4) {
       dragState.hasMoved = true;
@@ -1562,6 +1600,7 @@ document.addEventListener('focusin', (event) => {
 });
 
 window.addEventListener('resize', () => {
+  updatePresentationScale();
   updateSlideCounterMetrics();
   resizePenLayer();
   syncPenLayer();
@@ -1592,6 +1631,7 @@ window.PYUVM_EDITOR = {
 
 renderPresentationFromData();
 applyEditorEnhancements();
+updatePresentationScale();
 resizePenLayer({ preserveInk: false });
 syncPenLayer();
 setupFigureDragging();

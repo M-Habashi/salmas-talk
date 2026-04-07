@@ -87,8 +87,8 @@
 }
 
 .code-editor-shell {
-  width: min(80vw, 1320px);
-  height: min(80vh, 760px);
+  width: min(80%, 1320px);
+  height: min(80%, 760px);
   align-self: center;
   display: flex;
   flex-direction: column;
@@ -870,33 +870,6 @@
 
 .anim-up, .anim-fade { opacity: 0; }
 
-@media (max-width: 1100px) {
-  .slide { padding: 3rem 3.5rem; }
-  h1 { font-size: 2.8rem; }
-  .title-slide h1 { font-size: 3.2rem; }
-  h2 { font-size: 1.9rem; }
-  .two-col, .two-col-wide { grid-template-columns: 1fr; gap: 1.5rem; }
-  .tlm-type-grid { grid-template-columns: 1fr; }
-  .code-example-slide h2 { font-size: 2rem; }
-  .code-editor-shell {
-    width: min(88vw, 1320px);
-    height: min(78vh, 760px);
-  }
-  .code-line { font-size: 0.88rem; }
-  .components-objects-slide h2 { font-size: 2.2rem; }
-  .components-objects-heading { font-size: 1.65rem; }
-  .components-objects-point .pyuvm-point-text { font-size: 1.16rem; }
-}
-
-@media (max-width: 700px) {
-  .slide { padding: 2rem 1.5rem; }
-  h1 { font-size: 2rem; }
-  .title-slide h1 { font-size: 2.4rem; }
-  h2 { font-size: 1.5rem; }
-  .card-grid { grid-template-columns: 1fr; }
-  .tlm-mini-code { min-height: 0; }
-}
-
 .toc-list {
   margin-top: 0.8rem;
   margin-left: 1.4rem;
@@ -963,14 +936,6 @@
   font-weight: 700;
   color: var(--text-primary);
   letter-spacing: -0.01em;
-}
-
-@media (max-width: 700px) {
-  .outline-grid {
-    grid-template-rows: none;
-    grid-auto-flow: row;
-    gap: 0.6rem;
-  }
 }
 
 /* ── Problem Grid Slide (Slide 6) ── */
@@ -1048,14 +1013,6 @@
   line-height: 1.35;
 }
 
-@media (max-width: 700px) {
-  .problem-grid {
-    grid-template-rows: none;
-    grid-auto-flow: row;
-    gap: 0.5rem;
-  }
-}
-
 .lecture-slide {
   justify-content: flex-start;
   align-items: flex-start;
@@ -1113,13 +1070,6 @@
 .lecture-bullets li strong {
   color: var(--text-primary);
   font-weight: 700;
-}
-
-@media (max-width: 700px) {
-  .toc-list {
-    margin-left: 1.2rem;
-    column-count: 1;
-  }
 }
 
 /* ── Stacking Cards Slide ── */
@@ -1180,7 +1130,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: clamp(1.25rem, 3vw, 2.5rem);
+  padding: 2.5rem;
   pointer-events: none;
 }
 
@@ -1220,9 +1170,9 @@
 
 .stacking-card:is(.is-active, .is-preview) {
   position: relative;
-  width: min(720px, calc(100vw - 3rem));
+  width: min(720px, calc(100% - 3rem));
   max-width: 100%;
-  max-height: min(78vh, 760px);
+  max-height: min(760px, calc(100% - 3rem));
   overflow: auto;
   opacity: 1;
   visibility: visible;
@@ -1426,11 +1376,11 @@
 }
 
 .stacking-slide--two-column .stacking-card.is-active {
-  width: min(840px, calc(100vw - 3rem));
+  width: min(840px, calc(100% - 3rem));
 }
 
 .stacking-slide--two-column .stacking-card.is-preview {
-  width: min(840px, calc(100vw - 3rem));
+  width: min(840px, calc(100% - 3rem));
 }
 
 .stacking-slide--two-column-large .stacking-card.is-stacked {
@@ -1544,8 +1494,8 @@
 }
 
 .stacking-slide--plain-collapsed .stacking-card:is(.is-active, .is-preview) {
-  width: min(980px, calc(100vw - 3rem));
-  max-height: min(82vh, 820px);
+  width: min(980px, calc(100% - 3rem));
+  max-height: min(820px, calc(100% - 3rem));
   padding: 2.8rem 3.4rem;
   border-color: rgba(188, 196, 214, 0.22);
   background:
@@ -1638,26 +1588,6 @@
 }
 
 /* ── Click hint on active card ── */
-
-/* ── Responsive ── */
-
-@media (max-width: 1100px) {
-  .stacking-slide { padding: 2.5rem 3rem; }
-  .stacking-main-title { font-size: 2.2rem; }
-  .stacking-card.is-active { padding: 1.6rem 2rem; }
-  .stacking-card-title { font-size: 1.2rem; }
-  .stacking-card-body p { font-size: 0.95rem; }
-}
-
-@media (max-width: 700px) {
-  .stacking-slide { padding: 1.8rem 1.5rem; }
-  .stacking-main-title { font-size: 1.8rem; }
-  .stacking-card.is-active { padding: 1.2rem 1.4rem; }
-  .stacking-card-title { font-size: 1rem; }
-  .stacking-card-body p { font-size: 0.85rem; }
-  .stacking-stack-area { gap: 0.35rem; }
-  .stacking-slide--two-column .stacking-stack-area { grid-template-columns: 1fr; }
-}
 
 .slides-overview {
   --overview-thumb-width: 360px;
@@ -1836,15 +1766,15 @@
   justify-content: center;
   align-items: flex-start;
   width: 100%;
-  max-height: calc(100vh - 13.5rem);
+  max-height: calc(100% - 13.5rem);
   margin: 1rem auto 0;
   padding: 0.5rem 0 0;
 }
 
 .uvm-architecture-reveal svg {
-  width: min(100%, calc((100vh - 13.5rem) * 1.3953));
+  width: min(100%, calc((100% - 13.5rem) * 1.3953));
   max-width: 100%;
-  max-height: calc(100vh - 13.5rem);
+  max-height: calc(100% - 13.5rem);
   height: auto;
   display: block;
   filter: drop-shadow(0 0 20px rgba(0, 0, 0, 0.5));
@@ -2295,15 +2225,15 @@
   justify-content: center;
   align-items: flex-start;
   width: 100%;
-  max-height: calc(100vh - 11.75rem);
+  max-height: calc(100% - 11.75rem);
   margin: 0.3rem auto 0;
   padding: 0;
 }
 
 .phases-diagram-reveal svg {
-  width: min(100%, calc((100vh - 11.75rem) * 2.17));
+  width: min(100%, calc((100% - 11.75rem) * 2.17));
   max-width: 100%;
-  max-height: calc(100vh - 11.75rem);
+  max-height: calc(100% - 11.75rem);
   height: auto;
   display: block;
   filter: drop-shadow(0 0 20px rgba(0, 0, 0, 0.45));
@@ -2450,12 +2380,12 @@
 }
 
 .phases-table-shell {
-  width: min(86vw, 1320px);
+  width: min(86%, 1320px);
   margin: 0 auto;
 }
 
 .phases-table-container {
-  max-height: calc(100vh - 13rem);
+  max-height: calc(100% - 13rem);
   overflow: auto;
   border: 1px solid rgba(99, 140, 255, 0.22);
   border-bottom: 3px solid var(--accent-blue);
@@ -2793,6 +2723,452 @@
     opacity: 1;
     transform: translateX(0);
   }
+}
+
+body.compact-landscape {
+  --slide-padding-block: clamp(1.1rem, 4vh, 1.55rem);
+  --slide-padding-inline: clamp(1.35rem, 3.5vw, 2.3rem);
+  --slide-counter-bottom: clamp(0.35rem, 1.5vh, 0.65rem);
+  --slide-counter-right: clamp(0.75rem, 2vw, 1.15rem);
+  --slide-counter-font-size: clamp(0.88rem, 2.5vh, 1.08rem);
+  --slide-counter-clearance-buffer: 0.3rem;
+}
+
+body.compact-landscape .slide {
+  padding: var(--slide-padding-block) var(--slide-padding-inline);
+}
+
+body.compact-landscape .slide-tag {
+  margin-bottom: 0.55rem;
+  font-size: 0.58rem;
+  gap: 0.35rem;
+}
+
+body.compact-landscape .slide-tag::before {
+  width: 14px;
+}
+
+body.compact-landscape h1 {
+  font-size: clamp(2.35rem, 5.8vw, 3.05rem);
+  margin-bottom: 0.55rem;
+}
+
+body.compact-landscape h2 {
+  font-size: clamp(1.55rem, 4.2vw, 1.95rem);
+  margin-bottom: 0.75rem;
+}
+
+body.compact-landscape h3 {
+  font-size: 0.88rem;
+  margin-bottom: 0.45rem;
+}
+
+body.compact-landscape .subtitle {
+  font-size: clamp(0.86rem, 2vw, 0.98rem);
+  line-height: 1.45;
+  max-width: min(74ch, 100%);
+}
+
+body.compact-landscape .title-slide h1 {
+  font-size: clamp(2.7rem, 6.9vw, 3.55rem);
+}
+
+body.compact-landscape .title-slide .subtitle {
+  max-width: 62rem;
+}
+
+body.compact-landscape .title-decoration {
+  margin-top: 1rem;
+  gap: 0.65rem;
+}
+
+body.compact-landscape .title-decoration .chip {
+  padding: 0.25rem 0.55rem;
+  font-size: 0.56rem;
+}
+
+body.compact-landscape .stacking-slide {
+  padding: var(--slide-padding-block) var(--slide-padding-inline);
+}
+
+body.compact-landscape .stacking-main-title {
+  font-size: clamp(1.6rem, 4.2vw, 2rem);
+}
+
+body.compact-landscape .stacking-lead {
+  font-size: 0.8rem;
+  margin-bottom: 0.5rem;
+}
+
+body.compact-landscape .stacking-cards-container {
+  gap: 0.85rem;
+}
+
+body.compact-landscape .stacking-card.is-active,
+body.compact-landscape .stacking-card.is-preview {
+  padding: 1rem 1.1rem;
+}
+
+body.compact-landscape .stacking-card-title {
+  font-size: 0.95rem;
+}
+
+body.compact-landscape .stacking-card-body p,
+body.compact-landscape .stacking-card-body li {
+  font-size: 0.76rem;
+  line-height: 1.35;
+}
+
+body.compact-landscape .two-col,
+body.compact-landscape .two-col-wide,
+body.compact-landscape .config-slide .content-section {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 1rem;
+}
+
+body.compact-landscape .two-col-wide {
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+}
+
+body.compact-landscape .bullet-list {
+  gap: 0.45rem;
+}
+
+body.compact-landscape .bullet-list li {
+  padding-left: 1rem;
+  font-size: 0.8rem;
+  line-height: 1.4;
+}
+
+body.compact-landscape .bullet-list li::before {
+  top: 0.5em;
+  width: 5px;
+  height: 5px;
+}
+
+body.compact-landscape .card-grid {
+  gap: 0.75rem;
+  grid-template-columns: repeat(auto-fit, minmax(12.5rem, 1fr));
+}
+
+body.compact-landscape .card {
+  padding: 0.9rem 1rem;
+}
+
+body.compact-landscape .card h4 {
+  font-size: 0.84rem;
+}
+
+body.compact-landscape .card p {
+  font-size: 0.68rem;
+  line-height: 1.4;
+}
+
+body.compact-landscape .outline-grid,
+body.compact-landscape .problem-grid {
+  gap: 0.55rem 1rem;
+  margin-top: 1rem;
+}
+
+body.compact-landscape .outline-item,
+body.compact-landscape .problem-card {
+  border-radius: 0 0.7rem 0.7rem 0;
+}
+
+body.compact-landscape .outline-num,
+body.compact-landscape .problem-num {
+  width: 1.9rem;
+  font-size: 0.72rem;
+}
+
+body.compact-landscape .outline-body,
+body.compact-landscape .problem-content {
+  padding-block: 0.28rem;
+}
+
+body.compact-landscape .outline-body strong,
+body.compact-landscape .problem-content strong {
+  font-size: 0.98rem;
+  line-height: 1.14;
+}
+
+body.compact-landscape .outline-body p,
+body.compact-landscape .problem-desc {
+  font-size: 0.68rem;
+  line-height: 1.24;
+}
+
+body.compact-landscape .problem-grid-slide {
+  padding: var(--slide-padding-block) clamp(1.5rem, 4vw, 2.4rem) calc(var(--slide-padding-block) + 0.1rem);
+}
+
+body.compact-landscape .pyuvm-points-slide .content-section {
+  max-width: none;
+}
+
+body.compact-landscape .pyuvm-points-list {
+  margin-top: 0.75rem;
+}
+
+body.compact-landscape .pyuvm-points-slide:not(.phases-checklist-slide):not(.config-slide) .pyuvm-points-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.55rem 1.1rem;
+  align-content: start;
+}
+
+body.compact-landscape .pyuvm-point {
+  gap: 0.55rem;
+  margin-bottom: 0.45rem;
+}
+
+body.compact-landscape .pyuvm-points-slide:not(.phases-checklist-slide):not(.config-slide) .pyuvm-point {
+  margin-bottom: 0;
+}
+
+body.compact-landscape .pyuvm-point-text,
+body.compact-landscape .pyuvm-points-list li {
+  font-size: clamp(0.94rem, 2.1vw, 1.08rem);
+  line-height: 1.28;
+}
+
+body.compact-landscape .checkbox-wrapper-12 {
+  transform: scale(0.78);
+  transform-origin: top left;
+  margin-top: 0.1rem;
+  margin-right: -0.2rem;
+}
+
+body.compact-landscape .components-objects-slide h2 {
+  font-size: clamp(1.9rem, 5vw, 2.25rem);
+  margin-bottom: 0.75rem;
+}
+
+body.compact-landscape .components-objects-layout {
+  gap: 0.8rem;
+}
+
+body.compact-landscape .components-objects-panel {
+  padding: 0.8rem 0.9rem;
+  border-radius: 0.95rem;
+}
+
+body.compact-landscape .components-objects-heading {
+  margin-bottom: 0.65rem;
+  font-size: 1.22rem;
+}
+
+body.compact-landscape .components-objects-list {
+  gap: 0.5rem;
+}
+
+body.compact-landscape .components-objects-point .pyuvm-point-text {
+  font-size: 0.88rem;
+  line-height: 1.22;
+}
+
+body.compact-landscape .components-objects-point .checkbox-wrapper-12 {
+  transform: scale(0.82);
+}
+
+body.compact-landscape .code-example-slide h2 {
+  font-size: clamp(1.55rem, 4.2vw, 1.85rem);
+  margin-bottom: 0.7rem;
+}
+
+body.compact-landscape .code-editor-shell {
+  width: min(92vw, 72rem);
+  height: min(68vh, 28rem);
+  border-radius: 0.9rem;
+}
+
+body.compact-landscape .code-editor-titlebar {
+  height: 36px;
+  grid-template-columns: 90px minmax(0, 1fr) 60px;
+  gap: 0.55rem;
+  padding: 0 0.7rem;
+}
+
+body.compact-landscape .code-editor-dots .dot {
+  width: 9px;
+  height: 9px;
+}
+
+body.compact-landscape .code-editor-tab {
+  gap: 0.45rem;
+  padding: 0.38rem 0.65rem;
+  font-size: 0.76rem;
+}
+
+body.compact-landscape .code-editor-actions span {
+  width: 8px;
+  height: 8px;
+}
+
+body.compact-landscape .code-editor-workbench {
+  grid-template-columns: 40px minmax(0, 1fr);
+}
+
+body.compact-landscape .code-editor-sidebar {
+  gap: 0.7rem;
+  padding: 0.65rem 0;
+}
+
+body.compact-landscape .code-editor-sidebar span {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+}
+
+body.compact-landscape .code-editor-main {
+  grid-template-rows: 28px minmax(0, 1fr);
+}
+
+body.compact-landscape .code-editor-breadcrumb {
+  padding: 0 0.7rem;
+  font-size: 0.65rem;
+}
+
+body.compact-landscape .code-editor-lines {
+  padding: 0.55rem 0 1rem;
+}
+
+body.compact-landscape .code-line {
+  grid-template-columns: 40px minmax(0, 1fr);
+  font-size: 0.7rem;
+  line-height: 1.45;
+}
+
+body.compact-landscape .code-line .ln {
+  padding-right: 0.55rem;
+}
+
+body.compact-landscape .code-line .lc {
+  padding-right: 0.8rem;
+}
+
+body.compact-landscape .phases-checklist-slide {
+  padding: var(--slide-padding-block) clamp(1.4rem, 4vw, 2.2rem) calc(var(--slide-padding-block) - 0.15rem);
+}
+
+body.compact-landscape .phases-checklist-slide .pyuvm-point {
+  margin-bottom: 0.35rem;
+}
+
+body.compact-landscape .phases-checklist-slide .pyuvm-point-text {
+  font-size: 0.92rem;
+  line-height: 1.22;
+}
+
+body.compact-landscape .phases-checklist-slide .phases-timeline {
+  margin-top: 0.45rem;
+  margin-left: 1.6rem;
+}
+
+body.compact-landscape .phases-timeline {
+  max-width: none;
+}
+
+body.compact-landscape .phases-timeline::before,
+body.compact-landscape .phases-timeline-progress {
+  top: 8px;
+  left: 8px;
+}
+
+body.compact-landscape .phases-timeline-item {
+  margin-bottom: 0.55rem;
+  padding-left: 1.95rem;
+}
+
+body.compact-landscape .phases-timeline-marker {
+  width: 18px;
+  height: 18px;
+  font-size: 0.62rem;
+}
+
+body.compact-landscape .phases-checklist-slide .phases-timeline-content h3 {
+  font-size: 0.74rem;
+}
+
+body.compact-landscape .phases-checklist-slide .phases-timeline-content p {
+  font-size: 0.62rem;
+  line-height: 1.25;
+}
+
+body.compact-landscape .phases-table-shell {
+  width: 100%;
+}
+
+body.compact-landscape .phases-table-container {
+  max-height: calc(100dvh - 7.5rem);
+  border-radius: 1rem;
+}
+
+body.compact-landscape .phases-table th,
+body.compact-landscape .phases-table td {
+  padding: 0.65rem 0.7rem;
+  font-size: 0.72rem;
+  line-height: 1.25;
+}
+
+body.compact-landscape .phases-table .phase-name {
+  padding: 0.2rem 0.45rem;
+  font-size: 0.7rem;
+}
+
+body.compact-landscape .stack-diagram {
+  gap: 0.3rem;
+  max-width: none;
+}
+
+body.compact-landscape .stack-layer {
+  padding: 0.65rem 0.8rem;
+  border-radius: 0.75rem;
+  font-size: 0.66rem;
+}
+
+body.compact-landscape .stack-layer .layer-label {
+  margin-top: 0.1rem;
+  font-size: 0.5rem;
+}
+
+body.compact-landscape .stack-connector {
+  font-size: 0.6rem;
+}
+
+body.compact-landscape .code-block {
+  padding: 0.8rem 0.9rem;
+  border-radius: 0.8rem;
+  font-size: 0.63rem;
+  line-height: 1.45;
+}
+
+body.compact-landscape .config-slide .content-section {
+  gap: 0.85rem;
+  align-items: stretch;
+}
+
+body.compact-landscape .config-slide .section-stack {
+  gap: 0.55rem;
+}
+
+body.compact-landscape .config-slide .config-slide-example {
+  gap: 0.55rem;
+}
+
+body.compact-landscape .config-slide .code-editor-shell--fit-content {
+  height: auto;
+  min-height: 0;
+}
+
+body.compact-landscape .tlm-animation-slide h2,
+body.compact-landscape .sequence-tlm-slide h2 {
+  padding: 1.2rem 1.5rem 0;
+}
+
+body.compact-landscape .thankyou-slide h1,
+body.compact-landscape .thanks-title {
+  font-size: clamp(3rem, 7vw, 3.6rem);
 }
 
 .overview-mode .progress-bar,
