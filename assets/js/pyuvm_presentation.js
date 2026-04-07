@@ -14,6 +14,12 @@ let stackingCardsTransitionState = null;
 let isOverviewMode = false;
 let overviewRoot = null;
 let overviewGrid = null;
+let autoRevealTimer = null;
+
+const SLIDE_STATE = Object.freeze({
+  RESET: 'reset',
+  FINAL: 'final'
+});
 
 const historyStack = [];
 const maxHistoryEntries = 100;
@@ -495,131 +501,20 @@ function advanceStackingCards() {
   return true;
 }
 
-function rewindStackingCards() {
-  const slide = getStackingCardsSlide();
-  if (!slide) return false;
-
-  const regions = getStackingCardsRegions(slide);
-  const cards = getStackingCards(slide);
-  const stackedCards = cards.filter((card) => card.classList.contains('is-stacked'));
-  if (!stackedCards.length) return false;
-
-  const activeCard = cards.find((card) => card.classList.contains('is-active'));
-  const lastStackedCard = stackedCards[stackedCards.length - 1];
-
-  regions.container.classList.remove('all-stacked');
-
-  const token = stackingCardsAnimationToken + 1;
-  stackingCardsAnimationToken = token;
-  stackingCardsAnimating = true;
-  stackingCardsTransitionState = {
-    direction: 'backward',
-    activeIndex: Number(lastStackedCard.dataset.cardIndex)
-  };
-
-  if (usesPlainCollapsedStackingAnimation(slide)) {
-    const tokenForPlain = token;
-
-    (async () => {
-      if (activeCard) {
-        const exitAnimation = playStackingCardsAnimation(
-          activeCard,
-          [
-            { opacity: 1, transform: 'translateY(0) scale(1)', offset: 0 },
-            { opacity: 0, transform: 'translateY(6px) scale(0.99)', offset: 1 }
-          ],
-        {
-          duration: 420,
-          easing: 'cubic-bezier(0.4, 0, 0.2, 1)',
-          fill: 'forwards'
-        }
-        );
-        await waitForStackingCardsAnimation(exitAnimation);
-        if (tokenForPlain !== stackingCardsAnimationToken) return;
-        exitAnimation?.cancel();
-
-        activeCard.classList.remove('is-active');
-        regions.stage.appendChild(activeCard);
-      }
-
-      lastStackedCard.classList.remove('is-stacked');
-      lastStackedCard.classList.add('is-active');
-      regions.stage.appendChild(lastStackedCard);
-
-      const enterAnimation = playStackingCardsAnimation(
-        lastStackedCard,
-        [
-          { opacity: 0, transform: 'translateY(10px) scale(0.99)', offset: 0 },
-          { opacity: 1, transform: 'translateY(0) scale(1)', offset: 1 }
-        ],
-        {
-          duration: 620,
-          easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
-          fill: 'backwards'
-        }
-      );
-      await waitForStackingCardsAnimation(enterAnimation);
-      if (tokenForPlain !== stackingCardsAnimationToken) return;
-      enterAnimation?.cancel();
-      finishStackingCardsAnimation(tokenForPlain);
-    })();
-
-    return true;
-  }
-
-  (async () => {
-    if (activeCard) {
-      const exitAnimation = playStackingCardsAnimation(
-        activeCard,
-        [
-          { transform: 'translateX(0)', opacity: 1, offset: 0 },
-          { transform: 'translateX(96px)', opacity: 0, offset: 1 }
-        ],
-        {
-          duration: 720,
-          easing: 'cubic-bezier(0.4, 0, 0.2, 1)',
-          fill: 'forwards'
-        }
-      );
-      await waitForStackingCardsAnimation(exitAnimation);
-      if (token !== stackingCardsAnimationToken) return;
-      exitAnimation?.cancel();
-
-      activeCard.classList.remove('is-active');
-      regions.stage.appendChild(activeCard);
-    }
-
-    const expandAnimation = animateStackingCardsLayoutChange(lastStackedCard, () => {
-      lastStackedCard.classList.remove('is-stacked');
-      lastStackedCard.classList.add('is-active');
-      regions.stage.appendChild(lastStackedCard);
-    }, {
-      duration: 840,
-      easing: 'cubic-bezier(0.22, 1, 0.36, 1)'
-    });
-    await waitForStackingCardsAnimation(expandAnimation);
-    if (token !== stackingCardsAnimationToken) return;
-    expandAnimation?.cancel();
-    finishStackingCardsAnimation(token);
-  })();
-
-  return true;
-}
-
 function getClickRevealItems(slide = slides[currentSlide]) {
   if (!slide || slide.dataset.clickReveal !== 'true') return [];
   return Array.from(slide.querySelectorAll('.click-reveal-item'));
 }
 
-function resetClickReveal(slide) {
-  getClickRevealItems(slide).forEach((item) => {
-    item.classList.remove('revealed');
-  });
+function stopAutoReveal() {
+  if (!autoRevealTimer) return;
+  clearTimeout(autoRevealTimer);
+  autoRevealTimer = null;
 }
 
-function finalizeClickReveal(slide) {
+function setClickRevealState(slide, revealed) {
   getClickRevealItems(slide).forEach((item) => {
-    item.classList.add('revealed');
+    item.classList.toggle('revealed', revealed);
   });
 }
 
@@ -630,26 +525,48 @@ function revealNextItem() {
   return true;
 }
 
-function hideLastRevealedItem() {
-  const revealedItems = getClickRevealItems().filter((item) => item.classList.contains('revealed'));
-  const lastItem = revealedItems[revealedItems.length - 1];
-  if (!lastItem) return false;
-  lastItem.classList.remove('revealed');
-  return true;
-}
-
-function finalizeSlideState(slide) {
+function setSlideState(slide, state) {
   if (!slide) return;
   stopStackingCardsAnimations();
-  setStackingCardsStableState(slide, null);
-  finalizeClickReveal(slide);
+  stopAutoReveal();
+
+  if (state === SLIDE_STATE.FINAL) {
+    setStackingCardsStableState(slide, null);
+    setClickRevealState(slide, true);
+    return;
+  }
+
+  resetStackingCards(slide);
+  setClickRevealState(slide, false);
+}
+
+function scheduleAutoReveal(slide) {
+  if (!slide || slide.dataset.autoReveal !== 'true' || slide.dataset.clickReveal !== 'true') return;
+
+  const revealStep = () => {
+    if (slides[currentSlide] !== slide) {
+      stopAutoReveal();
+      return;
+    }
+
+    const nextItem = getClickRevealItems(slide).find((item) => !item.classList.contains('revealed'));
+    if (!nextItem) {
+      stopAutoReveal();
+      return;
+    }
+
+    nextItem.classList.add('revealed');
+    autoRevealTimer = setTimeout(revealStep, 320);
+  };
+
+  autoRevealTimer = setTimeout(revealStep, 320);
 }
 
 function goToSlide(index, options = {}) {
   if (index < 0 || index >= totalSlides) return;
   const previousSlide = slides[currentSlide];
   const previousIndex = currentSlide;
-  const targetState = options.state ?? (index < previousIndex ? 'final' : 'reset');
+  const targetState = options.state ?? (index < previousIndex ? SLIDE_STATE.FINAL : SLIDE_STATE.RESET);
 
   stopStackingCardsAnimations();
   clearSelection();
@@ -657,14 +574,10 @@ function goToSlide(index, options = {}) {
   currentSlide = index;
   const targetSlide = slides[currentSlide];
   targetSlide.classList.add('active');
-
-  if (targetState === 'final') {
-    finalizeSlideState(targetSlide);
-  } else {
-    resetStackingCards(targetSlide);
-    resetClickReveal(targetSlide);
+  setSlideState(targetSlide, targetState);
+  if (targetState === SLIDE_STATE.RESET) {
+    scheduleAutoReveal(targetSlide);
   }
-
   updateUI();
 }
 
@@ -736,7 +649,7 @@ function createSlideThumbnail(slide, index) {
 
 function finalizeThumbnailSlideState(slide) {
   stripAnimationClasses(slide);
-  revealAllClickItems(slide);
+  setClickRevealState(slide, true);
   finalizeStackingCardsSlide(slide);
 }
 
@@ -746,12 +659,6 @@ function stripAnimationClasses(root) {
     Array.from(element.classList)
       .filter((className) => /^d\d+$/.test(className))
       .forEach((className) => element.classList.remove(className));
-  });
-}
-
-function revealAllClickItems(root) {
-  root.querySelectorAll('.click-reveal-item').forEach((item) => {
-    item.classList.add('revealed');
   });
 }
 
@@ -1123,7 +1030,7 @@ function handleForwardStep() {
 }
 
 function handleBackwardStep() {
-  goToSlide(currentSlide - 1, { state: 'final' });
+  goToSlide(currentSlide - 1, { state: SLIDE_STATE.FINAL });
   return true;
 }
 
@@ -1297,8 +1204,7 @@ window.PYUVM_EDITOR = {
 renderPresentationFromData();
 applyEditorEnhancements();
 setupFigureDragging();
-resetStackingCards(slides[currentSlide]);
-resetClickReveal(slides[currentSlide]);
+setSlideState(slides[currentSlide], SLIDE_STATE.RESET);
 recordHistory();
 
 

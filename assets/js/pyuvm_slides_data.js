@@ -675,6 +675,7 @@
       tag: 'Classes',
       title: '<span class="components-objects-title-components">Components</span> VS <span class="components-objects-title-objects">Objects</span>:',
       clickReveal: true,
+      attributes: 'data-auto-reveal="true"',
       slideClass: 'components-objects-slide',
       content: componentsVsObjectsContent
     }),

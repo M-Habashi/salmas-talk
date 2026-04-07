@@ -106,11 +106,12 @@
 
   function standardSlide(config) {
     const titleTag = config.titleTag || 'h2';
+    const extraAttributes = config.attributes ? `${config.attributes} ` : '';
     return wrap('div', [
       wrap(titleTag, config.title, 'anim-up d1'),
       config.intro || '',
       config.content
-    ].join(''), cx('slide', config.slideClass), `${config.clickReveal ? 'data-click-reveal="true" ' : ''}data-slide="${config.index}"`);
+    ].join(''), cx('slide', config.slideClass), `${config.clickReveal ? 'data-click-reveal="true" ' : ''}${extraAttributes}data-slide="${config.index}"`);
   }
 
   const helpers = {
