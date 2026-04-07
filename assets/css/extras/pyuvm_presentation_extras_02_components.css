@@ -1,0 +1,453 @@
+.components-objects-slide h2 {
+  margin-bottom: 1.6rem;
+  font-size: 2.85rem;
+}
+
+.components-objects-title-components {
+  color: var(--accent-blue);
+}
+
+.components-objects-title-objects {
+  color: var(--accent-cyan);
+}
+
+.components-objects-layout {
+  align-items: stretch;
+  gap: 2rem;
+}
+
+.components-objects-panel {
+  min-height: 100%;
+  padding: 1.15rem 1.25rem 1.2rem;
+  border: 1px solid rgba(148, 163, 184, 0.42);
+  border-radius: 18px;
+  background: transparent;
+}
+
+.components-objects-heading {
+  margin-bottom: 1rem;
+  font-family: var(--font-display);
+  font-size: 2.05rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--text-primary);
+}
+
+.components-objects-heading--components {
+  color: var(--accent-blue);
+}
+
+.components-objects-heading--objects {
+  color: var(--accent-cyan);
+}
+
+.components-objects-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  margin: 0;
+  padding: 0;
+}
+
+.components-objects-point {
+  margin-bottom: 0;
+}
+
+.components-objects-point .pyuvm-point-text {
+  font-size: 1.42rem;
+  line-height: 1.52;
+}
+
+.components-objects-point .checkbox-wrapper-12 {
+  margin-top: 0.28rem;
+  transform: scale(1.08);
+  transform-origin: top left;
+}
+
+.phases-checklist-slide {
+  padding: 1.8rem 5rem 1.6rem;
+}
+
+.phases-checklist-slide > h2 {
+  margin-bottom: 0.8rem;
+}
+
+.phases-checklist-slide .pyuvm-points-list {
+  margin-top: 0.6rem;
+}
+
+.phases-checklist-slide .pyuvm-point {
+  margin-bottom: 0.55rem;
+  gap: 0.7rem;
+}
+
+.phases-checklist-slide .pyuvm-point-text {
+  font-size: 1.5rem;
+  line-height: 1.4;
+}
+
+.phases-checklist-slide .phases-timeline {
+  margin-top: 0.6rem;
+  margin-left: 2.6rem;
+}
+
+.phases-checklist-slide .phases-timeline-item {
+  margin-bottom: 0.85rem;
+}
+
+.phases-checklist-slide .phases-timeline-content h3 {
+  font-size: 1.05rem;
+  margin-bottom: 0.1rem;
+}
+
+.phases-checklist-slide .phases-timeline-content p {
+  font-size: 0.92rem;
+  line-height: 1.4;
+}
+
+.phases-checklist-slide .pyuvm-point .checkbox-wrapper-12 .cbx-circle {
+  border-color: rgba(244, 114, 182, 0.9);
+}
+
+.phases-checklist-slide .pyuvm-point.revealed .checkbox-wrapper-12 .cbx-circle {
+  animation-name: pyuvm-check-circle-rose;
+}
+
+.phases-checklist-slide .pyuvm-point.revealed .checkbox-wrapper-12 .cbx-burst {
+  animation-name: pyuvm-check-splash-rose;
+}
+
+.phases-timeline {
+  position: relative;
+  max-width: 680px;
+  width: 100%;
+  margin-top: 0.9rem;
+  margin-left: 3.1rem;
+  padding-left: 0;
+}
+
+.phases-timeline::before {
+  content: '';
+  position: absolute;
+  top: 12px;
+  bottom: 12px;
+  left: 11px;
+  width: 2px;
+  background: rgba(255, 255, 255, 0.12);
+  z-index: 1;
+}
+
+.phases-timeline-progress {
+  position: absolute;
+  top: 12px;
+  left: 11px;
+  width: 2px;
+  height: 0;
+  background: var(--accent-rose);
+  z-index: 2;
+}
+
+.phases-timeline-item {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 1.25rem;
+  padding-left: 2.6rem;
+}
+
+.phases-timeline-item:last-child {
+  margin-bottom: 0;
+}
+
+.phases-timeline-marker {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--accent-rose);
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: 0.82rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
+  opacity: 0;
+  transform: scale(0);
+}
+
+.phases-timeline-content {
+  padding-top: 0;
+  opacity: 0;
+  transform: translateX(-14px);
+}
+
+.phases-timeline-content h3 {
+  margin: 0 0 0.15rem 0;
+  color: var(--text-primary);
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.phases-timeline-content p {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+.phases-timeline.revealed .phases-timeline-progress {
+  animation: phases-timeline-grow 2.2s ease forwards;
+}
+
+.phases-timeline.revealed .phases-timeline-item:nth-child(2) .phases-timeline-marker,
+.phases-timeline.revealed .phases-timeline-item:nth-child(2) .phases-timeline-content {
+  animation-delay: 0.2s;
+}
+
+.phases-timeline.revealed .phases-timeline-item:nth-child(3) .phases-timeline-marker,
+.phases-timeline.revealed .phases-timeline-item:nth-child(3) .phases-timeline-content {
+  animation-delay: 0.95s;
+}
+
+.phases-timeline.revealed .phases-timeline-item:nth-child(4) .phases-timeline-marker,
+.phases-timeline.revealed .phases-timeline-item:nth-child(4) .phases-timeline-content {
+  animation-delay: 1.7s;
+}
+
+.phases-timeline.revealed .phases-timeline-marker {
+  animation: phases-timeline-bounce-in 0.8s ease-out forwards;
+}
+
+.phases-timeline.revealed .phases-timeline-content {
+  animation: phases-timeline-content-in 0.5s ease-out forwards;
+}
+
+.components-objects-panel--components .checkbox-wrapper-12 .cbx-circle {
+  border-color: rgba(99, 140, 255, 0.88);
+}
+
+.components-objects-panel--components .pyuvm-point.revealed .checkbox-wrapper-12 .cbx-circle {
+  animation-name: pyuvm-check-circle;
+}
+
+.components-objects-panel--components .pyuvm-point.revealed .checkbox-wrapper-12 .cbx-burst {
+  animation-name: pyuvm-check-splash;
+}
+
+.components-objects-panel--objects .checkbox-wrapper-12 .cbx-circle {
+  border-color: rgba(64, 232, 208, 0.9);
+}
+
+.components-objects-panel--objects .pyuvm-point.revealed .checkbox-wrapper-12 .cbx-circle {
+  animation-name: pyuvm-check-circle-cyan;
+}
+
+.components-objects-panel--objects .pyuvm-point.revealed .checkbox-wrapper-12 .cbx-burst {
+  animation-name: pyuvm-check-splash-cyan;
+}
+
+.compare-item {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.6rem 1rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.compare-item .check {
+  color: var(--accent-green);
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.compare-item .cross {
+  color: var(--accent-rose);
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.compare-item.positive { border-color: rgba(52, 211, 153, 0.3); }
+
+.tlm-intro {
+  max-width: 980px;
+  margin-bottom: 1.2rem;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.tlm-type-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  align-items: start;
+}
+
+.tlm-type-card {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  padding: 1rem;
+  border-radius: 16px;
+  border: 1px solid rgba(99, 140, 255, 0.14);
+  background: linear-gradient(180deg, rgba(99, 140, 255, 0.08), rgba(12, 16, 33, 0.96)), var(--bg-card);
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.18);
+}
+
+.tone-chip {
+  display: inline-flex;
+  align-self: flex-start;
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+  border: 1px solid;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.tone-chip--violet { color: var(--accent-violet); border-color: rgba(167, 139, 250, 0.28); background: rgba(167, 139, 250, 0.08); }
+.tone-chip--cyan { color: var(--accent-cyan); border-color: rgba(64, 232, 208, 0.28); background: rgba(64, 232, 208, 0.08); }
+.tone-chip--green { color: var(--accent-green); border-color: rgba(52, 211, 153, 0.28); background: rgba(52, 211, 153, 0.08); }
+
+.tlm-type-chip {
+  display: inline-flex;
+  align-self: flex-start;
+  padding: 0.25rem 0.55rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.tlm-type-card h3 {
+  font-size: 1rem;
+  line-height: 1.25;
+}
+
+.tlm-type-copy {
+  color: var(--text-secondary);
+  font-size: 0.76rem;
+  line-height: 1.55;
+}
+
+.tlm-mini-figure {
+  min-height: 84px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+  padding: 0.8rem 0.7rem;
+  border-radius: 14px;
+  border: 1px solid rgba(99, 140, 255, 0.1);
+  background: rgba(6, 8, 15, 0.48);
+}
+
+.tlm-mini-figure .diagram-box {
+  padding: 0.45rem 0.7rem;
+  font-size: 0.62rem;
+}
+
+.tlm-mini-figure .diagram-arrow { font-size: 0.95rem; }
+.tlm-broadcast-figure { gap: 0.4rem 0.55rem; }
+.tlm-broadcast-figure .diagram-box:last-child { margin-left: 0.2rem; }
+
+.tlm-mini-code {
+  margin-top: auto;
+  padding: 0.95rem 1rem;
+  font-size: 0.61rem;
+  line-height: 1.5;
+  min-height: 175px;
+}
+
+.tlm-mini-code .lang-tag {
+  top: 0.45rem;
+  right: 0.65rem;
+  font-size: 0.52rem;
+}
+
+.slide.active .anim-up { animation: animUp 1s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.slide.active .anim-up.d1 { animation-delay: 0.16s; }
+.slide.active .anim-up.d2 { animation-delay: 0.32s; }
+.slide.active .anim-up.d3 { animation-delay: 0.48s; }
+.slide.active .anim-up.d4 { animation-delay: 0.64s; }
+.slide.active .anim-up.d5 { animation-delay: 0.8s; }
+.slide.active .anim-up.d6 { animation-delay: 0.96s; }
+.slide.active .anim-up.d7 { animation-delay: 1.12s; }
+.slide.active .anim-up.d8 { animation-delay: 1.28s; }
+
+@keyframes animUp {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.slide.active .anim-fade { animation: animFade 1.05s ease both; }
+.slide.active .anim-fade.d1 { animation-delay: 0.15s; }
+.slide.active .anim-fade.d2 { animation-delay: 0.3s; }
+.slide.active .anim-fade.d3 { animation-delay: 0.45s; }
+.slide.active .anim-fade.d4 { animation-delay: 0.6s; }
+
+@keyframes animFade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.anim-up, .anim-fade { opacity: 0; }
+
+@media (max-width: 1100px) {
+  .slide { padding: 3rem 3.5rem; }
+  h1 { font-size: 2.8rem; }
+  .title-slide h1 { font-size: 3.2rem; }
+  h2 { font-size: 1.9rem; }
+  .two-col, .two-col-wide { grid-template-columns: 1fr; gap: 1.5rem; }
+  .tlm-type-grid { grid-template-columns: 1fr; }
+  .code-example-slide h2 { font-size: 2rem; }
+  .code-editor-shell {
+    width: min(88vw, 1320px);
+    height: min(78vh, 760px);
+  }
+  .code-line { font-size: 0.88rem; }
+  .components-objects-slide h2 { font-size: 2.2rem; }
+  .components-objects-heading { font-size: 1.65rem; }
+  .components-objects-point .pyuvm-point-text { font-size: 1.16rem; }
+}
+
+@media (max-width: 700px) {
+  .slide { padding: 2rem 1.5rem; }
+  h1 { font-size: 2rem; }
+  .title-slide h1 { font-size: 2.4rem; }
+  h2 { font-size: 1.5rem; }
+  .card-grid { grid-template-columns: 1fr; }
+  .tlm-mini-code { min-height: 0; }
+}
+
+.toc-list {
+  margin-top: 0.8rem;
+  margin-left: 1.4rem;
+  column-count: 2;
+  column-gap: 2.2rem;
+}
+
+.toc-list li {
+  font-size: 1rem;
+  color: var(--text-primary);
+  line-height: 1.55;
+  margin-bottom: 0.75rem;
+  break-inside: avoid;
+}
+

@@ -1,0 +1,248 @@
+.phases-diagram-slide {
+  justify-content: flex-start;
+}
+
+.phases-diagram-slide h2 {
+  margin-bottom: 0.8rem;
+  font-size: 2rem;
+}
+
+.phases-diagram-reveal {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+  max-height: calc(100vh - 11.75rem);
+  margin: 0.3rem auto 0;
+  padding: 0;
+}
+
+.phases-diagram-reveal svg {
+  width: min(100%, calc((100vh - 11.75rem) * 2.17));
+  max-width: 100%;
+  max-height: calc(100vh - 11.75rem);
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 0 20px rgba(0, 0, 0, 0.45));
+  transform: scale(1.18);
+  transform-origin: center center;
+}
+
+.phases-diagram-reveal .txt-box-dark,
+.phases-diagram-reveal .txt-box-light,
+.phases-diagram-reveal .txt-small,
+.phases-diagram-reveal .txt-title {
+  fill: #ffffff;
+  font-weight: 400;
+  text-anchor: middle;
+}
+
+.phases-diagram-reveal .txt-box-dark,
+.phases-diagram-reveal .txt-box-light {
+  font-size: 21px;
+}
+
+.phases-diagram-reveal .txt-small {
+  font-size: 18px;
+}
+
+.phases-diagram-reveal .box-grey-1 {
+  fill: #23252d;
+  stroke: #666d78;
+  stroke-width: 2;
+}
+
+.phases-diagram-reveal .box-grey-2 {
+  fill: #2e313b;
+  stroke: #7a808b;
+  stroke-width: 2;
+}
+
+.phases-diagram-reveal .box-grey-3 {
+  fill: #3c404d;
+  stroke: #9096a1;
+  stroke-width: 2;
+}
+
+.phases-diagram-reveal .box-grey-4 {
+  fill: #505663;
+  stroke: #aeb5bf;
+  stroke-width: 2;
+}
+
+.phases-diagram-reveal .box-run {
+  fill: #6a303d;
+  stroke: #d7849a;
+  stroke-width: 2;
+}
+
+.phases-diagram-reveal .box-purple {
+  fill: #46355d;
+  stroke: #bca0dd;
+  stroke-width: 2;
+}
+
+.phases-diagram-reveal .box-green-1 {
+  fill: #324534;
+  stroke: #8ebc95;
+  stroke-width: 2;
+}
+
+.phases-diagram-reveal .box-green-2 {
+  fill: #3a5538;
+  stroke: #9ccc8e;
+  stroke-width: 2;
+}
+
+.phases-diagram-reveal .box-green-3 {
+  fill: #45603a;
+  stroke: #add18a;
+  stroke-width: 2;
+}
+
+.phases-diagram-reveal .box-green-4 {
+  fill: #50723b;
+  stroke: #b7db93;
+  stroke-width: 2;
+}
+
+.phases-diagram-reveal marker#phases-diagram-arrow-end path {
+  fill: #fff !important;
+  stroke: none !important;
+}
+
+.phases-diagram-reveal .line-solid {
+  stroke: #ffffff;
+  stroke-width: 3;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+@keyframes phases-diagram-fade-up {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes phases-diagram-fade-in {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.phases-diagram-reveal .anim-block {
+  opacity: 0;
+  animation: phases-diagram-fade-up 1.35s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  animation-play-state: paused;
+}
+
+.phases-diagram-reveal .anim-line {
+  opacity: 0;
+  animation: phases-diagram-fade-in 0.8s ease-in forwards;
+  animation-play-state: paused;
+}
+
+.phases-diagram-reveal.revealed .anim-block,
+.phases-diagram-reveal.revealed .anim-line {
+  animation-play-state: running;
+}
+
+.phases-table-slide {
+  justify-content: flex-start;
+}
+
+.phases-table-slide h2 {
+  margin-bottom: 1rem;
+}
+
+.phases-table-shell {
+  width: min(86vw, 1320px);
+  margin: 0 auto;
+}
+
+.phases-table-container {
+  max-height: calc(100vh - 13rem);
+  overflow: auto;
+  border: 1px solid rgba(99, 140, 255, 0.22);
+  border-bottom: 3px solid var(--accent-blue);
+  border-radius: 18px;
+  background:
+    linear-gradient(180deg, rgba(14, 20, 39, 0.96), rgba(10, 14, 28, 0.96)),
+    rgba(10, 14, 28, 0.96);
+  box-shadow:
+    0 18px 50px rgba(0, 0, 0, 0.34),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  scrollbar-color: rgba(99, 140, 255, 0.9) rgba(99, 140, 255, 0.16);
+}
+
+.phases-table-container::-webkit-scrollbar-track {
+  background: rgba(99, 140, 255, 0.16);
+}
+
+.phases-table-container::-webkit-scrollbar-thumb {
+  background: rgba(99, 140, 255, 0.9);
+  border: 3px solid rgba(99, 140, 255, 0.16);
+}
+
+.phases-table-container::-webkit-scrollbar-thumb:hover {
+  background: rgba(125, 164, 255, 0.98);
+}
+
+.phases-table-container::-webkit-scrollbar-corner {
+  background: rgba(99, 140, 255, 0.16);
+}
+
+.phases-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+}
+
+.phases-table thead {
+  color: #fff;
+}
+
+.phases-table th {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  padding: 1rem 1.1rem;
+  background: linear-gradient(180deg, #638cff, #4d78e4);
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  text-align: center;
+  vertical-align: middle;
+}
+
+.phases-table td {
+  padding: 1rem 1.1rem;
+  color: var(--text-primary);
+  font-size: 0.96rem;
+  line-height: 1.5;
+  border: 1px solid rgba(99, 140, 255, 0.12);
+  vertical-align: middle;
+  text-align: center;
+  background: rgba(12, 16, 33, 0.78);
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.phases-table tbody tr:hover td {
+  background: rgba(99, 140, 255, 0.1);
+  color: #eff4ff;
+}
+
+.phases-table .phase-name {

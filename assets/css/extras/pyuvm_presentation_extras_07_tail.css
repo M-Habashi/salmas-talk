@@ -1,0 +1,299 @@
+  display: inline-block;
+  padding: 0.28rem 0.6rem;
+  border-radius: 999px;
+  background: rgba(99, 140, 255, 0.14);
+  border: 1px solid rgba(99, 140, 255, 0.24);
+  color: var(--accent-blue);
+  font-family: var(--font-mono);
+  font-size: 0.88rem;
+  white-space: nowrap;
+}
+
+.pyuvm-points-slide {
+  justify-content: flex-start;
+}
+
+.pyuvm-points-slide .content-section {
+  max-width: 1200px;
+}
+
+.pyuvm-points-list {
+  margin-top: 1.5rem;
+  list-style: none;
+  padding: 0;
+}
+
+.pyuvm-points-list li {
+  font-size: 1.6rem;
+  line-height: 1.5;
+  color: var(--text-primary);
+}
+
+.pyuvm-point {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.pyuvm-point.click-reveal-item {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(36px);
+}
+
+.pyuvm-point.click-reveal-item.revealed {
+  visibility: visible;
+  animation: revealFromRight 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.pyuvm-point-text {
+  flex: 1;
+  font-size: 1.6rem;
+  line-height: 1.5;
+}
+
+.cocotb-checklist-slide .checkbox-wrapper-12 .cbx-circle {
+  border-color: rgba(64, 232, 208, 0.9);
+}
+
+.cocotb-checklist-slide .pyuvm-point.revealed .checkbox-wrapper-12 .cbx-circle {
+  animation-name: pyuvm-check-circle-cyan;
+}
+
+.cocotb-checklist-slide .pyuvm-point.revealed .checkbox-wrapper-12 .cbx-burst {
+  animation-name: pyuvm-check-splash-cyan;
+}
+
+.checkbox-wrapper-12 {
+  position: relative;
+  flex: 0 0 24px;
+  width: 24px;
+  height: 24px;
+  margin-top: 0.18rem;
+}
+
+.checkbox-wrapper-12 * {
+  box-sizing: border-box;
+}
+
+.checkbox-wrapper-12 .cbx {
+  position: relative;
+  width: 24px;
+  height: 24px;
+  display: block;
+}
+
+.checkbox-wrapper-12 .cbx-circle {
+  position: absolute;
+  inset: 0;
+  border: 2px solid rgba(99, 140, 255, 0.8);
+  border-radius: 50%;
+  background: transparent;
+}
+
+.checkbox-wrapper-12 .cbx-burst {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+}
+
+.checkbox-wrapper-12 .cbx svg {
+  position: absolute;
+  top: 5px;
+  left: 4px;
+  width: 15px;
+  height: 12px;
+  z-index: 1;
+}
+
+.checkbox-wrapper-12 .cbx svg path {
+  stroke: #fff;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 19;
+  stroke-dashoffset: 19;
+}
+
+.pyuvm-point.revealed .checkbox-wrapper-12 .cbx-circle {
+  animation: pyuvm-check-circle 0.6s ease forwards;
+}
+
+.pyuvm-point.revealed .checkbox-wrapper-12 .cbx-burst {
+  animation: pyuvm-check-splash 0.6s ease forwards;
+}
+
+.pyuvm-point.revealed .checkbox-wrapper-12 .cbx svg path {
+  animation: pyuvm-check-path 0.3s ease 0.2s forwards;
+}
+
+@keyframes pyuvm-check-path {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes pyuvm-check-circle {
+  0% {
+    background: transparent;
+    border-color: rgba(99, 140, 255, 0.8);
+  }
+
+  40%,
+  100% {
+    background: var(--accent-blue);
+    border-color: var(--accent-blue);
+  }
+}
+
+@keyframes pyuvm-check-splash {
+  40% {
+    box-shadow:
+      0 -18px 0 -8px var(--accent-blue),
+      16px -8px 0 -8px var(--accent-blue),
+      16px 8px 0 -8px var(--accent-blue),
+      0 18px 0 -8px var(--accent-blue),
+      -16px 8px 0 -8px var(--accent-blue),
+      -16px -8px 0 -8px var(--accent-blue);
+  }
+
+  100% {
+    box-shadow:
+      0 -36px 0 -10px transparent,
+      32px -16px 0 -10px transparent,
+      32px 16px 0 -10px transparent,
+      0 36px 0 -10px transparent,
+      -32px 16px 0 -10px transparent,
+      -32px -16px 0 -10px transparent;
+  }
+}
+
+@keyframes pyuvm-check-circle-cyan {
+  0% {
+    background: transparent;
+    border-color: rgba(64, 232, 208, 0.9);
+  }
+
+  40%,
+  100% {
+    background: var(--accent-cyan);
+    border-color: var(--accent-cyan);
+  }
+}
+
+@keyframes pyuvm-check-splash-cyan {
+  40% {
+    box-shadow:
+      0 -18px 0 -8px var(--accent-cyan),
+      16px -8px 0 -8px var(--accent-cyan),
+      16px 8px 0 -8px var(--accent-cyan),
+      0 18px 0 -8px var(--accent-cyan),
+      -16px 8px 0 -8px var(--accent-cyan),
+      -16px -8px 0 -8px var(--accent-cyan);
+  }
+
+  100% {
+    box-shadow:
+      0 -36px 0 -10px transparent,
+      32px -16px 0 -10px transparent,
+      32px 16px 0 -10px transparent,
+      0 36px 0 -10px transparent,
+      -32px 16px 0 -10px transparent,
+      -32px -16px 0 -10px transparent;
+  }
+}
+
+@keyframes pyuvm-check-circle-rose {
+  0% {
+    background: transparent;
+    border-color: rgba(244, 114, 182, 0.9);
+  }
+
+  40%,
+  100% {
+    background: var(--accent-rose);
+    border-color: var(--accent-rose);
+  }
+}
+
+@keyframes pyuvm-check-splash-rose {
+  40% {
+    box-shadow:
+      0 -18px 0 -8px var(--accent-rose),
+      16px -8px 0 -8px var(--accent-rose),
+      16px 8px 0 -8px var(--accent-rose),
+      0 18px 0 -8px var(--accent-rose),
+      -16px 8px 0 -8px var(--accent-rose),
+      -16px -8px 0 -8px var(--accent-rose);
+  }
+
+  100% {
+    box-shadow:
+      0 -36px 0 -10px transparent,
+      32px -16px 0 -10px transparent,
+      32px 16px 0 -10px transparent,
+      0 36px 0 -10px transparent,
+      -32px 16px 0 -10px transparent,
+      -32px -16px 0 -10px transparent;
+  }
+}
+
+@keyframes phases-timeline-grow {
+  from { height: 0; }
+  to { height: calc(100% - 24px); }
+}
+
+@keyframes phases-timeline-bounce-in {
+  0% { opacity: 0; transform: scale(0); }
+  40% { opacity: 1; transform: scale(1.3); }
+  60% { transform: scale(0.85); }
+  80% { transform: scale(1.05); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes phases-timeline-content-in {
+  from {
+    opacity: 0;
+    transform: translateX(-14px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.overview-mode .progress-bar,
+.overview-mode .slide-counter,
+.overview-mode .laser-pointer,
+.overview-mode .pen-layer,
+.overview-mode .style-toolbar,
+.overview-mode .presentation {
+  transition: opacity 0.25s ease, filter 0.25s ease;
+}
+
+.overview-mode .presentation {
+  opacity: 0.08;
+  filter: blur(14px) saturate(0.8);
+  pointer-events: none;
+}
+
+.overview-mode .progress-bar,
+.overview-mode .slide-counter,
+.overview-mode .laser-pointer,
+.overview-mode .pen-layer,
+.overview-mode .style-toolbar {
+  opacity: 0.18;
+}
+
+@media (max-width: 900px) {
+  .slides-overview {
+    --overview-thumb-width: min(82vw, 360px);
+    padding: 1.2rem;
+  }
+
+  .slides-overview__grid {
+    grid-template-columns: repeat(auto-fill, minmax(var(--overview-thumb-width), var(--overview-thumb-width)));
+  }
+}
