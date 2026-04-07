@@ -1927,6 +1927,113 @@
   animation: tlmFadeIn 0.8s ease-in forwards;
 }
 
+.sequence-tlm-slide {
+  justify-content: flex-start;
+  padding: 0;
+  overflow: hidden;
+}
+
+.sequence-tlm-slide h2 {
+  flex: 0 0 auto;
+  margin: 0;
+  padding: 2rem 3rem 0;
+}
+
+.sequence-tlm-reveal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1 1 auto;
+  width: 100%;
+  height: calc(100% - 5.5rem - var(--slide-counter-bottom-actual) - var(--slide-counter-height-actual) - var(--slide-counter-clearance-buffer));
+  max-height: none;
+  margin: 0;
+  padding: 0 0 calc(var(--slide-counter-bottom-actual) + var(--slide-counter-height-actual) + var(--slide-counter-clearance-buffer));
+}
+
+.sequence-tlm-reveal svg {
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  display: block;
+  filter: drop-shadow(0 0 20px rgba(0, 0, 0, 0.5));
+}
+
+.sequence-tlm-reveal .txt-box-dark {
+  fill: #fff;
+  font-weight: 400;
+  font-size: 20px;
+  text-anchor: middle;
+  letter-spacing: 0.5px;
+}
+
+.sequence-tlm-reveal .txt-msg {
+  font-weight: 400;
+  font-size: 16px;
+  text-anchor: middle;
+}
+
+.sequence-tlm-reveal .txt-msg--blue {
+  fill: #64b5f6;
+}
+
+.sequence-tlm-reveal .txt-msg--green {
+  fill: #aed581;
+}
+
+.sequence-tlm-reveal .txt-msg--yellow {
+  fill: #ffd54f;
+}
+
+.sequence-tlm-reveal .txt-note-blue {
+  fill: #64b5f6;
+  font-weight: 400;
+  font-size: 14px;
+  text-anchor: start;
+}
+
+.sequence-tlm-reveal .txt-note-green {
+  fill: #aed581;
+  font-weight: 400;
+  font-size: 14px;
+  text-anchor: start;
+}
+
+.sequence-tlm-reveal .box-blue {
+  fill: #18334f;
+  stroke: #64b5f6;
+  stroke-width: 2;
+}
+
+.sequence-tlm-reveal .box-grey {
+  fill: #2a2a35;
+  stroke: #9e9e9e;
+  stroke-width: 2;
+}
+
+.sequence-tlm-reveal .box-green {
+  fill: #335031;
+  stroke: #aed581;
+  stroke-width: 2;
+}
+
+.sequence-tlm-reveal .lifeline {
+  stroke: #555;
+  stroke-width: 2;
+  stroke-dasharray: 12 6;
+}
+
+.sequence-tlm-reveal .anim-block {
+  opacity: 0;
+  animation: tlmFadeUp 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+.sequence-tlm-reveal .anim-line {
+  opacity: 0;
+  animation: tlmFadeIn 0.9s ease-in forwards;
+}
+
 .phases-diagram-slide {
   justify-content: flex-start;
 }

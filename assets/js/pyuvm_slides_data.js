@@ -42,7 +42,7 @@
     '      <rect x="5" y="5" width="1190" height="850" class="crop-mark" />',
     '      <path d="M 5 40 L 5 5 L 40 5 M 1160 5 L 1195 5 L 1195 40 M 5 820 L 5 855 L 40 855 M 1160 855 L 1195 855 L 1195 820" class="crop-edge" />',
     '    </g>',
-    '    <g class="anim-block" style="animation-delay: 0.2s;">',
+    '    <g class="anim-block" style="animation-delay: 0.3s;">',
     '      <rect x="20" y="20" width="1160" height="810" class="neon-border-grey" />',
     '      <text x="600" y="45" class="txt-title txt-title--grey">Test bench</text>',
     '    </g>',
@@ -50,7 +50,7 @@
     '      <rect x="40" y="60" width="1120" height="580" class="neon-border-blue" />',
     '      <text x="600" y="85" class="txt-title txt-title--blue">Test</text>',
     '    </g>',
-    '    <g class="anim-block" style="animation-delay: 0.4s;">',
+    '    <g class="anim-block" style="animation-delay: 0.8s;">',
     '      <rect x="60" y="160" width="1080" height="460" class="neon-border-purple" />',
     '      <text x="600" y="185" class="txt-title txt-title--purple">Verification Environment</text>',
     '    </g>',
@@ -64,7 +64,7 @@
     '      <rect x="810" y="208" width="50" height="25" class="box-white" />',
     '      <text x="835" y="226" class="txt-small">CFG</text>',
     '    </g>',
-    '    <g class="anim-block" style="animation-delay: 0.6s;">',
+    '    <g class="anim-block" style="animation-delay: 1.3s;">',
     '      <rect x="100" y="100" width="140" height="40" class="box-yellow" />',
     '      <text x="170" y="126" class="txt-box">Sequence</text>',
     '      <rect x="960" y="100" width="140" height="40" class="box-yellow" />',
@@ -400,6 +400,69 @@
     '</div>'
   ].join('');
 
+  const sequenceTlmDiagram = [
+    '<div class="sequence-tlm-reveal">',
+    '  <svg viewBox="80 40 1040 790" xmlns="http://www.w3.org/2000/svg" aria-label="UVM sequence TLM diagram" role="img">',
+    '    <defs>',
+    '      <marker id="seq-tlm-arrow-green" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="6" markerHeight="6" orient="auto-start-reverse" overflow="visible">',
+    '        <path d="M 0 2 L 12 6 L 0 10 L 3 6 z" fill="#aed581" />',
+    '      </marker>',
+    '      <marker id="seq-tlm-arrow-blue" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="6" markerHeight="6" orient="auto-start-reverse" overflow="visible">',
+    '        <path d="M 0 2 L 12 6 L 0 10 L 3 6 z" fill="#64b5f6" />',
+    '      </marker>',
+    '      <marker id="seq-tlm-arrow-yellow" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="6" markerHeight="6" orient="auto-start-reverse" overflow="visible">',
+    '        <path d="M 0 2 L 12 6 L 0 10 L 3 6 z" fill="#ffd54f" />',
+    '      </marker>',
+    '    </defs>',
+    '    <g class="anim-block" style="animation-delay: 0.2s;">',
+    '      <line x1="200" y1="110" x2="200" y2="820" class="lifeline" />',
+    '      <rect x="100" y="50" width="200" height="60" class="box-blue" rx="10" />',
+    '      <text x="200" y="88" class="txt-box-dark">Sequence</text>',
+    '    </g>',
+    '    <g class="anim-block" style="animation-delay: 0.4s;">',
+    '      <line x1="600" y1="110" x2="600" y2="820" class="lifeline" />',
+    '      <rect x="500" y="50" width="200" height="60" class="box-grey" rx="10" />',
+    '      <text x="600" y="88" class="txt-box-dark">Sequencer</text>',
+    '    </g>',
+    '    <g class="anim-block" style="animation-delay: 0.6s;">',
+    '      <line x1="1000" y1="110" x2="1000" y2="820" class="lifeline" />',
+    '      <rect x="900" y="50" width="200" height="60" class="box-green" rx="10" />',
+    '      <text x="1000" y="88" class="txt-box-dark">Driver</text>',
+    '    </g>',
+    '    <g class="anim-line" style="animation-delay: 2.0s;">',
+    '      <line x1="200" y1="180" x2="600" y2="180" stroke="#64b5f6" stroke-width="3" marker-end="url(#seq-tlm-arrow-blue)" />',
+    '      <text x="400" y="165" class="txt-msg txt-msg--blue">start_item(req)</text>',
+    '      <rect x="250" y="210" width="180" height="60" class="box-blue" rx="8" />',
+    '      <text x="265" y="235" class="txt-note-blue"><tspan x="265" dy="0">Sequence asks for</tspan><tspan x="265" dy="20">sequencer grant</tspan></text>',
+    '    </g>',
+    '    <g class="anim-line" style="animation-delay: 2.9s;">',
+    '      <line x1="200" y1="340" x2="600" y2="340" stroke="#64b5f6" stroke-width="3" marker-end="url(#seq-tlm-arrow-blue)" />',
+    '      <text x="400" y="325" class="txt-msg txt-msg--blue">finish_item(req)</text>',
+    '      <rect x="350" y="370" width="160" height="60" class="box-blue" rx="8" />',
+    '      <text x="365" y="395" class="txt-note-blue"><tspan x="365" dy="0">Request is sent</tspan><tspan x="365" dy="20">to sequencer</tspan></text>',
+    '    </g>',
+    '    <g class="anim-line" style="animation-delay: 3.8s;">',
+    '      <line x1="1000" y1="480" x2="600" y2="480" stroke="#ffd54f" stroke-width="3" marker-end="url(#seq-tlm-arrow-yellow)" />',
+    '      <text x="800" y="465" class="txt-msg txt-msg--yellow">get_next_item(req)</text>',
+    '    </g>',
+    '    <g class="anim-line" style="animation-delay: 4.7s;">',
+    '      <line x1="600" y1="560" x2="1000" y2="560" stroke="#ffd54f" stroke-width="3" stroke-dasharray="8 8" marker-end="url(#seq-tlm-arrow-yellow)" />',
+    '      <text x="800" y="595" class="txt-msg txt-msg--yellow">req delivered</text>',
+    '      <rect x="750" y="615" width="180" height="60" class="box-green" rx="8" />',
+    '      <text x="765" y="640" class="txt-note-green"><tspan x="765" dy="0">Driver drives item</tspan><tspan x="765" dy="20">to DUT</tspan></text>',
+    '    </g>',
+    '    <g class="anim-line" style="animation-delay: 5.6s;">',
+    '      <line x1="1000" y1="720" x2="600" y2="720" stroke="#aed581" stroke-width="3" marker-end="url(#seq-tlm-arrow-green)" />',
+    '      <text x="800" y="705" class="txt-msg txt-msg--green">item_done()</text>',
+    '    </g>',
+    '    <g class="anim-line" style="animation-delay: 6.5s;">',
+    '      <line x1="600" y1="790" x2="200" y2="790" stroke="#aed581" stroke-width="3" stroke-dasharray="8 8" marker-end="url(#seq-tlm-arrow-green)" />',
+    '      <text x="400" y="825" class="txt-msg txt-msg--green">item complete</text>',
+    '    </g>',
+    '  </svg>',
+    '</div>'
+  ].join('');
+
   const componentsVsObjectsContent = [
     '<div class="components-objects-layout two-col anim-up d2">',
     '  <section class="components-objects-panel components-objects-panel--components">',
@@ -688,7 +751,7 @@
       index: 2,
       tag: 'Agenda',
       title: 'Table of <span class="tone-cyan">Contents</span>',
-      items: ['What is UVM?', 'UVM Testbench Architecture', 'UVM Hierarchy', 'The Problem with Traditional UVM', 'What is PyUVM?', 'Advantages of PyUVM over Traditional UVM', 'UVM Testbench Architecture', 'Components VS Objects', 'Code Example', 'Phases', 'Phases Diagram', 'Phases Table', 'Objections Management', 'Objections Management', 'TLM', 'TLM', 'What is TLM and How to Use It', 'Types of TLM with Figure and Code', 'What is Factory', 'What is cocotb?', 'How PyUVM Uses cocotb', 'Open-Source Simulation Tools', 'The Complete Open-Source Verification Stack', 'PyUVM Code Example', 'How to Extend This Example', 'Summary']
+      items: ['What is UVM?', 'UVM Testbench Architecture', 'UVM Hierarchy', 'The Problem with Traditional UVM', 'What is PyUVM?', 'Advantages of PyUVM over Traditional UVM', 'UVM Testbench Architecture', 'Components VS Objects', 'Code Example', 'Phases', 'Phases Diagram', 'Phases Table', 'Objections Management', 'Objections Management', 'TLM', 'TLM', 'Sequence TLM UVM', 'What is TLM and How to Use It', 'Types of TLM with Figure and Code', 'What is Factory', 'What is cocotb?', 'How PyUVM Uses cocotb', 'Open-Source Simulation Tools', 'The Complete Open-Source Verification Stack', 'PyUVM Code Example', 'How to Extend This Example', 'Summary']
     }),
     t.focusCardsSlide({
       index: 3,
@@ -898,8 +961,14 @@
       slideClass: 'tlm-animation-slide',
       content: tlmAnimationDiagram
     }),
+    h.standardSlide({
+      index: 19,
+      title: 'Sequence TLM UVM',
+      slideClass: 'sequence-tlm-slide',
+      content: sequenceTlmDiagram
+    }),
     t.tlmOverviewSlide({
-      index: 19, tag: 'Communication', title: 'What is <span class="tone-rose">TLM</span> and How to Use It',
+      index: 20, tag: 'Communication', title: 'What is <span class="tone-rose">TLM</span> and How to Use It',
       bullets: ['<strong>TLM</strong> means Transaction-Level Modeling.', 'Instead of passing raw signals, components communicate using <strong>transactions</strong>.', 'That makes verification code more reusable and easier to reason about.', 'Common TLM usage includes <strong>sequencer to driver</strong>, <strong>monitor to scoreboard</strong>, and <strong>FIFO-style channels</strong>.', 'In PyUVM, TLM ports and exports are used to connect producers and consumers of transactions.'],
       callout: h.card({ body: [h.wrap('h4', 'In this repo', 'tone-cyan'), h.paragraph('The current code already uses the standard sequence-item handshake between <strong>sequencer</strong> and <strong>driver</strong>. The monitor then forwards completed items to the scoreboard with a direct Python call.')] }),
       codeTitle: 'How to use it',
@@ -907,12 +976,12 @@
       footerCard: h.card({ body: [h.wrap('h4', 'Good mental model', 'tone-green'), h.paragraph('Sequence creates the transaction. Sequencer hands it over. Driver consumes it. Monitor publishes observed transactions. Scoreboard checks them.')] })
     }),
     t.tlmTypesSlide({
-      index: 20, tag: 'Communication Patterns', title: 'Types of <span class="tone-rose">TLM</span> with Figure and Code',
+      index: 21, tag: 'Communication Patterns', title: 'Types of <span class="tone-rose">TLM</span> with Figure and Code',
       intro: 'PyUVM also provides blocking and nonblocking put/get/peek/transport interfaces. These three patterns are the easiest ones to teach first and show up often in real verification code.',
       cards: [{ chip: 'seq_item', tone: 'violet', title: '1. Sequencer to Driver', copy: 'Use a sequence-item handshake when the driver must pull ordered stimulus from the sequencer.', figure: h.wrap('div', [h.wrap('div', 'Sequence', 'diagram-box violet'), h.wrap('div', '&rarr;', 'diagram-arrow'), h.wrap('div', 'Sequencer', 'diagram-box amber'), h.wrap('div', '&rarr;', 'diagram-arrow'), h.wrap('div', 'Driver', 'diagram-box rose')].join(''), 'tlm-mini-figure'), code: ['self.driver.seq_item_port.connect(', '    self.seqr.seq_item_export', ')', '', 'item = await self.seq_item_port.get_next_item()', 'self.seq_item_port.item_done()'] }, { chip: 'analysis', tone: 'cyan', title: '2. Monitor Broadcast', copy: 'Use analysis TLM when one observed transaction should fan out to a scoreboard, coverage collector, or logger.', figure: h.wrap('div', [h.wrap('div', 'Monitor', 'diagram-box green'), h.wrap('div', '&rarr;', 'diagram-arrow'), h.wrap('div', 'analysis_port', 'diagram-box cyan'), h.wrap('div', '&rarr;', 'diagram-arrow'), h.wrap('div', 'Scoreboard', 'diagram-box amber'), h.wrap('div', 'Coverage', 'diagram-box blue')].join(''), 'tlm-mini-figure tlm-broadcast-figure'), code: ['class CoverageCollector(uvm_subscriber):', '    def write(self, item):', '        self.coverage.sample(item.op)', '', 'self.monitor.ap.connect(self.coverage.analysis_export)', 'self.monitor.ap.write(item)'] }, { chip: 'fifo', tone: 'green', title: '3. Put/Get Channel', copy: 'Use a FIFO when producer and consumer run at different rates and you need buffering between them.', figure: h.wrap('div', [h.wrap('div', 'Producer', 'diagram-box blue'), h.wrap('div', '&rarr;', 'diagram-arrow'), h.wrap('div', 'uvm_tlm_fifo', 'diagram-box cyan'), h.wrap('div', '&rarr;', 'diagram-arrow'), h.wrap('div', 'Consumer', 'diagram-box amber')].join(''), 'tlm-mini-figure'), code: ['self.req_fifo = uvm_tlm_fifo(', '    "req_fifo", self, size=8', ')', '', 'await self.req_fifo.put(item)', 'item = await self.req_fifo.get()'] }]
     }),
     t.conceptSplitSlide({
-      index: 21, tag: 'Customization', title: 'What is the <span class="tone-amber">Factory</span>?',
+      index: 22, tag: 'Customization', title: 'What is the <span class="tone-amber">Factory</span>?',
       bullets: ['The <strong>factory</strong> is UVM\'s object creation mechanism.', 'It lets you create components and objects <strong>indirectly</strong> so you can replace them later without rewriting the environment.', 'This is useful for <strong>overrides</strong>, such as swapping in a tracing driver, error-injection driver, or alternative sequence.', 'In PyUVM, user classes are registered automatically, so there is no SystemVerilog-style registration macro burden.'],
       callout: h.card({ body: [h.wrap('h4', 'Why engineers like it', 'tone-amber'), h.paragraph('You can keep the environment stable and change behavior from the test layer, which is cleaner than editing the environment every time.')] }),
       rightTitle: 'Example override pattern',
@@ -920,7 +989,7 @@
       note: 'Note: this repository currently instantiates the driver directly. The slide shows the factory-enabled pattern you would use when you want runtime overrides.'
     }),
     t.revealChecklistSlide({
-      index: 22,
+      index: 23,
       title: 'What is <span class="tone-cyan">cocotb</span>?',
       slideClass: 'pyuvm-points-slide cocotb-checklist-slide',
       items: [
@@ -930,7 +999,7 @@
       ]
     }),
     t.codeExampleSlide({
-      index: 23,
+      index: 24,
       tag: 'Example',
       title: '<span class="tone-cyan">cocotb</span> Example',
       fileName: 'alu_cocotb_example.py',
@@ -938,18 +1007,18 @@
       lines: cocotbControlExampleLines
     }),
     t.stackWorkflowSlide({
-      index: 24, tag: 'Integration', title: 'How PyUVM Uses <span class="tone-cyan">cocotb</span>',
+      index: 25, tag: 'Integration', title: 'How PyUVM Uses <span class="tone-cyan">cocotb</span>',
       layers: [{ title: 'PyUVM', label: 'test, env, agent, sequences, phasing, TLM' }, { title: 'cocotb BFM', label: 'drive and sample DUT through Python coroutines' }, { title: 'Simulator', label: 'Icarus, Verilator, or GHDL execute the HDL' }, { title: 'RTL DUT', label: 'the hardware design under verification' }],
       bullets: ['PyUVM does <strong>methodology and organization</strong>.', 'cocotb does <strong>signal-level interaction with the simulator</strong>.', 'In this project, the driver never touches raw simulator APIs directly. It calls the <strong>AluBfm</strong>.', 'The BFM writes DUT inputs, waits for time to pass, then captures output values and queues them for the monitor.', 'This split keeps the testbench clean: PyUVM handles transactions while cocotb handles timing and signal access.'],
       code: ['bfm = ConfigDB().get(self, "", "BFM")', 'item = await self.seq_item_port.get_next_item()', 'await bfm.send_op(item.a, item.b, item.op)', 'self.seq_item_port.item_done()']
     }),
     t.toolGridSlide({
-      index: 25, tag: 'Tools', title: 'Open-Source RTL <span class="tone-violet">Simulation Tools</span>',
+      index: 26, tag: 'Tools', title: 'Open-Source RTL <span class="tone-violet">Simulation Tools</span>',
       tools: [{ title: 'Icarus Verilog', tone: 'tone-blue', subtitle: 'Great for small Verilog/SystemVerilog teaching projects', items: ['Easy to install and widely used in examples', 'Works well with cocotb', 'Used by default in this repository\'s runner flow'] }, { title: 'Verilator', tone: 'tone-cyan', subtitle: 'Fast compiled simulation for many Verilog designs', items: ['Often preferred when simulation speed matters', 'Strong fit for CI pipelines and large regressions', 'Works with cocotb for supported flows'] }, { title: 'GHDL', tone: 'tone-violet', subtitle: 'Open-source simulator for VHDL users', items: ['Useful when the DUT or environment is VHDL-centric', 'Lets the same Python methodology reach VHDL designs', 'Pairs well with cocotb in mixed toolchains'] }],
       bottomCards: [h.card({ body: [h.wrap('h4', 'Waveform viewer', 'tone-green'), h.paragraph('<strong>GTKWave</strong> is not a simulator, but it completes the debug loop by viewing VCD/FST waveform traces.')] }), h.card({ body: [h.wrap('h4', 'Practical advice', 'tone-amber'), h.paragraph('Pick the simulator based on HDL language support, speed needs, and the maturity of your specific DUT flow.')] })]
     }),
     t.stackWorkflowSlide({
-      index: 26, tag: 'Full Stack', title: 'The Complete <span class="tone-green">Open-Source</span> Verification Stack',
+      index: 27, tag: 'Full Stack', title: 'The Complete <span class="tone-green">Open-Source</span> Verification Stack',
       layers: [{ title: 'PyUVM', label: 'verification architecture, tests, sequences, scoreboards' }, { title: 'cocotb', label: 'Python simulator bridge and coroutine scheduling' }, { title: 'Open-source simulator', label: 'Icarus Verilog, Verilator, or GHDL' }, { title: 'RTL', label: 'Verilog or VHDL design under test' }, { title: 'GTKWave + CI', label: 'debug waveforms and automate regressions' }],
       rightTitle: 'Typical workflow',
       bullets: ['Write or import the RTL.', 'Create PyUVM components and sequences in Python.', 'Use cocotb to drive and sample the DUT.', 'Run on an open-source simulator.', 'Inspect failures in logs and waveforms.', 'Automate regressions with scripts or CI.'],
@@ -957,7 +1026,7 @@
       codeOptions: { lang: 'bash' }
     }),
     t.codePairSlide({
-      index: 27, tag: 'Example', title: 'PyUVM <span class="tone-green">Code Example</span>',
+      index: 28, tag: 'Example', title: 'PyUVM <span class="tone-green">Code Example</span>',
       leftTitle: 'Sequence item and sequence',
       leftCode: ['class AluSeqItem(uvm_sequence_item):', '    OPS = {"add": 0, "sub": 1, "mul": 2, "div": 3}', '', '    def __init__(self, name="alu_seq_item", a=0, b=0, op=0):', '        super().__init__(name)', '        self.a = a', '        self.b = b', '        self.op = op', '        self.result = 0', '        self.div_by_zero = 0', '', 'class AddSequence(BaseAluSequence):', '    OP_NAME = "add"'],
       rightTitle: 'Environment and test',
@@ -965,18 +1034,18 @@
       bottomCards: [h.card({ body: [h.wrap('h4', 'What this teaches', 'tone-cyan'), h.paragraph('The transaction object holds data. The sequence generates items. The environment instantiates the architecture. The test chooses which sequences to run.')] }), h.card({ body: [h.wrap('h4', 'Good classroom demo', 'tone-green'), h.paragraph('This ALU example is small enough to understand quickly but still shows real verification structure, phasing, sequencing, checking, and open-source execution.')] })]
     }),
     t.roadmapSlide({
-      index: 28, tag: 'Next Steps', title: 'How to <span class="tone-amber">Extend</span> This Example',
+      index: 29, tag: 'Next Steps', title: 'How to <span class="tone-amber">Extend</span> This Example',
       bullets: ['Add more <strong>directed and random sequences</strong> to stress edge cases beyond simple arithmetic paths.', 'Track <strong>functional coverage</strong> for operations, corner values, sign behavior, and divide-by-zero scenarios.', 'Make the scoreboard more powerful by comparing against a reusable <strong>reference model</strong>.', 'Run <strong>regressions in CI</strong> so every RTL or testbench change is checked automatically.', 'Scale the same structure to a larger DUT by adding agents, interfaces, and more layered environments.'],
       rightTitle: 'Why this matters',
       cards: [h.card({ body: [h.wrap('h4', 'From demo to real flow', 'tone-green'), h.paragraph('This ALU project is a teaching example, but the next steps are the same ones used in production verification: better stimulus, measurable coverage, stronger checking, and automated regressions.')] }), h.wrap('div', '', 'spacer'), h.card({ body: [h.wrap('h4', 'Practical roadmap', 'tone-cyan'), h.paragraph('Start with one new sequence, add coverage points, connect the results to a regression script, and let the PyUVM structure grow with the design.')] })]
     }),
     t.summarySlide({
-      index: 29, tag: 'Recap', title: 'Summary',
+      index: 30, tag: 'Recap', title: 'Summary',
       topCards: [h.card({ cardTone: 'blue', body: [h.wrap('h4', 'UVM', 'tone-blue'), h.paragraph('A proven methodology for building reusable, scalable verification environments.')] }), h.card({ cardTone: 'cyan', body: [h.wrap('h4', 'PyUVM', 'tone-cyan'), h.paragraph('Brings those ideas into Python while keeping the structure verification teams already know.')] }), h.card({ cardTone: 'green', body: [h.wrap('h4', 'cocotb + open tools', 'tone-green'), h.paragraph('Provide the simulator bridge and execution layer needed for a practical zero-license flow.')] })],
       bullets: ['Use <strong>phases</strong> to organize lifecycle behavior.', 'Use <strong>TLM</strong> to pass transactions cleanly between components.', 'Use the <strong>factory</strong> when you want clean overrides and more flexible tests.', 'Use <strong>cocotb</strong> to interact with signals and simulation time.', 'Use <strong>PyUVM + cocotb + open-source simulators</strong> for an accessible modern verification stack.']
     }),
     t.resourcesSlide({
-      index: 30,
+      index: 31,
       tag: 'Q&amp;A',
       title: 'Thank <span class="tone-cyan">You</span>',
       subtitle: 'Questions and Discussion',
