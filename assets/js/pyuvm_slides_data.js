@@ -238,7 +238,6 @@
     '      <line x1="180" y1="660" x2="180" y2="480" class="line-solid" marker-end="url(#uvm-arch-arrow-end)" />',
     '      <line x1="1020" y1="580" x2="1020" y2="680" class="line-dashed" marker-end="url(#uvm-arch-arrow-end)" />',
     '      <line x1="1040" y1="680" x2="1040" y2="580" class="line-dashed" marker-end="url(#uvm-arch-arrow-end)" />',
-    '      <line x1="320" y1="480" x2="320" y2="660" class="line-solid" marker-end="url(#uvm-arch-arrow-end)" />',
     '      <line x1="340" y1="660" x2="340" y2="480" class="line-solid" marker-end="url(#uvm-arch-arrow-end)" />',
     '      <line x1="880" y1="680" x2="880" y2="580" class="line-dashed" marker-end="url(#uvm-arch-arrow-end)" />',
     '      <line x1="220" y1="720" x2="220" y2="760" class="line-solid" marker-end="url(#uvm-arch-arrow-end)" />',
