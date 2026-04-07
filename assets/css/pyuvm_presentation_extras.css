@@ -1792,27 +1792,36 @@
 
 .tlm-animation-slide {
   justify-content: flex-start;
+  padding: 0;
+  overflow: hidden;
+}
+
+.tlm-animation-slide h2 {
+  flex: 0 0 auto;
+  margin: 0;
+  padding: 2rem 3rem 0;
 }
 
 .tlm-animation-reveal {
   display: flex;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
+  flex: 1 1 auto;
   width: 100%;
-  max-height: calc(100vh - 13.5rem);
-  margin: 0.25rem auto 0;
+  height: calc(100% - 5.5rem);
+  max-height: none;
+  margin: 0;
   padding: 0;
 }
 
 .tlm-animation-reveal svg {
-  width: min(100%, calc((100vh - 13.5rem) * 1.3953));
-  max-width: 100%;
-  max-height: calc(100vh - 13.5rem);
-  height: auto;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
   display: block;
   filter: drop-shadow(0 0 20px rgba(0, 0, 0, 0.5));
-  transform: scale(1.035);
-  transform-origin: center top;
+  transform: none;
 }
 
 .tlm-animation-reveal .txt-title {
