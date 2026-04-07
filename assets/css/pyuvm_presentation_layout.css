@@ -32,7 +32,7 @@
 .code-block .num { color: var(--accent-amber); }
 
 .progress-bar {
-  position: absolute;
+  position: fixed;
   bottom: 0;
   left: 0;
   height: 3px;
@@ -43,7 +43,7 @@
 }
 
 .slide-counter {
-  position: absolute;
+  position: fixed;
   bottom: var(--slide-counter-bottom);
   right: var(--slide-counter-right);
   font-family: var(--font-mono);
