@@ -755,12 +755,28 @@
       subtitle: '',
       chips: ['pyuvm', 'cocotb', 'Icarus Verilog', 'Verilator', 'GHDL', 'GTKWave']
     }),
-    t.agendaSlide({
-      index: 2,
-      tag: 'Agenda',
-      title: 'Table of <span class="tone-cyan">Contents</span>',
-      items: ['What is UVM?', 'UVM Testbench Architecture', 'UVM Hierarchy', 'The Problem with Traditional UVM', 'What is PyUVM?', 'Advantages of PyUVM over Traditional UVM', 'UVM Testbench Architecture', 'Components VS Objects', 'Code Example', 'Phases', 'Phases Diagram', 'Phases Table', 'Objections Management', 'Objections Management', 'TLM', 'TLM', 'Sequence TLM UVM', 'Configuration', 'What is cocotb?', 'How PyUVM Uses cocotb']
-    }),
+    (function () {
+      var topics = [
+        { num: '01', title: 'UVM Fundamentals' },
+        { num: '02', title: 'Advantages &amp; Challenges' },
+        { num: '03', title: 'Introducing PyUVM' },
+        { num: '04', title: 'Architecture &amp; Components' },
+        { num: '05', title: 'Phases, TLM &amp; Configuration' },
+        { num: '06', title: 'Cocotb' }
+      ];
+      var cards = topics.map(function (t, i) {
+        return '<div class="outline-item anim-up d' + (i + 2) + '">'
+          + '<span class="outline-num">' + t.num + '</span>'
+          + '<div class="outline-body"><strong>' + t.title + '</strong></div>'
+          + '</div>';
+      }).join('');
+      return h.standardSlide({
+        index: 2,
+        tag: 'Overview',
+        title: '<span class="tone-cyan">Outline</span>',
+        content: '<div class="outline-grid">' + cards + '</div>'
+      });
+    })(),
     t.focusCardsSlide({
       index: 3,
       title: 'What is <span class="tone-blue">UVM</span>?',
