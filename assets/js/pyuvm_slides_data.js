@@ -34,7 +34,7 @@
     '<div class="uvm-architecture-reveal click-reveal-item click-reveal-item--collapse">',
     '  <svg viewBox="0 0 1200 860" xmlns="http://www.w3.org/2000/svg" aria-label="UVM Testbench Architecture diagram" role="img">',
     '    <defs>',
-    '      <marker id="uvm-arch-arrow-end" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="12" markerHeight="12" markerUnits="userSpaceOnUse" orient="auto-start-reverse">',
+    '      <marker id="uvm-arch-arrow-end" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="17.28" markerHeight="17.28" markerUnits="userSpaceOnUse" orient="auto-start-reverse">',
     '        <path d="M 0 1.5 L 12 6 L 0 10.5 z" fill="#ffffff" stroke="none" />',
     '      </marker>',
     '    </defs>',
