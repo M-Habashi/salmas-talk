@@ -852,20 +852,34 @@
         }
       ]
     }),
-    t.revealCardGridSlide({
-      index: 6,
-      tag: 'Motivation',
-      title: 'The Problem with <span class="tone-rose">Traditional UVM</span>',
-      cards: [
-        { icon: '01', title: 'Expensive Commercial Tools', body: h.paragraph('Synopsys VCS, Cadence Xcelium, and Siemens Questa all require costly licenses.') },
-        { icon: '02', title: 'SystemVerilog OOP Knowledge', body: h.paragraph('Requires strong familiarity with object-oriented SystemVerilog concepts.') },
-        { icon: '03', title: 'High Learning Curve', body: h.paragraph('Students and new verification engineers often need significant ramp-up time.') },
-        { icon: '04', title: 'Debugging Difficulty', body: h.paragraph('Debugging complex UVM environments can be difficult and time-consuming.') },
-        { icon: '05', title: 'Less Software-Friendly', body: h.paragraph('The flow is less friendly for software-oriented engineers.') },
-        { icon: '06', title: 'Python Integration Friction', body: h.paragraph('Integrating Python models, data processing, or ML logic is less natural.') },
-        { icon: '07', title: 'Harder Open-Source Flow', body: h.paragraph('Running a pure open-source verification flow is harder than with Python-based verification.') }
-      ]
-    }),
+    (function () {
+      var problems = [
+        { num: '01', title: 'Expensive Commercial Tools', desc: 'Synopsys VCS, Cadence Xcelium, and Siemens Questa all require costly licenses.' },
+        { num: '02', title: 'SystemVerilog OOP Knowledge', desc: 'Requires strong familiarity with object-oriented SystemVerilog concepts.' },
+        { num: '03', title: 'High Learning Curve', desc: 'Students and new verification engineers often need significant ramp-up time.' },
+        { num: '04', title: 'Debugging Difficulty', desc: 'Debugging complex UVM environments can be difficult and time-consuming.' },
+        { num: '05', title: 'Less Software-Friendly', desc: 'The flow is less friendly for software-oriented engineers.' },
+        { num: '06', title: 'Python Integration Friction', desc: 'Integrating Python models, data processing, or ML logic is less natural.' },
+        { num: '07', title: 'Harder Open-Source Flow', desc: 'Running a pure open-source verification flow is harder than with Python-based verification.' }
+      ];
+      var cards = problems.map(function (p) {
+        return '<div class="problem-card click-reveal-item">'
+          + '<span class="problem-num">' + p.num + '</span>'
+          + '<div class="problem-content">'
+          + '<strong>' + p.title + '</strong>'
+          + '<span class="problem-desc">' + p.desc + '</span>'
+          + '</div>'
+          + '</div>';
+      }).join('');
+      return h.standardSlide({
+        index: 6,
+        tag: 'Motivation',
+        title: 'The Problem with <span class="tone-rose">Traditional UVM</span>',
+        clickReveal: true,
+        slideClass: 'problem-grid-slide',
+        content: '<div class="problem-grid anim-up d2">' + cards + '</div>'
+      });
+    })(),
     t.revealChecklistSlide({
       index: 7,
       title: 'What is PyUVM?',
