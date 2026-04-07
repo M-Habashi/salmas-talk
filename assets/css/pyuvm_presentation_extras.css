@@ -2797,7 +2797,7 @@
 
 .overview-mode .progress-bar,
 .overview-mode .slide-counter,
-.overview-mode .nav-hint,
+.overview-mode .laser-pointer,
 .overview-mode .style-toolbar,
 .overview-mode .presentation {
   transition: opacity 0.25s ease, filter 0.25s ease;
@@ -2811,7 +2811,7 @@
 
 .overview-mode .progress-bar,
 .overview-mode .slide-counter,
-.overview-mode .nav-hint,
+.overview-mode .laser-pointer,
 .overview-mode .style-toolbar {
   opacity: 0.18;
 }

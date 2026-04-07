@@ -15,6 +15,12 @@ let isOverviewMode = false;
 let overviewRoot = null;
 let overviewGrid = null;
 let autoRevealTimer = null;
+let laserPointerEnabled = false;
+let laserPointerTransient = false;
+let laserPointerVisible = false;
+let laserPointerHasPosition = false;
+let laserPointerX = 0;
+let laserPointerY = 0;
 
 const SLIDE_STATE = Object.freeze({
   RESET: 'reset',
@@ -103,6 +109,111 @@ function updateSlideCounterMetrics() {
   rootStyle.setProperty('--slide-counter-bottom-actual', bottom);
   rootStyle.setProperty('--slide-counter-right-actual', right);
   rootStyle.setProperty('--slide-counter-height-actual', height);
+}
+
+function getLaserPointerElement() {
+  return document.getElementById('laserPointer');
+}
+
+function canUseLaserPointer() {
+  return !isEditMode && !isOverviewMode;
+}
+
+function setLaserPointerPosition(x, y) {
+  if (!Number.isFinite(x) || !Number.isFinite(y)) return;
+
+  laserPointerX = x;
+  laserPointerY = y;
+
+  const pointer = getLaserPointerElement();
+  if (!pointer) return;
+  pointer.style.left = `${x}px`;
+  pointer.style.top = `${y}px`;
+}
+
+function rememberLaserPointerPosition(x, y) {
+  if (!Number.isFinite(x) || !Number.isFinite(y)) return;
+  laserPointerHasPosition = true;
+  setLaserPointerPosition(x, y);
+}
+
+function syncLaserPointer() {
+  const pointer = getLaserPointerElement();
+  if (!pointer) return;
+
+  const isActive = canUseLaserPointer() && (laserPointerEnabled || laserPointerTransient);
+  const isVisible = isActive && laserPointerVisible && laserPointerHasPosition;
+
+  document.body.classList.toggle('laser-pointer-active', isVisible);
+  pointer.classList.toggle('is-visible', isVisible);
+  pointer.hidden = !isVisible;
+
+  if (isVisible) {
+    setLaserPointerPosition(laserPointerX, laserPointerY);
+  }
+}
+
+function showLaserPointer(x = null, y = null) {
+  if (Number.isFinite(x) && Number.isFinite(y)) {
+    rememberLaserPointerPosition(x, y);
+  }
+
+  laserPointerVisible = laserPointerHasPosition;
+  syncLaserPointer();
+}
+
+function hideLaserPointer() {
+  laserPointerVisible = false;
+  syncLaserPointer();
+}
+
+function disableLaserPointer() {
+  laserPointerEnabled = false;
+  laserPointerTransient = false;
+  laserPointerVisible = false;
+  syncLaserPointer();
+}
+
+function toggleLaserPointer() {
+  if (!canUseLaserPointer()) return;
+
+  laserPointerEnabled = !laserPointerEnabled;
+  laserPointerTransient = false;
+
+  if (laserPointerEnabled) {
+    showLaserPointer();
+    return;
+  }
+
+  hideLaserPointer();
+}
+
+function startTransientLaserPointer(event) {
+  if (!canUseLaserPointer()) return false;
+
+  laserPointerTransient = true;
+  suppressClickReveal = true;
+  showLaserPointer(event.clientX, event.clientY);
+  return true;
+}
+
+function stopTransientLaserPointer() {
+  if (!laserPointerTransient) return;
+
+  laserPointerTransient = false;
+  if (laserPointerEnabled) {
+    syncLaserPointer();
+    return;
+  }
+
+  hideLaserPointer();
+}
+
+function handleLaserPointerMove(event) {
+  rememberLaserPointerPosition(event.clientX, event.clientY);
+  if (!canUseLaserPointer()) return;
+  if (!laserPointerEnabled && !laserPointerTransient) return;
+  showLaserPointer(event.clientX, event.clientY);
 }
 
 function getStackingCardsSlide(slide = slides[currentSlide]) {
@@ -759,6 +870,7 @@ function highlightOverviewSelection() {
 function openOverview() {
   if (isOverviewMode) return;
   ensureOverviewUI();
+  disableLaserPointer();
   document.activeElement?.blur?.();
   clearSelection();
   renderOverviewThumbnails();
@@ -849,6 +961,10 @@ function clearSelection() {
 
 function setEditMode(enabled) {
   isEditMode = enabled;
+
+  if (isEditMode) {
+    disableLaserPointer();
+  }
 
   if (!isEditMode) {
     document.activeElement?.blur?.();
@@ -989,6 +1105,14 @@ function setupFigureDragging() {
   document.addEventListener('pointerdown', (event) => {
     if (event.button !== 0) return;
     if (event.target.closest('.style-toolbar')) return;
+    rememberLaserPointerPosition(event.clientX, event.clientY);
+
+    if (!isEditMode && !isOverviewMode && event.ctrlKey) {
+      if (startTransientLaserPointer(event)) {
+        event.preventDefault();
+        return;
+      }
+    }
 
     const block = event.target.closest('.movable-figure');
     if (!isEditMode) {
@@ -1018,6 +1142,7 @@ function setupFigureDragging() {
   });
 
   document.addEventListener('pointermove', (event) => {
+    handleLaserPointerMove(event);
     if (!dragState) return;
 
     const deltaX = event.clientX - dragState.startX;
@@ -1032,6 +1157,7 @@ function setupFigureDragging() {
   });
 
   function stopDragging(event) {
+    stopTransientLaserPointer();
     if (!dragState) return;
 
     const moved = dragState.hasMoved;
@@ -1090,6 +1216,12 @@ document.addEventListener('keydown', async (event) => {
     return;
   }
 
+  if ((event.ctrlKey || event.metaKey) && key === 'l') {
+    event.preventDefault();
+    toggleLaserPointer();
+    return;
+  }
+
   if (isEditMode && (event.ctrlKey || event.metaKey) && key === 'z' && !isEditingText()) {
     event.preventDefault();
     undoLastChange();
@@ -1106,15 +1238,20 @@ document.addEventListener('keydown', async (event) => {
     }
   }
 
-  if (event.key === 'Escape') {
-    event.preventDefault();
-    if (isOverviewMode) {
-      closeOverview();
-      return;
-    }
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      if (isOverviewMode) {
+        closeOverview();
+        return;
+      }
 
-    document.activeElement?.blur?.();
-    clearSelection();
+      if (laserPointerEnabled || laserPointerTransient) {
+        disableLaserPointer();
+        return;
+      }
+
+      document.activeElement?.blur?.();
+      clearSelection();
     toggleOverview();
     return;
   }
@@ -1168,6 +1305,12 @@ document.addEventListener('touchstart', (event) => {
   touchStartX = event.touches[0].clientX;
 });
 
+document.addEventListener('keyup', (event) => {
+  if (event.key === 'Control' || event.key === 'Meta') {
+    stopTransientLaserPointer();
+  }
+});
+
 document.addEventListener('touchend', (event) => {
   const diff = touchStartX - event.changedTouches[0].clientX;
   if (Math.abs(diff) > 50) {
@@ -1178,6 +1321,7 @@ document.addEventListener('touchend', (event) => {
 
 document.addEventListener('click', (event) => {
   if (isOverviewMode) return;
+  if (laserPointerEnabled || laserPointerTransient) return;
 
   const block = event.target.closest('.movable-figure');
   if (isEditMode && block && !event.target.closest('.style-toolbar')) {
@@ -1185,7 +1329,7 @@ document.addEventListener('click', (event) => {
   }
 
   if (isEditingText()) return;
-  if (event.target.closest('.nav-hint, .slide-counter, .style-toolbar')) return;
+  if (event.target.closest('.slide-counter, .style-toolbar')) return;
   if (suppressClickReveal) {
     suppressClickReveal = false;
     return;
@@ -1238,6 +1382,21 @@ document.addEventListener('focusin', (event) => {
 
 window.addEventListener('resize', () => {
   updateSlideCounterMetrics();
+});
+
+window.addEventListener('blur', () => {
+  stopTransientLaserPointer();
+  if (laserPointerEnabled) {
+    hideLaserPointer();
+  }
+});
+
+document.addEventListener('visibilitychange', () => {
+  if (!document.hidden) return;
+  stopTransientLaserPointer();
+  if (laserPointerEnabled) {
+    hideLaserPointer();
+  }
 });
 
 window.PYUVM_EDITOR = {

@@ -56,31 +56,31 @@
 
 .slide-counter .current { color: var(--accent-blue); font-weight: 600; }
 
-.nav-hint {
+.laser-pointer {
   position: fixed;
-  bottom: 1.2rem;
-  left: 2rem;
-  font-family: var(--font-mono);
-  font-size: 0.6rem;
-  color: var(--text-dim);
-  z-index: 100;
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  letter-spacing: 0.05em;
-}
-
-.nav-hint kbd {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  top: 0;
+  left: 0;
   width: 22px;
   height: 22px;
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  font-size: 0.6rem;
-  color: var(--text-secondary);
-  background: var(--bg-card);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 160;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.72);
+  transition: opacity 0.12s ease, transform 0.12s ease;
+  background:
+    radial-gradient(circle, rgba(255, 78, 78, 1) 0 16%, rgba(255, 26, 26, 0.98) 17% 34%, rgba(255, 46, 46, 0.76) 35% 56%, rgba(255, 46, 46, 0.18) 57% 78%, rgba(255, 46, 46, 0) 79% 100%);
+  filter: drop-shadow(0 0 8px rgba(255, 46, 46, 0.55));
+}
+
+.laser-pointer.is-visible {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+body.laser-pointer-active,
+body.laser-pointer-active * {
+  cursor: none !important;
 }
 
 .style-toolbar {
