@@ -752,7 +752,7 @@
       badge: '',
       title: '<span class="accent">Py</span>UVM<br>UVM Methodology<br>in <span class="accent-cyan">Python</span>',
       author: 'By: Salma Sultan',
-      subtitle: '',
+      subtitle: 'Digital Design Engineer at Pearl Semiconductor',
       chips: ['pyuvm', 'cocotb', 'Icarus Verilog', 'Verilator', 'GHDL', 'GTKWave']
     }),
     (function () {
