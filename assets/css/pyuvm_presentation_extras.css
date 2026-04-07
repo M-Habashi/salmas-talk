@@ -2049,6 +2049,10 @@
   white-space: nowrap;
 }
 
+.pyuvm-points-slide {
+  justify-content: flex-start;
+}
+
 .pyuvm-points-slide .content-section {
   max-width: 1200px;
 }
@@ -2087,6 +2091,18 @@
   flex: 1;
   font-size: 1.45rem;
   line-height: 1.5;
+}
+
+.cocotb-checklist-slide .checkbox-wrapper-12 .cbx-circle {
+  border-color: rgba(64, 232, 208, 0.9);
+}
+
+.cocotb-checklist-slide .pyuvm-point.revealed .checkbox-wrapper-12 .cbx-circle {
+  animation-name: pyuvm-check-circle-cyan;
+}
+
+.cocotb-checklist-slide .pyuvm-point.revealed .checkbox-wrapper-12 .cbx-burst {
+  animation-name: pyuvm-check-splash-cyan;
 }
 
 .checkbox-wrapper-12 {
