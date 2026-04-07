@@ -918,8 +918,8 @@
       items: [
         'Synchronization between testbench components.',
         'Methods that do not consume simulation time are <strong>functions</strong> and methods that consume simulation time are <strong>tasks</strong>.',
-        'User has the ability to add a user defined phase.',
-        'phases is defined inside the component classes only.',
+        'PyUVM supports the common UVM phases used in practice.',
+        'Phases are defined as methods inside component classes.',
         'Phases can be grouped into three categories:'
       ],
       extraContent: phasesTimeline
