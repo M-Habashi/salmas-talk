@@ -6,3 +6,4 @@
 - When verifying animated diagrams, check the final revealed state in Chromium/Playwright after the animation completes.
 - For SVG-heavy slides that should fill the slide area, prefer tightening the SVG `viewBox` to crop unused internal whitespace instead of relying on CSS `scale()`.
 - If an SVG slide must avoid overlapping the fixed page counter, reserve bottom space from the actual rendered counter metrics via shared CSS variables or runtime measurement, not hardcoded padding guesses.
+- For slides that animate SVG groups with CSS classes like `.anim-block` or `.anim-line`, restart those intro animations on slide re-entry by replacing the animated SVG nodes with fresh clones during slide reset; CSS animation state alone is not reliable for replay.

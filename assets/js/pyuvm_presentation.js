@@ -553,6 +553,18 @@ function revealNextItem() {
   return true;
 }
 
+function restartIntrinsicAnimations(slide) {
+  if (!slide) return;
+
+  const animatedElements = Array.from(slide.querySelectorAll('.anim-block, .anim-line'));
+  if (!animatedElements.length) return;
+
+  animatedElements.forEach((element) => {
+    const clone = element.cloneNode(true);
+    element.replaceWith(clone);
+  });
+}
+
 function setSlideState(slide, state) {
   if (!slide) return;
   stopStackingCardsAnimations();
@@ -566,6 +578,7 @@ function setSlideState(slide, state) {
 
   resetStackingCards(slide);
   setClickRevealState(slide, false);
+  restartIntrinsicAnimations(slide);
 }
 
 function scheduleAutoReveal(slide) {
