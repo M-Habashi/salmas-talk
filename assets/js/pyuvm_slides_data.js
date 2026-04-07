@@ -144,6 +144,8 @@
     '</div>'
   ].join('');
 
+  const codeLine = (html) => ({ html });
+
   const pyuvmTestbenchArchitectureDiagram = [
     '<div class="uvm-architecture-reveal click-reveal-item click-reveal-item--collapse">',
     '  <svg viewBox="0 0 1200 860" xmlns="http://www.w3.org/2000/svg" aria-label="UVM Testbench Architecture diagram" role="img">',
@@ -299,58 +301,66 @@
     '</div>'
   ].join('');
 
-  const codeExampleSlideContent = [
-    '<div class="code-editor-shell click-reveal-item">',
-    '  <div class="code-editor-titlebar">',
-    '    <div class="code-editor-dots"><span class="dot dot--red"></span><span class="dot dot--amber"></span><span class="dot dot--green"></span></div>',
-    '    <div class="code-editor-tab"><span class="code-editor-tab-icon"></span><span>alu_pyuvm_example.py</span></div>',
-    '    <div class="code-editor-actions"><span></span><span></span><span></span></div>',
-    '  </div>',
-    '  <div class="code-editor-workbench">',
-    '    <aside class="code-editor-sidebar"><span></span><span></span><span></span><span></span></aside>',
-    '    <div class="code-editor-main">',
-    '      <div class="code-editor-breadcrumb">tb <span>/</span> pyuvm <span>/</span> alu_pyuvm_example.py</div>',
-    '      <div class="code-editor-scroll">',
-    '        <div class="code-editor-lines">',
-    '          <div class="code-line"><span class="ln">1</span><span class="lc" style="--chars: 122;"><span class="tok-kw">from</span> <span class="tok-mod">pyuvm</span> <span class="tok-kw">import</span> <span class="tok-name">uvm_agent</span>, <span class="tok-name">uvm_driver</span>, <span class="tok-name">uvm_env</span>, <span class="tok-name">uvm_monitor</span>, <span class="tok-name">uvm_scoreboard</span>, <span class="tok-name">uvm_sequencer</span>, <span class="tok-name">uvm_test</span>, <span class="tok-name">test</span></span></div>',
-    '          <div class="code-line"><span class="ln">2</span><span class="lc" style="--chars: 1;"></span></div>',
-    '          <div class="code-line"><span class="ln">3</span><span class="lc" style="--chars: 66;"><span class="tok-cm"># Reusable verification components build the testbench structure.</span></span></div>',
-    '          <div class="code-line"><span class="ln">4</span><span class="lc" style="--chars: 40;"><span class="tok-kw">class</span> <span class="tok-class">ALUSequencer</span>(<span class="tok-name">uvm_sequencer</span>):</span></div>',
-    '          <div class="code-line"><span class="ln">5</span><span class="lc" style="--chars: 7;">    <span class="tok-dim">...</span></span></div>',
-    '          <div class="code-line"><span class="ln">6</span><span class="lc" style="--chars: 1;"></span></div>',
-    '          <div class="code-line"><span class="ln">7</span><span class="lc" style="--chars: 34;"><span class="tok-kw">class</span> <span class="tok-class">ALUDriver</span>(<span class="tok-name">uvm_driver</span>):</span></div>',
-    '          <div class="code-line"><span class="ln">8</span><span class="lc" style="--chars: 7;">    <span class="tok-dim">...</span></span></div>',
-    '          <div class="code-line"><span class="ln">9</span><span class="lc" style="--chars: 1;"></span></div>',
-    '          <div class="code-line"><span class="ln">10</span><span class="lc" style="--chars: 37;"><span class="tok-kw">class</span> <span class="tok-class">ALUMonitor</span>(<span class="tok-name">uvm_monitor</span>):</span></div>',
-    '          <div class="code-line"><span class="ln">11</span><span class="lc" style="--chars: 7;">    <span class="tok-dim">...</span></span></div>',
-    '          <div class="code-line"><span class="ln">12</span><span class="lc" style="--chars: 1;"></span></div>',
-    '          <div class="code-line"><span class="ln">13</span><span class="lc" style="--chars: 43;"><span class="tok-kw">class</span> <span class="tok-class">ALUScoreboard</span>(<span class="tok-name">uvm_scoreboard</span>):</span></div>',
-    '          <div class="code-line"><span class="ln">14</span><span class="lc" style="--chars: 7;">    <span class="tok-dim">...</span></span></div>',
-    '          <div class="code-line"><span class="ln">15</span><span class="lc" style="--chars: 1;"></span></div>',
-    '          <div class="code-line"><span class="ln">16</span><span class="lc" style="--chars: 31;"><span class="tok-kw">class</span> <span class="tok-class">ALUAgent</span>(<span class="tok-name">uvm_agent</span>):</span></div>',
-    '          <div class="code-line"><span class="ln">17</span><span class="lc" style="--chars: 7;">    <span class="tok-dim">...</span></span></div>',
-    '          <div class="code-line"><span class="ln">18</span><span class="lc" style="--chars: 1;"></span></div>',
-    '          <div class="code-line"><span class="ln">19</span><span class="lc" style="--chars: 27;"><span class="tok-kw">class</span> <span class="tok-class">ALUEnv</span>(<span class="tok-name">uvm_env</span>):</span></div>',
-    '          <div class="code-line"><span class="ln">20</span><span class="lc" style="--chars: 7;">    <span class="tok-dim">...</span></span></div>',
-    '          <div class="code-line"><span class="ln">21</span><span class="lc" style="--chars: 1;"></span></div>',
-    '          <div class="code-line"><span class="ln">22</span><span class="lc" style="--chars: 64;"><span class="tok-cm"># Tests reuse the same environment and vary only the scenario.</span></span></div>',
-    '          <div class="code-line"><span class="ln">23</span><span class="lc" style="--chars: 8;"><span class="tok-dec">@test</span>()</span></div>',
-    '          <div class="code-line"><span class="ln">24</span><span class="lc" style="--chars: 29;"><span class="tok-kw">class</span> <span class="tok-class">AddTest</span>(<span class="tok-name">uvm_test</span>):</span></div>',
-    '          <div class="code-line"><span class="ln">25</span><span class="lc" style="--chars: 7;">    <span class="tok-dim">...</span></span></div>',
-    '          <div class="code-line"><span class="ln">26</span><span class="lc" style="--chars: 1;"></span></div>',
-    '          <div class="code-line"><span class="ln">27</span><span class="lc" style="--chars: 8;"><span class="tok-dec">@test</span>()</span></div>',
-    '          <div class="code-line"><span class="ln">28</span><span class="lc" style="--chars: 29;"><span class="tok-kw">class</span> <span class="tok-class">SubTest</span>(<span class="tok-name">uvm_test</span>):</span></div>',
-    '          <div class="code-line"><span class="ln">29</span><span class="lc" style="--chars: 7;">    <span class="tok-dim">...</span></span></div>',
-    '          <div class="code-line"><span class="ln">30</span><span class="lc" style="--chars: 1;"></span></div>',
-    '          <div class="code-line"><span class="ln">31</span><span class="lc" style="--chars: 8;"><span class="tok-dec">@test</span>()</span></div>',
-    '          <div class="code-line"><span class="ln">32</span><span class="lc" style="--chars: 29;"><span class="tok-kw">class</span> <span class="tok-class">AndTest</span>(<span class="tok-name">uvm_test</span>):</span></div>',
-    '          <div class="code-line"><span class="ln">33</span><span class="lc" style="--chars: 7;">    <span class="tok-dim">...</span></span></div>',
-    '        </div>',
-    '      </div>',
-    '    </div>',
-    '  </div>',
-    '</div>'
-  ].join('');
+  const pyuvmCodeExampleLines = [
+    codeLine('<span class="tok-kw">from</span> <span class="tok-mod">pyuvm</span> <span class="tok-kw">import</span> <span class="tok-name">uvm_agent</span>, <span class="tok-name">uvm_driver</span>, <span class="tok-name">uvm_env</span>, <span class="tok-name">uvm_monitor</span>, <span class="tok-name">uvm_scoreboard</span>, <span class="tok-name">uvm_sequencer</span>, <span class="tok-name">uvm_test</span>, <span class="tok-name">test</span>'),
+    codeLine(''),
+    codeLine('<span class="tok-cm"># Reusable verification components build the testbench structure.</span>'),
+    codeLine('<span class="tok-kw">class</span> <span class="tok-class">ALUSequencer</span>(<span class="tok-name">uvm_sequencer</span>):'),
+    codeLine('    <span class="tok-dim">...</span>'),
+    codeLine(''),
+    codeLine('<span class="tok-kw">class</span> <span class="tok-class">ALUDriver</span>(<span class="tok-name">uvm_driver</span>):'),
+    codeLine('    <span class="tok-dim">...</span>'),
+    codeLine(''),
+    codeLine('<span class="tok-kw">class</span> <span class="tok-class">ALUMonitor</span>(<span class="tok-name">uvm_monitor</span>):'),
+    codeLine('    <span class="tok-dim">...</span>'),
+    codeLine(''),
+    codeLine('<span class="tok-kw">class</span> <span class="tok-class">ALUScoreboard</span>(<span class="tok-name">uvm_scoreboard</span>):'),
+    codeLine('    <span class="tok-dim">...</span>'),
+    codeLine(''),
+    codeLine('<span class="tok-kw">class</span> <span class="tok-class">ALUAgent</span>(<span class="tok-name">uvm_agent</span>):'),
+    codeLine('    <span class="tok-dim">...</span>'),
+    codeLine(''),
+    codeLine('<span class="tok-kw">class</span> <span class="tok-class">ALUEnv</span>(<span class="tok-name">uvm_env</span>):'),
+    codeLine('    <span class="tok-dim">...</span>'),
+    codeLine(''),
+    codeLine('<span class="tok-cm"># Tests reuse the same environment and vary only the scenario.</span>'),
+    codeLine('<span class="tok-dec">@test</span>()'),
+    codeLine('<span class="tok-kw">class</span> <span class="tok-class">AddTest</span>(<span class="tok-name">uvm_test</span>):'),
+    codeLine('    <span class="tok-dim">...</span>'),
+    codeLine(''),
+    codeLine('<span class="tok-dec">@test</span>()'),
+    codeLine('<span class="tok-kw">class</span> <span class="tok-class">SubTest</span>(<span class="tok-name">uvm_test</span>):'),
+    codeLine('    <span class="tok-dim">...</span>'),
+    codeLine(''),
+    codeLine('<span class="tok-dec">@test</span>()'),
+    codeLine('<span class="tok-kw">class</span> <span class="tok-class">AndTest</span>(<span class="tok-name">uvm_test</span>):'),
+    codeLine('    <span class="tok-dim">...</span>')
+  ];
+
+  const cocotbControlExampleLines = [
+    codeLine('<span class="tok-kw">import</span> <span class="tok-mod">cocotb</span>'),
+    codeLine('<span class="tok-kw">from</span> <span class="tok-mod">cocotb.clock</span> <span class="tok-kw">import</span> <span class="tok-name">Clock</span>'),
+    codeLine('<span class="tok-kw">from</span> <span class="tok-mod">cocotb.triggers</span> <span class="tok-kw">import</span> <span class="tok-name">RisingEdge</span>, <span class="tok-name">Timer</span>'),
+    codeLine(''),
+    codeLine('<span class="tok-dec">@cocotb.test</span>()'),
+    codeLine('<span class="tok-kw">async def</span> <span class="tok-name">alu_handshake_demo</span>(dut):'),
+    codeLine('    <span class="tok-cm"># Generate a free-running clock for the DUT.</span>'),
+    codeLine('    cocotb.start_soon(<span class="tok-name">Clock</span>(dut.clk, <span class="tok-name">10</span>, units=<span class="tok-name">"ns"</span>).start())'),
+    codeLine(''),
+    codeLine('    <span class="tok-cm"># Apply reset for two cycles so the interface starts cleanly.</span>'),
+    codeLine('    dut.rst.value = <span class="tok-name">1</span>; dut.valid.value = <span class="tok-name">0</span>; dut.ready.value = <span class="tok-name">1</span>'),
+    codeLine('    <span class="tok-kw">await</span> <span class="tok-name">RisingEdge</span>(dut.clk); <span class="tok-kw">await</span> <span class="tok-name">RisingEdge</span>(dut.clk); dut.rst.value = <span class="tok-name">0</span>'),
+    codeLine(''),
+    codeLine('    <span class="tok-cm"># Drive DUT inputs, then wait a small setup time before the next edge.</span>'),
+    codeLine('    dut.a.value = <span class="tok-name">7</span>; dut.b.value = <span class="tok-name">5</span>; dut.op.value = <span class="tok-name">0</span>; dut.valid.value = <span class="tok-name">1</span>'),
+    codeLine('    <span class="tok-kw">await</span> <span class="tok-name">Timer</span>(<span class="tok-name">2</span>, units=<span class="tok-name">"ns"</span>)'),
+    codeLine(''),
+    codeLine('    <span class="tok-cm"># Coordinate a simple valid/ready handshake and sample the output.</span>'),
+    codeLine('    <span class="tok-kw">while not</span> dut.ready.value:'),
+    codeLine('        <span class="tok-kw">await</span> <span class="tok-name">RisingEdge</span>(dut.clk)'),
+    codeLine('    <span class="tok-kw">await</span> <span class="tok-name">RisingEdge</span>(dut.clk); dut.valid.value = <span class="tok-name">0</span>'),
+    codeLine('    <span class="tok-kw">assert</span> dut.result.value.integer == <span class="tok-name">12</span>')
+  ];
 
   const phasesTimeline = [
     '<div class="phases-timeline click-reveal-item">',
@@ -679,13 +689,13 @@
       slideClass: 'components-objects-slide',
       content: componentsVsObjectsContent
     }),
-    h.standardSlide({
+    t.codeExampleSlide({
       index: 11,
       tag: 'Example',
       title: 'Code Example',
-      clickReveal: true,
-      slideClass: 'code-example-slide',
-      content: codeExampleSlideContent
+      fileName: 'alu_pyuvm_example.py',
+      breadcrumb: 'tb <span>/</span> pyuvm <span>/</span> alu_pyuvm_example.py',
+      lines: pyuvmCodeExampleLines
     }),
     t.revealChecklistSlide({
       index: 12,
@@ -755,19 +765,27 @@
         'It works with multiple simulators, which makes it a strong bridge between Python code and RTL simulation.'
       ]
     }),
+    t.codeExampleSlide({
+      index: 20,
+      tag: 'Example',
+      title: '<span class="tone-cyan">cocotb</span> Control Example',
+      fileName: 'alu_cocotb_example.py',
+      breadcrumb: 'tb <span>/</span> cocotb <span>/</span> alu_cocotb_example.py',
+      lines: cocotbControlExampleLines
+    }),
     t.stackWorkflowSlide({
-      index: 20, tag: 'Integration', title: 'How PyUVM Uses <span class="tone-cyan">cocotb</span>',
+      index: 21, tag: 'Integration', title: 'How PyUVM Uses <span class="tone-cyan">cocotb</span>',
       layers: [{ title: 'PyUVM', label: 'test, env, agent, sequences, phasing, TLM' }, { title: 'cocotb BFM', label: 'drive and sample DUT through Python coroutines' }, { title: 'Simulator', label: 'Icarus, Verilator, or GHDL execute the HDL' }, { title: 'RTL DUT', label: 'the hardware design under verification' }],
       bullets: ['PyUVM does <strong>methodology and organization</strong>.', 'cocotb does <strong>signal-level interaction with the simulator</strong>.', 'In this project, the driver never touches raw simulator APIs directly. It calls the <strong>AluBfm</strong>.', 'The BFM writes DUT inputs, waits for time to pass, then captures output values and queues them for the monitor.', 'This split keeps the testbench clean: PyUVM handles transactions while cocotb handles timing and signal access.'],
       code: ['bfm = ConfigDB().get(self, "", "BFM")', 'item = await self.seq_item_port.get_next_item()', 'await bfm.send_op(item.a, item.b, item.op)', 'self.seq_item_port.item_done()']
     }),
     t.toolGridSlide({
-      index: 21, tag: 'Tools', title: 'Open-Source RTL <span class="tone-violet">Simulation Tools</span>',
+      index: 22, tag: 'Tools', title: 'Open-Source RTL <span class="tone-violet">Simulation Tools</span>',
       tools: [{ title: 'Icarus Verilog', tone: 'tone-blue', subtitle: 'Great for small Verilog/SystemVerilog teaching projects', items: ['Easy to install and widely used in examples', 'Works well with cocotb', 'Used by default in this repository\'s runner flow'] }, { title: 'Verilator', tone: 'tone-cyan', subtitle: 'Fast compiled simulation for many Verilog designs', items: ['Often preferred when simulation speed matters', 'Strong fit for CI pipelines and large regressions', 'Works with cocotb for supported flows'] }, { title: 'GHDL', tone: 'tone-violet', subtitle: 'Open-source simulator for VHDL users', items: ['Useful when the DUT or environment is VHDL-centric', 'Lets the same Python methodology reach VHDL designs', 'Pairs well with cocotb in mixed toolchains'] }],
       bottomCards: [h.card({ body: [h.wrap('h4', 'Waveform viewer', 'tone-green'), h.paragraph('<strong>GTKWave</strong> is not a simulator, but it completes the debug loop by viewing VCD/FST waveform traces.')] }), h.card({ body: [h.wrap('h4', 'Practical advice', 'tone-amber'), h.paragraph('Pick the simulator based on HDL language support, speed needs, and the maturity of your specific DUT flow.')] })]
     }),
     t.stackWorkflowSlide({
-      index: 22, tag: 'Full Stack', title: 'The Complete <span class="tone-green">Open-Source</span> Verification Stack',
+      index: 23, tag: 'Full Stack', title: 'The Complete <span class="tone-green">Open-Source</span> Verification Stack',
       layers: [{ title: 'PyUVM', label: 'verification architecture, tests, sequences, scoreboards' }, { title: 'cocotb', label: 'Python simulator bridge and coroutine scheduling' }, { title: 'Open-source simulator', label: 'Icarus Verilog, Verilator, or GHDL' }, { title: 'RTL', label: 'Verilog or VHDL design under test' }, { title: 'GTKWave + CI', label: 'debug waveforms and automate regressions' }],
       rightTitle: 'Typical workflow',
       bullets: ['Write or import the RTL.', 'Create PyUVM components and sequences in Python.', 'Use cocotb to drive and sample the DUT.', 'Run on an open-source simulator.', 'Inspect failures in logs and waveforms.', 'Automate regressions with scripts or CI.'],
@@ -775,7 +793,7 @@
       codeOptions: { lang: 'bash' }
     }),
     t.codePairSlide({
-      index: 23, tag: 'Example', title: 'PyUVM <span class="tone-green">Code Example</span>',
+      index: 24, tag: 'Example', title: 'PyUVM <span class="tone-green">Code Example</span>',
       leftTitle: 'Sequence item and sequence',
       leftCode: ['class AluSeqItem(uvm_sequence_item):', '    OPS = {"add": 0, "sub": 1, "mul": 2, "div": 3}', '', '    def __init__(self, name="alu_seq_item", a=0, b=0, op=0):', '        super().__init__(name)', '        self.a = a', '        self.b = b', '        self.op = op', '        self.result = 0', '        self.div_by_zero = 0', '', 'class AddSequence(BaseAluSequence):', '    OP_NAME = "add"'],
       rightTitle: 'Environment and test',
@@ -783,18 +801,18 @@
       bottomCards: [h.card({ body: [h.wrap('h4', 'What this teaches', 'tone-cyan'), h.paragraph('The transaction object holds data. The sequence generates items. The environment instantiates the architecture. The test chooses which sequences to run.')] }), h.card({ body: [h.wrap('h4', 'Good classroom demo', 'tone-green'), h.paragraph('This ALU example is small enough to understand quickly but still shows real verification structure, phasing, sequencing, checking, and open-source execution.')] })]
     }),
     t.roadmapSlide({
-      index: 24, tag: 'Next Steps', title: 'How to <span class="tone-amber">Extend</span> This Example',
+      index: 25, tag: 'Next Steps', title: 'How to <span class="tone-amber">Extend</span> This Example',
       bullets: ['Add more <strong>directed and random sequences</strong> to stress edge cases beyond simple arithmetic paths.', 'Track <strong>functional coverage</strong> for operations, corner values, sign behavior, and divide-by-zero scenarios.', 'Make the scoreboard more powerful by comparing against a reusable <strong>reference model</strong>.', 'Run <strong>regressions in CI</strong> so every RTL or testbench change is checked automatically.', 'Scale the same structure to a larger DUT by adding agents, interfaces, and more layered environments.'],
       rightTitle: 'Why this matters',
       cards: [h.card({ body: [h.wrap('h4', 'From demo to real flow', 'tone-green'), h.paragraph('This ALU project is a teaching example, but the next steps are the same ones used in production verification: better stimulus, measurable coverage, stronger checking, and automated regressions.')] }), h.wrap('div', '', 'spacer'), h.card({ body: [h.wrap('h4', 'Practical roadmap', 'tone-cyan'), h.paragraph('Start with one new sequence, add coverage points, connect the results to a regression script, and let the PyUVM structure grow with the design.')] })]
     }),
     t.summarySlide({
-      index: 25, tag: 'Recap', title: 'Summary',
+      index: 26, tag: 'Recap', title: 'Summary',
       topCards: [h.card({ cardTone: 'blue', body: [h.wrap('h4', 'UVM', 'tone-blue'), h.paragraph('A proven methodology for building reusable, scalable verification environments.')] }), h.card({ cardTone: 'cyan', body: [h.wrap('h4', 'PyUVM', 'tone-cyan'), h.paragraph('Brings those ideas into Python while keeping the structure verification teams already know.')] }), h.card({ cardTone: 'green', body: [h.wrap('h4', 'cocotb + open tools', 'tone-green'), h.paragraph('Provide the simulator bridge and execution layer needed for a practical zero-license flow.')] })],
       bullets: ['Use <strong>phases</strong> to organize lifecycle behavior.', 'Use <strong>TLM</strong> to pass transactions cleanly between components.', 'Use the <strong>factory</strong> when you want clean overrides and more flexible tests.', 'Use <strong>cocotb</strong> to interact with signals and simulation time.', 'Use <strong>PyUVM + cocotb + open-source simulators</strong> for an accessible modern verification stack.']
     }),
     t.resourcesSlide({
-      index: 26,
+      index: 27,
       tag: 'Q&amp;A',
       title: 'Thank <span class="tone-cyan">You</span>',
       subtitle: 'Questions and Discussion',

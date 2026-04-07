@@ -34,6 +34,33 @@
     return wrap('pre', `<span class="lang-tag">${escapeHtml(config.lang || 'python')}</span>${escapeHtml(code)}`, cx('code-block', config.classes));
   }
 
+  function codeEditorMockup(config) {
+    const lines = (config.lines || []).map((line, index) => {
+      const lineNumber = String(index + 1);
+      const charCount = line.charCount ?? Math.max(1, String(line.html || '').replace(/<[^>]*>/g, '').length);
+      return wrap(
+        'div',
+        `${wrap('span', lineNumber, 'ln')}${wrap('span', line.html || '', 'lc', `style="--chars: ${charCount};"` )}`,
+        'code-line'
+      );
+    }).join('');
+
+    return wrap('div', [
+      wrap('div', [
+        wrap('div', '<span class="dot dot--red"></span><span class="dot dot--amber"></span><span class="dot dot--green"></span>', 'code-editor-dots'),
+        wrap('div', `<span class="code-editor-tab-icon"></span><span>${escapeHtml(config.fileName || 'example.py')}</span>`, 'code-editor-tab'),
+        wrap('div', '<span></span><span></span><span></span>', 'code-editor-actions')
+      ].join(''), 'code-editor-titlebar'),
+      wrap('div', [
+        wrap('aside', '<span></span><span></span><span></span><span></span>', 'code-editor-sidebar'),
+        wrap('div', [
+          wrap('div', config.breadcrumb || '', 'code-editor-breadcrumb'),
+          wrap('div', wrap('div', lines, 'code-editor-lines'), 'code-editor-scroll')
+        ].join(''), 'code-editor-main')
+      ].join(''), 'code-editor-workbench')
+    ].join(''), cx('code-editor-shell', config.reveal && 'click-reveal-item'));
+  }
+
   function paragraph(content, classes) {
     return wrap('p', content, classes);
   }
@@ -115,7 +142,7 @@
   }
 
   const helpers = {
-    cx, escapeHtml, wrap, sectionStack, list, codeBlock, paragraph, heading, card, cardGrid, split,
+    cx, escapeHtml, wrap, sectionStack, list, codeBlock, codeEditorMockup, paragraph, heading, card, cardGrid, split,
     compareItem, compareRow, phaseBar, classTree, stackDiagram, toolCard, resources, tlmTypeCard, standardSlide
   };
 
@@ -204,6 +231,21 @@
     },
     codePairSlide(config) {
       return standardSlide({ index: config.index, tag: config.tag, title: config.title, content: [split(sectionStack([heading('h3', config.leftTitle), codeBlock(config.leftCode)]), sectionStack([heading('h3', config.rightTitle), codeBlock(config.rightCode)]), 'two-col anim-up d2'), wrap('div', '', 'spacer'), cardGrid(config.bottomCards.map(card), 'grid-2 anim-up d3')].join('') });
+    },
+    codeExampleSlide(config) {
+      return standardSlide({
+        index: config.index,
+        tag: config.tag,
+        title: config.title,
+        clickReveal: true,
+        slideClass: cx('code-example-slide', config.slideClass),
+        content: codeEditorMockup({
+          fileName: config.fileName,
+          breadcrumb: config.breadcrumb,
+          lines: config.lines,
+          reveal: true
+        })
+      });
     },
     roadmapSlide(config) {
       return standardSlide({ index: config.index, tag: config.tag, title: config.title, content: split(wrap('div', list(config.bullets), 'content-section anim-up d2'), sectionStack([heading('h3', config.rightTitle, 'anim-up d3'), ...config.cards], 'anim-up d3')) });
