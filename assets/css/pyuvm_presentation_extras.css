@@ -329,32 +329,94 @@
   animation-delay: var(--line-delay);
 }
 
-.code-example-slide .tok-kw {
+.code-editor-shell .tok-kw {
   color: #569cd6;
 }
 
-.code-example-slide .tok-mod {
+.code-editor-shell .tok-mod {
   color: #4ec9b0;
 }
 
-.code-example-slide .tok-name {
+.code-editor-shell .tok-name {
   color: #9cdcfe;
 }
 
-.code-example-slide .tok-class {
+.code-editor-shell .tok-class {
   color: #4ec9b0;
 }
 
-.code-example-slide .tok-dec {
+.code-editor-shell .tok-dec {
   color: #dcdcaa;
 }
 
-.code-example-slide .tok-dim {
+.code-editor-shell .tok-dim {
   color: #808080;
 }
 
-.code-example-slide .tok-cm {
+.code-editor-shell .tok-cm {
   color: #6a9955;
+}
+
+.config-slide .content-section {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 2.5rem;
+  align-items: start;
+}
+
+.config-slide .content-section > * {
+  min-width: 0;
+}
+
+.config-slide .section-stack {
+  min-width: 0;
+  width: 100%;
+  align-items: stretch;
+}
+
+.config-slide .config-slide-example {
+  gap: 0.95rem;
+}
+
+.config-slide .config-slide-example h3 {
+  margin: 0;
+}
+
+.config-slide .config-slide-example.revealed .code-line .ln {
+  animation: codeLineAppear 0.01s linear both;
+  animation-delay: var(--line-delay);
+}
+
+.config-slide .config-slide-example.revealed .code-line .lc {
+  animation: codeLineTyping 0.62s steps(24, end) both;
+  animation-delay: var(--line-delay);
+}
+
+.config-slide .code-editor-shell {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  align-self: stretch;
+}
+
+.config-slide .code-editor-shell--fit-content {
+  height: auto;
+}
+
+.config-slide .code-editor-shell--fit-content .code-editor-workbench {
+  flex: 0 0 auto;
+}
+
+.config-slide .code-editor-shell--fit-content .code-editor-main {
+  grid-template-rows: 34px auto;
+}
+
+.config-slide .code-editor-shell--fit-content .code-editor-scroll {
+  overflow: visible;
+}
+
+.config-slide .code-editor-shell--fit-content .code-editor-lines {
+  padding-bottom: 1.25rem;
 }
 
 @keyframes codeEditorOpen {

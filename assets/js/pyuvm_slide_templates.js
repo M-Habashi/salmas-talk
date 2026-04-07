@@ -58,7 +58,7 @@
           wrap('div', wrap('div', lines, 'code-editor-lines'), 'code-editor-scroll')
         ].join(''), 'code-editor-main')
       ].join(''), 'code-editor-workbench')
-    ].join(''), cx('code-editor-shell', config.reveal && 'click-reveal-item'));
+    ].join(''), cx('code-editor-shell', config.classes, config.reveal && 'click-reveal-item'));
   }
 
   function paragraph(content, classes) {
