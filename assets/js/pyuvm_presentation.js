@@ -21,6 +21,10 @@ let laserPointerVisible = false;
 let laserPointerHasPosition = false;
 let laserPointerX = 0;
 let laserPointerY = 0;
+let penToolEnabled = false;
+let penHasInk = false;
+let penIsDrawing = false;
+let penLastPoint = null;
 
 const SLIDE_STATE = Object.freeze({
   RESET: 'reset',
@@ -115,7 +119,15 @@ function getLaserPointerElement() {
   return document.getElementById('laserPointer');
 }
 
+function getPenLayerElement() {
+  return document.getElementById('penLayer');
+}
+
 function canUseLaserPointer() {
+  return !isEditMode && !isOverviewMode;
+}
+
+function canUsePenTool() {
   return !isEditMode && !isOverviewMode;
 }
 
@@ -214,6 +226,145 @@ function handleLaserPointerMove(event) {
   if (!canUseLaserPointer()) return;
   if (!laserPointerEnabled && !laserPointerTransient) return;
   showLaserPointer(event.clientX, event.clientY);
+}
+
+function getPenContext() {
+  const layer = getPenLayerElement();
+  return layer ? layer.getContext('2d') : null;
+}
+
+function resizePenLayer({ preserveInk = true } = {}) {
+  const layer = getPenLayerElement();
+  if (!layer) return;
+
+  const previousWidth = layer.width;
+  const previousHeight = layer.height;
+  const snapshot = preserveInk && penHasInk && previousWidth > 0 && previousHeight > 0
+    ? (() => {
+        const buffer = document.createElement('canvas');
+        buffer.width = previousWidth;
+        buffer.height = previousHeight;
+        buffer.getContext('2d')?.drawImage(layer, 0, 0);
+        return buffer;
+      })()
+    : null;
+
+  const devicePixelRatio = window.devicePixelRatio || 1;
+  const cssWidth = window.innerWidth;
+  const cssHeight = window.innerHeight;
+
+  layer.width = Math.max(1, Math.round(cssWidth * devicePixelRatio));
+  layer.height = Math.max(1, Math.round(cssHeight * devicePixelRatio));
+  layer.style.width = `${cssWidth}px`;
+  layer.style.height = `${cssHeight}px`;
+
+  const context = layer.getContext('2d');
+  if (!context) return;
+
+  context.setTransform(1, 0, 0, 1, 0, 0);
+  context.scale(devicePixelRatio, devicePixelRatio);
+  context.lineCap = 'round';
+  context.lineJoin = 'round';
+  context.strokeStyle = '#ff3b3b';
+  context.fillStyle = '#ff3b3b';
+  context.lineWidth = 4;
+
+  if (snapshot) {
+    context.drawImage(snapshot, 0, 0, previousWidth, previousHeight, 0, 0, cssWidth, cssHeight);
+  }
+}
+
+function syncPenLayer() {
+  const layer = getPenLayerElement();
+  if (!layer) return;
+
+  const shouldShow = !isOverviewMode && !isEditMode && (penToolEnabled || penHasInk);
+  layer.hidden = !shouldShow;
+  layer.classList.toggle('is-visible', shouldShow);
+  layer.classList.toggle('is-active', shouldShow && penToolEnabled);
+  document.body.classList.toggle('pen-tool-active', shouldShow && penToolEnabled);
+}
+
+function clearPenInk() {
+  const layer = getPenLayerElement();
+  const context = getPenContext();
+  if (layer && context) {
+    context.clearRect(0, 0, layer.width, layer.height);
+  }
+
+  penHasInk = false;
+  penIsDrawing = false;
+  penLastPoint = null;
+  syncPenLayer();
+}
+
+function disablePenTool({ clearInk = false } = {}) {
+  penToolEnabled = false;
+  penIsDrawing = false;
+  penLastPoint = null;
+
+  if (clearInk) {
+    clearPenInk();
+    return;
+  }
+
+  syncPenLayer();
+}
+
+function togglePenTool() {
+  if (!canUsePenTool()) return;
+
+  penToolEnabled = !penToolEnabled;
+  penIsDrawing = false;
+  penLastPoint = null;
+
+  if (penToolEnabled) {
+    disableLaserPointer();
+  }
+
+  syncPenLayer();
+}
+
+function drawPenSegment(fromPoint, toPoint) {
+  const context = getPenContext();
+  if (!context || !fromPoint || !toPoint) return;
+
+  context.beginPath();
+  context.moveTo(fromPoint.x, fromPoint.y);
+  context.lineTo(toPoint.x, toPoint.y);
+  context.stroke();
+  penHasInk = true;
+}
+
+function startPenStroke(event) {
+  if (!penToolEnabled || !canUsePenTool() || event.button !== 0) return false;
+  if (event.target.closest('.style-toolbar')) return false;
+
+  const point = { x: event.clientX, y: event.clientY };
+  penIsDrawing = true;
+  penLastPoint = point;
+  penHasInk = true;
+  suppressClickReveal = true;
+
+  drawPenSegment(point, point);
+  syncPenLayer();
+  return true;
+}
+
+function continuePenStroke(event) {
+  if (!penToolEnabled || !penIsDrawing) return false;
+
+  const point = { x: event.clientX, y: event.clientY };
+  drawPenSegment(penLastPoint, point);
+  penLastPoint = point;
+  return true;
+}
+
+function stopPenStroke() {
+  if (!penIsDrawing) return;
+  penIsDrawing = false;
+  penLastPoint = null;
+  syncPenLayer();
 }
 
 function getStackingCardsSlide(slide = slides[currentSlide]) {
@@ -720,6 +871,8 @@ function goToSlide(index, options = {}) {
   const previousIndex = currentSlide;
   const targetState = options.state ?? (index < previousIndex ? SLIDE_STATE.FINAL : SLIDE_STATE.RESET);
 
+  stopPenStroke();
+  clearPenInk();
   stopStackingCardsAnimations();
   clearSelection();
   previousSlide?.classList.remove('active');
@@ -871,6 +1024,7 @@ function openOverview() {
   if (isOverviewMode) return;
   ensureOverviewUI();
   disableLaserPointer();
+  disablePenTool();
   document.activeElement?.blur?.();
   clearSelection();
   renderOverviewThumbnails();
@@ -878,6 +1032,7 @@ function openOverview() {
   document.body.classList.add('overview-mode');
   overviewRoot.classList.add('is-visible');
   overviewRoot.setAttribute('aria-hidden', 'false');
+  syncPenLayer();
 }
 
 function closeOverview({ targetIndex = null } = {}) {
@@ -886,6 +1041,7 @@ function closeOverview({ targetIndex = null } = {}) {
   document.body.classList.remove('overview-mode');
   overviewRoot?.classList.remove('is-visible');
   overviewRoot?.setAttribute('aria-hidden', 'true');
+  syncPenLayer();
 
   if (typeof targetIndex === 'number' && !Number.isNaN(targetIndex)) {
     goToSlide(targetIndex);
@@ -964,6 +1120,7 @@ function setEditMode(enabled) {
 
   if (isEditMode) {
     disableLaserPointer();
+    disablePenTool();
   }
 
   if (!isEditMode) {
@@ -974,6 +1131,7 @@ function setEditMode(enabled) {
   makeSlidesEditable();
   makeBlocksMovable();
   document.body.classList.toggle('edit-mode', isEditMode);
+  syncPenLayer();
   document.dispatchEvent(new CustomEvent('pyuvm-edit-mode-change', { detail: { isEditMode } }));
 }
 
@@ -1107,6 +1265,11 @@ function setupFigureDragging() {
     if (event.target.closest('.style-toolbar')) return;
     rememberLaserPointerPosition(event.clientX, event.clientY);
 
+    if (startPenStroke(event)) {
+      event.preventDefault();
+      return;
+    }
+
     if (!isEditMode && !isOverviewMode && event.ctrlKey) {
       if (startTransientLaserPointer(event)) {
         event.preventDefault();
@@ -1142,6 +1305,10 @@ function setupFigureDragging() {
   });
 
   document.addEventListener('pointermove', (event) => {
+    if (continuePenStroke(event)) {
+      event.preventDefault();
+      return;
+    }
     handleLaserPointerMove(event);
     if (!dragState) return;
 
@@ -1157,6 +1324,7 @@ function setupFigureDragging() {
   });
 
   function stopDragging(event) {
+    stopPenStroke();
     stopTransientLaserPointer();
     if (!dragState) return;
 
@@ -1218,7 +1386,14 @@ document.addEventListener('keydown', async (event) => {
 
   if ((event.ctrlKey || event.metaKey) && key === 'l') {
     event.preventDefault();
+    disablePenTool();
     toggleLaserPointer();
+    return;
+  }
+
+  if ((event.ctrlKey || event.metaKey) && key === 'p') {
+    event.preventDefault();
+    togglePenTool();
     return;
   }
 
@@ -1242,6 +1417,11 @@ document.addEventListener('keydown', async (event) => {
       event.preventDefault();
       if (isOverviewMode) {
         closeOverview();
+        return;
+      }
+
+      if (penToolEnabled) {
+        disablePenTool();
         return;
       }
 
@@ -1321,6 +1501,7 @@ document.addEventListener('touchend', (event) => {
 
 document.addEventListener('click', (event) => {
   if (isOverviewMode) return;
+  if (penToolEnabled) return;
   if (laserPointerEnabled || laserPointerTransient) return;
 
   const block = event.target.closest('.movable-figure');
@@ -1382,9 +1563,12 @@ document.addEventListener('focusin', (event) => {
 
 window.addEventListener('resize', () => {
   updateSlideCounterMetrics();
+  resizePenLayer();
+  syncPenLayer();
 });
 
 window.addEventListener('blur', () => {
+  stopPenStroke();
   stopTransientLaserPointer();
   if (laserPointerEnabled) {
     hideLaserPointer();
@@ -1393,6 +1577,7 @@ window.addEventListener('blur', () => {
 
 document.addEventListener('visibilitychange', () => {
   if (!document.hidden) return;
+  stopPenStroke();
   stopTransientLaserPointer();
   if (laserPointerEnabled) {
     hideLaserPointer();
@@ -1407,6 +1592,8 @@ window.PYUVM_EDITOR = {
 
 renderPresentationFromData();
 applyEditorEnhancements();
+resizePenLayer({ preserveInk: false });
+syncPenLayer();
 setupFigureDragging();
 updateSlideCounterMetrics();
 setSlideState(slides[currentSlide], SLIDE_STATE.RESET);

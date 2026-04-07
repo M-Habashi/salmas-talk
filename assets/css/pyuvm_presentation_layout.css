@@ -78,9 +78,31 @@
   transform: translate(-50%, -50%) scale(1);
 }
 
+.pen-layer {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 170;
+}
+
+.pen-layer.is-visible {
+  display: block;
+}
+
+.pen-layer.is-active {
+  pointer-events: auto;
+}
+
 body.laser-pointer-active,
 body.laser-pointer-active * {
   cursor: none !important;
+}
+
+body.pen-tool-active,
+body.pen-tool-active * {
+  cursor: crosshair !important;
 }
 
 .style-toolbar {
