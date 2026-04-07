@@ -258,7 +258,7 @@
 
   const tlmAnimationDiagram = [
     '<div class="tlm-animation-reveal">',
-    '  <svg viewBox="0 0 1200 860" xmlns="http://www.w3.org/2000/svg" aria-label="Types of TLM diagram" role="img">',
+    '  <svg viewBox="50 120 1100 700" xmlns="http://www.w3.org/2000/svg" aria-label="Types of TLM diagram" role="img">',
     '    <defs>',
     '      <marker id="tlm-arrow-end-grey" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="6" markerHeight="6" orient="auto-start-reverse" overflow="visible">',
     '        <path d="M 0 2 L 12 6 L 0 10 L 3 6 z" fill="rgba(255, 255, 255, 0.15)" />',

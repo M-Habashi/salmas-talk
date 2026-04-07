@@ -25,6 +25,14 @@
   --font-display: 'Outfit', sans-serif;
   --font-serif: 'Instrument Serif', serif;
   --font-mono: 'JetBrains Mono', monospace;
+  --slide-counter-bottom: 1.2rem;
+  --slide-counter-right: 2rem;
+  --slide-counter-font-size: 1.4rem;
+  --slide-counter-line-height: 1;
+  --slide-counter-bottom-actual: var(--slide-counter-bottom);
+  --slide-counter-right-actual: var(--slide-counter-right);
+  --slide-counter-height-actual: calc(var(--slide-counter-font-size) * var(--slide-counter-line-height));
+  --slide-counter-clearance-buffer: 0.8rem;
 }
 
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }

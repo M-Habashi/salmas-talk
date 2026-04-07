@@ -44,10 +44,11 @@
 
 .slide-counter {
   position: fixed;
-  bottom: 1.2rem;
-  right: 2rem;
+  bottom: var(--slide-counter-bottom);
+  right: var(--slide-counter-right);
   font-family: var(--font-mono);
-  font-size: 1.4rem;
+  font-size: var(--slide-counter-font-size);
+  line-height: var(--slide-counter-line-height);
   color: var(--text-dim);
   z-index: 100;
   letter-spacing: 0.05em;

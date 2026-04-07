@@ -83,10 +83,26 @@ function updateUI() {
   const progress = totalSlides > 0 ? ((currentSlide + 1) / totalSlides) * 100 : 0;
   document.getElementById('progressBar').style.width = progress + '%';
   document.getElementById('currentSlide').textContent = String(currentSlide + 1).padStart(2, '0');
+  updateSlideCounterMetrics();
 
   if (isOverviewMode) {
     highlightOverviewSelection();
   }
+}
+
+function updateSlideCounterMetrics() {
+  const counter = document.querySelector('.slide-counter');
+  if (!counter) return;
+
+  const computed = window.getComputedStyle(counter);
+  const rootStyle = document.documentElement.style;
+  const bottom = computed.bottom;
+  const right = computed.right;
+  const height = `${counter.getBoundingClientRect().height}px`;
+
+  rootStyle.setProperty('--slide-counter-bottom-actual', bottom);
+  rootStyle.setProperty('--slide-counter-right-actual', right);
+  rootStyle.setProperty('--slide-counter-height-actual', height);
 }
 
 function getStackingCardsSlide(slide = slides[currentSlide]) {
@@ -1207,6 +1223,10 @@ document.addEventListener('focusin', (event) => {
   }
 });
 
+window.addEventListener('resize', () => {
+  updateSlideCounterMetrics();
+});
+
 window.PYUVM_EDITOR = {
   getSelectedElement: () => selectedElement,
   isEditMode: () => isEditMode,
@@ -1216,6 +1236,7 @@ window.PYUVM_EDITOR = {
 renderPresentationFromData();
 applyEditorEnhancements();
 setupFigureDragging();
+updateSlideCounterMetrics();
 setSlideState(slides[currentSlide], SLIDE_STATE.RESET);
 recordHistory();
 

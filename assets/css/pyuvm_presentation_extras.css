@@ -1808,10 +1808,10 @@
   align-items: center;
   flex: 1 1 auto;
   width: 100%;
-  height: calc(100% - 5.5rem);
+  height: calc(100% - 5.5rem - var(--slide-counter-bottom-actual) - var(--slide-counter-height-actual) - var(--slide-counter-clearance-buffer));
   max-height: none;
   margin: 0;
-  padding: 0;
+  padding: 0 0 calc(var(--slide-counter-bottom-actual) + var(--slide-counter-height-actual) + var(--slide-counter-clearance-buffer));
 }
 
 .tlm-animation-reveal svg {
