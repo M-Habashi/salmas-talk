@@ -276,10 +276,13 @@
       ].join(''), cx('slide', 'stacking-slide', config.slideClass), `data-stacking-cards="true" data-slide="${config.index}"`);
     },
     resourcesSlide(config) {
+      const hasResources = Array.isArray(config.resources) && config.resources.length;
       return wrap('div', [
         wrap('h1', config.title, 'anim-up d1 thanks-title'),
         paragraph(config.subtitle, 'subtitle subtitle--center anim-up d2'),
-        wrap('div', [heading('h3', config.resourcesTitle, 'resources-heading'), resources(config.resources)].join(''), 'anim-up d3 resource-panel')
+        hasResources
+          ? wrap('div', [heading('h3', config.resourcesTitle, 'resources-heading'), resources(config.resources)].join(''), 'anim-up d3 resource-panel')
+          : ''
       ].join(''), 'slide thankyou-slide', `data-slide="${config.index}"`);
     }
   };

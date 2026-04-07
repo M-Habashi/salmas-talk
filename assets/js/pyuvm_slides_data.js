@@ -759,7 +759,7 @@
       index: 2,
       tag: 'Agenda',
       title: 'Table of <span class="tone-cyan">Contents</span>',
-      items: ['What is UVM?', 'UVM Testbench Architecture', 'UVM Hierarchy', 'The Problem with Traditional UVM', 'What is PyUVM?', 'Advantages of PyUVM over Traditional UVM', 'UVM Testbench Architecture', 'Components VS Objects', 'Code Example', 'Phases', 'Phases Diagram', 'Phases Table', 'Objections Management', 'Objections Management', 'TLM', 'TLM', 'Sequence TLM UVM', 'Configuration', 'What is cocotb?', 'How PyUVM Uses cocotb', 'Open-Source Simulation Tools', 'The Complete Open-Source Verification Stack', 'PyUVM Code Example', 'How to Extend This Example', 'Summary']
+      items: ['What is UVM?', 'UVM Testbench Architecture', 'UVM Hierarchy', 'The Problem with Traditional UVM', 'What is PyUVM?', 'Advantages of PyUVM over Traditional UVM', 'UVM Testbench Architecture', 'Components VS Objects', 'Code Example', 'Phases', 'Phases Diagram', 'Phases Table', 'Objections Management', 'Objections Management', 'TLM', 'TLM', 'Sequence TLM UVM', 'Configuration', 'What is cocotb?', 'How PyUVM Uses cocotb']
     }),
     t.focusCardsSlide({
       index: 3,
@@ -1020,45 +1020,11 @@
       bullets: ['PyUVM does <strong>methodology and organization</strong>.', 'cocotb does <strong>signal-level interaction with the simulator</strong>.', 'In this project, the driver never touches raw simulator APIs directly. It calls the <strong>AluBfm</strong>.', 'The BFM writes DUT inputs, waits for time to pass, then captures output values and queues them for the monitor.', 'This split keeps the testbench clean: PyUVM handles transactions while cocotb handles timing and signal access.'],
       code: ['bfm = ConfigDB().get(self, "", "BFM")', 'item = await self.seq_item_port.get_next_item()', 'await bfm.send_op(item.a, item.b, item.op)', 'self.seq_item_port.item_done()']
     }),
-    t.toolGridSlide({
-      index: 24, tag: 'Tools', title: 'Open-Source RTL <span class="tone-violet">Simulation Tools</span>',
-      tools: [{ title: 'Icarus Verilog', tone: 'tone-blue', subtitle: 'Great for small Verilog/SystemVerilog teaching projects', items: ['Easy to install and widely used in examples', 'Works well with cocotb', 'Used by default in this repository\'s runner flow'] }, { title: 'Verilator', tone: 'tone-cyan', subtitle: 'Fast compiled simulation for many Verilog designs', items: ['Often preferred when simulation speed matters', 'Strong fit for CI pipelines and large regressions', 'Works with cocotb for supported flows'] }, { title: 'GHDL', tone: 'tone-violet', subtitle: 'Open-source simulator for VHDL users', items: ['Useful when the DUT or environment is VHDL-centric', 'Lets the same Python methodology reach VHDL designs', 'Pairs well with cocotb in mixed toolchains'] }],
-      bottomCards: [h.card({ body: [h.wrap('h4', 'Waveform viewer', 'tone-green'), h.paragraph('<strong>GTKWave</strong> is not a simulator, but it completes the debug loop by viewing VCD/FST waveform traces.')] }), h.card({ body: [h.wrap('h4', 'Practical advice', 'tone-amber'), h.paragraph('Pick the simulator based on HDL language support, speed needs, and the maturity of your specific DUT flow.')] })]
-    }),
-    t.stackWorkflowSlide({
-      index: 25, tag: 'Full Stack', title: 'The Complete <span class="tone-green">Open-Source</span> Verification Stack',
-      layers: [{ title: 'PyUVM', label: 'verification architecture, tests, sequences, scoreboards' }, { title: 'cocotb', label: 'Python simulator bridge and coroutine scheduling' }, { title: 'Open-source simulator', label: 'Icarus Verilog, Verilator, or GHDL' }, { title: 'RTL', label: 'Verilog or VHDL design under test' }, { title: 'GTKWave + CI', label: 'debug waveforms and automate regressions' }],
-      rightTitle: 'Typical workflow',
-      bullets: ['Write or import the RTL.', 'Create PyUVM components and sequences in Python.', 'Use cocotb to drive and sample the DUT.', 'Run on an open-source simulator.', 'Inspect failures in logs and waveforms.', 'Automate regressions with scripts or CI.'],
-      code: ['pip install -r requirements.txt', 'python run.py', 'python run.py --test AluDivideTest'],
-      codeOptions: { lang: 'bash' }
-    }),
-    t.codePairSlide({
-      index: 26, tag: 'Example', title: 'PyUVM <span class="tone-green">Code Example</span>',
-      leftTitle: 'Sequence item and sequence',
-      leftCode: ['class AluSeqItem(uvm_sequence_item):', '    OPS = {"add": 0, "sub": 1, "mul": 2, "div": 3}', '', '    def __init__(self, name="alu_seq_item", a=0, b=0, op=0):', '        super().__init__(name)', '        self.a = a', '        self.b = b', '        self.op = op', '        self.result = 0', '        self.div_by_zero = 0', '', 'class AddSequence(BaseAluSequence):', '    OP_NAME = "add"'],
-      rightTitle: 'Environment and test',
-      rightCode: ['class AluEnv(uvm_env):', '    def build_phase(self):', '        ConfigDB().set(self, "*", "WIDTH", 16)', '        ConfigDB().set(self, "*", "BFM", AluBfm())', '        self.agent = AluAgent("agent", self)', '        self.scoreboard = AluScoreboard("scoreboard", self)', '', 'class AluAllOpsTest(AluBaseTest):', '    SEQUENCES = (', '        AddSequence,', '        SubtractSequence,', '        MultiplySequence,', '        DivideSequence,', '    )'],
-      bottomCards: [h.card({ body: [h.wrap('h4', 'What this teaches', 'tone-cyan'), h.paragraph('The transaction object holds data. The sequence generates items. The environment instantiates the architecture. The test chooses which sequences to run.')] }), h.card({ body: [h.wrap('h4', 'Good classroom demo', 'tone-green'), h.paragraph('This ALU example is small enough to understand quickly but still shows real verification structure, phasing, sequencing, checking, and open-source execution.')] })]
-    }),
-    t.roadmapSlide({
-      index: 27, tag: 'Next Steps', title: 'How to <span class="tone-amber">Extend</span> This Example',
-      bullets: ['Add more <strong>directed and random sequences</strong> to stress edge cases beyond simple arithmetic paths.', 'Track <strong>functional coverage</strong> for operations, corner values, sign behavior, and divide-by-zero scenarios.', 'Make the scoreboard more powerful by comparing against a reusable <strong>reference model</strong>.', 'Run <strong>regressions in CI</strong> so every RTL or testbench change is checked automatically.', 'Scale the same structure to a larger DUT by adding agents, interfaces, and more layered environments.'],
-      rightTitle: 'Why this matters',
-      cards: [h.card({ body: [h.wrap('h4', 'From demo to real flow', 'tone-green'), h.paragraph('This ALU project is a teaching example, but the next steps are the same ones used in production verification: better stimulus, measurable coverage, stronger checking, and automated regressions.')] }), h.wrap('div', '', 'spacer'), h.card({ body: [h.wrap('h4', 'Practical roadmap', 'tone-cyan'), h.paragraph('Start with one new sequence, add coverage points, connect the results to a regression script, and let the PyUVM structure grow with the design.')] })]
-    }),
-    t.summarySlide({
-      index: 28, tag: 'Recap', title: 'Summary',
-      topCards: [h.card({ cardTone: 'blue', body: [h.wrap('h4', 'UVM', 'tone-blue'), h.paragraph('A proven methodology for building reusable, scalable verification environments.')] }), h.card({ cardTone: 'cyan', body: [h.wrap('h4', 'PyUVM', 'tone-cyan'), h.paragraph('Brings those ideas into Python while keeping the structure verification teams already know.')] }), h.card({ cardTone: 'green', body: [h.wrap('h4', 'cocotb + open tools', 'tone-green'), h.paragraph('Provide the simulator bridge and execution layer needed for a practical zero-license flow.')] })],
-      bullets: ['Use <strong>phases</strong> to organize lifecycle behavior.', 'Use <strong>TLM</strong> to pass transactions cleanly between components.', 'Use the <strong>factory</strong> when you want clean overrides and more flexible tests.', 'Use <strong>cocotb</strong> to interact with signals and simulation time.', 'Use <strong>PyUVM + cocotb + open-source simulators</strong> for an accessible modern verification stack.']
-    }),
     t.resourcesSlide({
-      index: 29,
+      index: 24,
       tag: 'Q&amp;A',
       title: 'Thank <span class="tone-cyan">You</span>',
-      subtitle: 'Questions and Discussion',
-      resourcesTitle: 'Resources',
-      resources: [{ label: 'Repo', value: 'PyUVM_Example' }, { label: 'PyUVM', value: 'pyuvm.github.io/pyuvm' }, { label: 'cocotb', value: 'docs.cocotb.org' }, { label: 'Run', value: 'python run.py' }, { label: 'Single test', value: 'python run.py --test AluAddTest' }]
+      subtitle: 'Questions and Discussion'
     })
   ];
 
