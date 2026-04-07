@@ -518,10 +518,22 @@ function setClickRevealState(slide, revealed) {
   });
 }
 
+function getNextRevealBatch(slide = slides[currentSlide]) {
+  const items = getClickRevealItems(slide).filter((item) => !item.classList.contains('revealed'));
+  if (!items.length) return [];
+
+  if (slide?.dataset.revealMode !== 'step-groups') {
+    return [items[0]];
+  }
+
+  const firstStep = Number(items[0].dataset.autoRevealStep || Number.MAX_SAFE_INTEGER);
+  return items.filter((item) => Number(item.dataset.autoRevealStep || Number.MAX_SAFE_INTEGER) === firstStep);
+}
+
 function revealNextItem() {
-  const nextItem = getClickRevealItems().find((item) => !item.classList.contains('revealed'));
-  if (!nextItem) return false;
-  nextItem.classList.add('revealed');
+  const nextBatch = getNextRevealBatch();
+  if (!nextBatch.length) return false;
+  nextBatch.forEach((item) => item.classList.add('revealed'));
   return true;
 }
 
@@ -549,13 +561,13 @@ function scheduleAutoReveal(slide) {
       return;
     }
 
-    const nextItem = getClickRevealItems(slide).find((item) => !item.classList.contains('revealed'));
-    if (!nextItem) {
+    const nextBatch = getNextRevealBatch(slide);
+    if (!nextBatch.length) {
       stopAutoReveal();
       return;
     }
 
-    nextItem.classList.add('revealed');
+    nextBatch.forEach((item) => item.classList.add('revealed'));
     autoRevealTimer = setTimeout(revealStep, 320);
   };
 
