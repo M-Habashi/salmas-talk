@@ -340,26 +340,33 @@
   const cocotbControlExampleLines = [
     codeLine('<span class="tok-kw">import</span> <span class="tok-mod">cocotb</span>'),
     codeLine('<span class="tok-kw">from</span> <span class="tok-mod">cocotb.clock</span> <span class="tok-kw">import</span> <span class="tok-name">Clock</span>'),
-    codeLine('<span class="tok-kw">from</span> <span class="tok-mod">cocotb.triggers</span> <span class="tok-kw">import</span> <span class="tok-name">RisingEdge</span>, <span class="tok-name">Timer</span>'),
+    codeLine('<span class="tok-kw">from</span> <span class="tok-mod">cocotb.triggers</span> <span class="tok-kw">import</span> <span class="tok-name">RisingEdge</span>, <span class="tok-name">FallingEdge</span>, <span class="tok-name">Timer</span>'),
     codeLine(''),
     codeLine('<span class="tok-dec">@cocotb.test</span>()'),
-    codeLine('<span class="tok-kw">async def</span> <span class="tok-name">alu_handshake_demo</span>(dut):'),
-    codeLine('    <span class="tok-cm"># Generate a free-running clock for the DUT.</span>'),
+    codeLine('<span class="tok-kw">async def</span> <span class="tok-name">simple_alu_demo</span>(dut):'),
+    codeLine('    <span class="tok-cm"># Start a clock so the DUT has a timing reference.</span>'),
     codeLine('    cocotb.start_soon(<span class="tok-name">Clock</span>(dut.clk, <span class="tok-name">10</span>, units=<span class="tok-name">"ns"</span>).start())'),
     codeLine(''),
-    codeLine('    <span class="tok-cm"># Apply reset for two cycles so the interface starts cleanly.</span>'),
-    codeLine('    dut.rst.value = <span class="tok-name">1</span>; dut.valid.value = <span class="tok-name">0</span>; dut.ready.value = <span class="tok-name">1</span>'),
-    codeLine('    <span class="tok-kw">await</span> <span class="tok-name">RisingEdge</span>(dut.clk); <span class="tok-kw">await</span> <span class="tok-name">RisingEdge</span>(dut.clk); dut.rst.value = <span class="tok-name">0</span>'),
+    codeLine('    <span class="tok-cm"># waiting rising edge</span>'),
+    codeLine('    <span class="tok-kw">await</span> <span class="tok-name">RisingEdge</span>(dut.clk)'),
     codeLine(''),
-    codeLine('    <span class="tok-cm"># Drive DUT inputs, then wait a small setup time before the next edge.</span>'),
-    codeLine('    dut.a.value = <span class="tok-name">7</span>; dut.b.value = <span class="tok-name">5</span>; dut.op.value = <span class="tok-name">0</span>; dut.valid.value = <span class="tok-name">1</span>'),
+    codeLine('    <span class="tok-cm"># Apply reset, wait two edges, then release it.</span>'),
+    codeLine('    dut.rst.value = <span class="tok-name">1</span>'),
+    codeLine(''),
+    codeLine('    <span class="tok-cm"># Drive input</span>'),
+    codeLine('    dut.a.value = <span class="tok-name">7</span>; dut.b.value = <span class="tok-name">5</span>;'),
+    codeLine(''),
+    codeLine('    <span class="tok-cm"># Monitor output</span>'),
+    codeLine('    <span class="tok-kw">await</span> <span class="tok-name">RisingEdge</span>(dut.clk)'),
+    codeLine(''),
+    codeLine('    <span class="tok-cm"># Check the DUT output.</span>'),
+    codeLine('    <span class="tok-kw">assert</span> dut.result.value.integer == <span class="tok-name">12</span>'),
+    codeLine(''),
+    codeLine('    <span class="tok-cm"># Advance simulation time by 2 ns</span>'),
     codeLine('    <span class="tok-kw">await</span> <span class="tok-name">Timer</span>(<span class="tok-name">2</span>, units=<span class="tok-name">"ns"</span>)'),
-    codeLine(''),
-    codeLine('    <span class="tok-cm"># Coordinate a simple valid/ready handshake and sample the output.</span>'),
-    codeLine('    <span class="tok-kw">while not</span> dut.ready.value:'),
-    codeLine('        <span class="tok-kw">await</span> <span class="tok-name">RisingEdge</span>(dut.clk)'),
-    codeLine('    <span class="tok-kw">await</span> <span class="tok-name">RisingEdge</span>(dut.clk); dut.valid.value = <span class="tok-name">0</span>'),
-    codeLine('    <span class="tok-kw">assert</span> dut.result.value.integer == <span class="tok-name">12</span>')
+    codeLine('    '),
+    codeLine('    <span class="tok-cm"># Wait for the falling edge of the clock</span>'),
+    codeLine('    <span class="tok-kw">await</span> <span class="tok-name">FallingEdge</span>(dut.clk)')
   ];
 
   const phasesTimeline = [
@@ -760,7 +767,6 @@
       slideClass: 'pyuvm-points-slide cocotb-checklist-slide',
       items: [
         '<strong>cocotb</strong> is a coroutine-based cosimulation framework for verifying HDL designs in Python.',
-        'It gives Python code access to simulator objects and DUT signals.',
         'Testbenches use <strong>async/await</strong> and simulation triggers such as timers and clock edges.',
         'It works with multiple simulators, which makes it a strong bridge between Python code and RTL simulation.'
       ]
@@ -768,7 +774,7 @@
     t.codeExampleSlide({
       index: 20,
       tag: 'Example',
-      title: '<span class="tone-cyan">cocotb</span> Control Example',
+      title: '<span class="tone-cyan">cocotb</span> Example',
       fileName: 'alu_cocotb_example.py',
       breadcrumb: 'tb <span>/</span> cocotb <span>/</span> alu_cocotb_example.py',
       lines: cocotbControlExampleLines

@@ -2064,7 +2064,7 @@
 }
 
 .pyuvm-points-list li {
-  font-size: 1.45rem;
+  font-size: 1.6rem;
   line-height: 1.5;
   color: var(--text-primary);
 }
@@ -2089,7 +2089,7 @@
 
 .pyuvm-point-text {
   flex: 1;
-  font-size: 1.45rem;
+  font-size: 1.6rem;
   line-height: 1.5;
 }
 
