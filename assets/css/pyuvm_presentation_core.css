@@ -147,68 +147,6 @@ body {
 
 .slide > * { position: relative; z-index: 1; }
 
-.slide-fit-frame {
-  position: relative;
-  display: flex;
-  flex: 1 1 auto;
-  flex-direction: column;
-  width: 100%;
-  min-height: 100%;
-  z-index: 1;
-}
-
-.slide-fit-frame--whole {
-  justify-content: center;
-}
-
-.slide-fit-header {
-  flex: 0 0 auto;
-}
-
-.slide-fit-zone {
-  position: relative;
-  flex: 1 1 auto;
-  min-height: 0;
-}
-
-.slide-fit-target {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  transform-origin: top left;
-  will-change: transform;
-}
-
-.slide-fit-target--whole {
-  position: relative;
-}
-
-.slide-fit-measure-root {
-  position: fixed;
-  inset: 0;
-  overflow: hidden;
-  visibility: hidden;
-  pointer-events: none;
-  z-index: -1;
-}
-
-.slide-fit-measure-shell {
-  position: absolute;
-  left: -99999px;
-  top: 0;
-  width: var(--presentation-base-width);
-  height: var(--presentation-base-height);
-  background: var(--bg-deep);
-}
-
-.slide-fit-measure-shell .slide {
-  opacity: 1 !important;
-  visibility: visible !important;
-  transform: none !important;
-  transition: none !important;
-}
-
 [contenteditable='true'] { cursor: text; }
 
 [contenteditable='true']:focus {

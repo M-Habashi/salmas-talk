@@ -35,19 +35,8 @@ const historyStack = [];
 const maxHistoryEntries = 100;
 const PRESENTATION_BASE_WIDTH = 1920;
 const PRESENTATION_BASE_HEIGHT = 1080;
-const WHOLE_SLIDE_FIT_CLASSES = new Set(['title-slide', 'thankyou-slide']);
-const FIT_HEADER_SELECTOR = 'h1, h2, .slide-tag, .subtitle, .hero-subtitle, .lecture-lead, .tlm-intro';
-const FIT_MEASURE_SELECTOR = [
-  'h1', 'h2', 'h3', 'h4', 'p', 'li', 'pre', 'table', 'svg', 'img',
-  '.chip', '.card', '.tool-card', '.compare-item', '.outline-item', '.problem-card',
-  '.pyuvm-point', '.components-objects-panel', '.arch-diagram', '.class-tree',
-  '.stack-diagram', '.resource-panel', '.code-editor-shell', '.code-block', '.phase', '.tlm-type-card',
-  '.phases-table-container', '.stacking-card'
-].join(', ');
 
 let presentationScale = 1;
-let fitMeasureRoot = null;
-let slideFitMetrics = [];
 
 const editableSelectors = [
   '.slide-tag',
@@ -91,7 +80,7 @@ function renderPresentationFromData() {
 }
 
 function refreshSlideReferences() {
-  slides = Array.from(document.querySelectorAll('.presentation .slide'));
+  slides = Array.from(document.querySelectorAll('.slide'));
   totalSlides = slides.length;
   document.getElementById('totalSlides').textContent = String(totalSlides).padStart(2, '0');
 
@@ -119,15 +108,21 @@ function updatePresentationScale() {
   const stage = document.getElementById('presentationStage');
   const availableWidth = stage?.clientWidth || window.innerWidth;
   const availableHeight = stage?.clientHeight || window.innerHeight;
-  const scale = Math.min(availableWidth / PRESENTATION_BASE_WIDTH, availableHeight / PRESENTATION_BASE_HEIGHT);
+  const viewportAspectRatio = availableWidth / Math.max(availableHeight, 1);
+  const baseAspectRatio = PRESENTATION_BASE_WIDTH / PRESENTATION_BASE_HEIGHT;
+  const compactLandscape = availableWidth > availableHeight && availableHeight <= 600;
+  const baseWidth = viewportAspectRatio > baseAspectRatio
+    ? Math.round(PRESENTATION_BASE_HEIGHT * viewportAspectRatio)
+    : PRESENTATION_BASE_WIDTH;
+  const scale = Math.min(availableWidth / baseWidth, availableHeight / PRESENTATION_BASE_HEIGHT);
   const rootStyle = document.documentElement.style;
 
   presentationScale = Number.isFinite(scale) && scale > 0 ? scale : 1;
-  rootStyle.setProperty('--viewport-font-size', '18px');
-  rootStyle.setProperty('--presentation-base-width', `${PRESENTATION_BASE_WIDTH}px`);
+  rootStyle.setProperty('--viewport-font-size', compactLandscape ? '17px' : '18px');
+  rootStyle.setProperty('--presentation-base-width', `${baseWidth}px`);
   rootStyle.setProperty('--presentation-base-height', `${PRESENTATION_BASE_HEIGHT}px`);
   rootStyle.setProperty('--presentation-scale', presentationScale.toFixed(6));
-  document.body.classList.remove('compact-landscape');
+  document.body.classList.toggle('compact-landscape', compactLandscape);
 }
 
 function getPresentationScale() {
@@ -139,266 +134,6 @@ function getPresentationCanvasSize() {
     width: PRESENTATION_BASE_WIDTH,
     height: PRESENTATION_BASE_HEIGHT
   };
-}
-
-function parsePxValue(value) {
-  const parsed = Number.parseFloat(String(value || '').replace('px', '').trim());
-  return Number.isFinite(parsed) ? parsed : 0;
-}
-
-function shouldUseWholeSlideFit(slide) {
-  return Array.from(WHOLE_SLIDE_FIT_CLASSES).some((className) => slide.classList.contains(className));
-}
-
-function isHeaderCandidate(node) {
-  return node?.nodeType === Node.ELEMENT_NODE && node.matches(FIT_HEADER_SELECTOR);
-}
-
-function getMeaningfulSlideNodes(slide) {
-  return Array.from(slide.childNodes).filter((node) => (
-    node.nodeType === Node.ELEMENT_NODE ||
-    (node.nodeType === Node.TEXT_NODE && node.textContent.trim())
-  ));
-}
-
-function ensureSlideFitStructure(slide) {
-  if (!slide) return null;
-
-  const existingTarget = slide.querySelector(':scope > .slide-fit-frame .slide-fit-target');
-  if (existingTarget) return existingTarget;
-
-  const nodes = getMeaningfulSlideNodes(slide);
-  const wholeSlideFit = shouldUseWholeSlideFit(slide);
-  const headerNodes = [];
-  const bodyNodes = [];
-
-  if (wholeSlideFit) {
-    bodyNodes.push(...nodes);
-  } else {
-    let bodyStarted = false;
-    let sawHeading = false;
-
-    nodes.forEach((node) => {
-      if (!bodyStarted && isHeaderCandidate(node)) {
-        headerNodes.push(node);
-        if (node.matches?.('h1, h2')) {
-          sawHeading = true;
-        }
-        return;
-      }
-
-      bodyStarted = sawHeading || bodyStarted || !isHeaderCandidate(node);
-      bodyNodes.push(node);
-    });
-
-    if (!bodyNodes.length) {
-      bodyNodes.push(...headerNodes.splice(0, headerNodes.length));
-    }
-  }
-
-  const frame = document.createElement('div');
-  frame.className = `slide-fit-frame${wholeSlideFit ? ' slide-fit-frame--whole' : ''}`;
-
-  if (headerNodes.length) {
-    const header = document.createElement('div');
-    header.className = 'slide-fit-header';
-    headerNodes.forEach((node) => header.appendChild(node));
-    frame.appendChild(header);
-  }
-
-  const zone = document.createElement('div');
-  zone.className = `slide-fit-zone${wholeSlideFit ? ' slide-fit-zone--whole' : ''}`;
-
-  const target = document.createElement('div');
-  target.className = `slide-fit-target${wholeSlideFit ? ' slide-fit-target--whole' : ''}`;
-
-  bodyNodes.forEach((node) => target.appendChild(node));
-  zone.appendChild(target);
-  frame.appendChild(zone);
-  slide.appendChild(frame);
-  slide.dataset.fitScope = wholeSlideFit ? 'whole' : 'body';
-
-  return target;
-}
-
-function resetSlideFitStyles(root) {
-  root.querySelectorAll('.slide-fit-target').forEach((target) => {
-    target.style.transform = '';
-  });
-}
-
-function ensureFitMeasureRoot() {
-  if (fitMeasureRoot) return fitMeasureRoot;
-
-  fitMeasureRoot = document.createElement('div');
-  fitMeasureRoot.className = 'slide-fit-measure-root';
-  fitMeasureRoot.innerHTML = '<div class="slide-fit-measure-shell" id="slideFitMeasureShell"></div>';
-  document.body.appendChild(fitMeasureRoot);
-  return fitMeasureRoot;
-}
-
-function getSlideFitReserve() {
-  const rootStyle = window.getComputedStyle(document.documentElement);
-  return {
-    bottom: parsePxValue(rootStyle.getPropertyValue('--slide-counter-bottom-actual')) +
-      parsePxValue(rootStyle.getPropertyValue('--slide-counter-height-actual')) +
-      parsePxValue(rootStyle.getPropertyValue('--slide-counter-clearance-buffer')),
-    right: parsePxValue(rootStyle.getPropertyValue('--slide-counter-right-actual'))
-  };
-}
-
-function getFitMeasurementElements(target) {
-  const elements = Array.from(target.querySelectorAll(FIT_MEASURE_SELECTOR))
-    .filter((element) => element.getClientRects().length > 0)
-    .filter((element) => !element.classList.contains('spacer'));
-
-  if (elements.length) return elements;
-  return Array.from(target.children).filter((element) => element.getClientRects().length > 0);
-}
-
-function shouldMeasureTextRange(element) {
-  return element.matches('h1, h2, h3, h4, p, li');
-}
-
-function getElementMeasurementRect(element) {
-  if (shouldMeasureTextRange(element)) {
-    const range = document.createRange();
-    range.selectNodeContents(element);
-    const textRect = range.getBoundingClientRect();
-    if (textRect.width && textRect.height) {
-      return textRect;
-    }
-  }
-
-  return element.getBoundingClientRect();
-}
-
-function getMeasuredBounds(target) {
-  const elements = getFitMeasurementElements(target);
-  const targetRect = target.getBoundingClientRect();
-
-  let left = Number.POSITIVE_INFINITY;
-  let top = Number.POSITIVE_INFINITY;
-  let right = Number.NEGATIVE_INFINITY;
-  let bottom = Number.NEGATIVE_INFINITY;
-
-  elements.forEach((element) => {
-    const rect = getElementMeasurementRect(element);
-    if (!rect.width && !rect.height) return;
-
-    left = Math.min(left, rect.left - targetRect.left);
-    top = Math.min(top, rect.top - targetRect.top);
-    right = Math.max(right, rect.right - targetRect.left);
-    bottom = Math.max(bottom, rect.bottom - targetRect.top);
-  });
-
-  if (!Number.isFinite(left) || !Number.isFinite(top) || !Number.isFinite(right) || !Number.isFinite(bottom)) {
-    return {
-      left: 0,
-      top: 0,
-      width: Math.max(target.scrollWidth, target.clientWidth, 1),
-      height: Math.max(target.scrollHeight, target.clientHeight, 1)
-    };
-  }
-
-  return {
-    left,
-    top,
-    width: Math.max(1, right - left),
-    height: Math.max(1, bottom - top)
-  };
-}
-
-function measureSlideFit(slide) {
-  ensureSlideFitStructure(slide);
-
-  const measureRoot = ensureFitMeasureRoot();
-  const measureShell = measureRoot.querySelector('#slideFitMeasureShell');
-  if (!measureShell) return null;
-
-  measureShell.innerHTML = '';
-
-  const clone = slide.cloneNode(true);
-  clone.classList.add('active');
-  clone.style.opacity = '1';
-  clone.style.visibility = 'visible';
-  clone.style.transform = 'none';
-  resetSlideFitStyles(clone);
-  finalizeThumbnailSlideState(clone);
-  ensureSlideFitStructure(clone);
-  resetSlideFitStyles(clone);
-
-  measureShell.appendChild(clone);
-
-  const zone = clone.querySelector('.slide-fit-zone');
-  const target = clone.querySelector('.slide-fit-target');
-  if (!zone || !target) {
-    measureShell.innerHTML = '';
-    return null;
-  }
-
-  const bounds = getMeasuredBounds(target);
-  const reserve = getSlideFitReserve();
-  const availableWidth = Math.max(1, zone.clientWidth);
-  const availableHeight = Math.max(1, zone.clientHeight - reserve.bottom);
-  const scaleX = availableWidth / bounds.width;
-  const scaleY = availableHeight / bounds.height;
-  const scale = Math.max(0.1, Math.min(scaleX, scaleY));
-  const widthLimited = scaleX <= scaleY;
-  const scaledWidth = bounds.width * scale;
-  const scaledHeight = bounds.height * scale;
-  const wholeSlideFit = slide.dataset.fitScope === 'whole';
-  const translateX = (widthLimited ? 0 : (availableWidth - scaledWidth) / 2) - (bounds.left * scale);
-  const translateY = (widthLimited && wholeSlideFit ? (availableHeight - scaledHeight) / 2 : 0) - (bounds.top * scale);
-
-  measureShell.innerHTML = '';
-
-  return {
-    scale,
-    translateX,
-    translateY,
-    fillAxis: widthLimited ? 'width' : 'height',
-    availableWidth,
-    availableHeight,
-    contentWidth: bounds.width,
-    contentHeight: bounds.height,
-    widthUtilization: scaledWidth / availableWidth,
-    heightUtilization: scaledHeight / availableHeight
-  };
-}
-
-function applySlideFitMetrics(slide, metrics) {
-  const target = ensureSlideFitStructure(slide);
-  if (!target || !metrics) return;
-
-  target.style.transform = `translate(${metrics.translateX}px, ${metrics.translateY}px) scale(${metrics.scale})`;
-  slide.dataset.fitScale = metrics.scale.toFixed(4);
-  slide.dataset.fitAxis = metrics.fillAxis;
-}
-
-function recomputeAllSlideFits() {
-  slideFitMetrics = slides.map((slide, index) => {
-    const metrics = measureSlideFit(slide);
-    if (metrics) {
-      applySlideFitMetrics(slide, metrics);
-    }
-    return metrics ? { index, ...metrics } : { index, error: 'unmeasurable' };
-  });
-}
-
-function collectSlideFitAudit() {
-  return slideFitMetrics.map((entry) => ({
-    slide: entry.index + 1,
-    fillAxis: entry.fillAxis || null,
-    scale: entry.scale || null,
-    widthUtilization: entry.widthUtilization || null,
-    heightUtilization: entry.heightUtilization || null,
-    contentWidth: entry.contentWidth || null,
-    contentHeight: entry.contentHeight || null,
-    availableWidth: entry.availableWidth || null,
-    availableHeight: entry.availableHeight || null,
-    error: entry.error || null
-  }));
 }
 
 function updateSlideCounterMetrics() {
@@ -1867,7 +1602,6 @@ document.addEventListener('focusin', (event) => {
 window.addEventListener('resize', () => {
   updatePresentationScale();
   updateSlideCounterMetrics();
-  recomputeAllSlideFits();
   resizePenLayer();
   syncPenLayer();
 });
@@ -1895,8 +1629,6 @@ window.PYUVM_EDITOR = {
   scheduleHistoryRecord
 };
 
-window.PYUVM_FIT_AUDIT = collectSlideFitAudit;
-
 renderPresentationFromData();
 applyEditorEnhancements();
 updatePresentationScale();
@@ -1904,23 +1636,7 @@ resizePenLayer({ preserveInk: false });
 syncPenLayer();
 setupFigureDragging();
 updateSlideCounterMetrics();
-recomputeAllSlideFits();
 setSlideState(slides[currentSlide], SLIDE_STATE.RESET);
 recordHistory();
-
-document.fonts?.ready?.then(() => {
-  updateSlideCounterMetrics();
-  recomputeAllSlideFits();
-});
-
-if (window.location.search.includes('fitAudit=1')) {
-  requestAnimationFrame(() => {
-    const report = document.createElement('pre');
-    report.id = 'fitAuditReport';
-    report.textContent = JSON.stringify(collectSlideFitAudit(), null, 2);
-    document.body.innerHTML = '';
-    document.body.appendChild(report);
-  });
-}
 
 
